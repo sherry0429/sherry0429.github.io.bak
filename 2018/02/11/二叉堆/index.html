@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Monster &amp; Flower">
+    <title>二叉堆 - Monster &amp; Flower</title>
+    <meta name="author" content="Tianyou Pan">
+    
+    
+        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta name="keywords" content="c, acm">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="二叉堆">
+<meta property="og:url" content="sherry0429.github.io/2018/02/11/二叉堆/index.html">
+<meta property="og:site_name" content="Monster &amp; Flower">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-02-11T08:01:32.040Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二叉堆">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
+    
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-eonj0pe2aabccyzjrtkp7h1yt1tl45l2v3xwpl2nilpuholcj85zrpl3eiid.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Monster &amp; Flower</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Github</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/sherry0429@outlook.com"
+                            title="Mail"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png');"
+             data-behavior="4">
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaOut
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            二叉堆
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-02-11T14:48:29+08:00">
+	
+		    2月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/algorithm/">algorithm</a>
+
+
+    
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//上滤，下滤，指空穴的移动方向.</span></span><br><span class="line"><span class="comment">//另，二叉堆有堆序性，即父亲的权值始终小于每个儿子的权值。所以顶端是Min.</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Element int</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MinDATA -1</span></span><br><span class="line"><span class="comment">//MinData is first of Array.</span></span><br><span class="line"><span class="comment">//This MinDATA support a kindof heap which every num is bigger than zero.</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">Two_Heap</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> capacity;</span><br><span class="line">	<span class="keyword">int</span> size;</span><br><span class="line">	<span class="keyword">int</span> *Array;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">Two_Heap <span class="title">InitHeap</span><span class="params">(<span class="keyword">int</span> Maxsize)</span></span>;<span class="comment">//if not space,return 0;</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Destroy</span><span class="params">(Two_Heap H)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MakeEmpty</span><span class="params">(Two_Heap H)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(Element X,Two_Heap H)</span></span>;</span><br><span class="line"><span class="function">Element <span class="title">DeleteMin</span><span class="params">(Two_Heap H)</span></span>;</span><br><span class="line"><span class="function">Element <span class="title">FindMin</span><span class="params">(Two_Heap H)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">IsEmpty</span><span class="params">(Two_Heap H)</span></span>;<span class="comment">//if empty,return 0;</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">IsFull</span><span class="params">(Two_Heap H)</span></span>;<span class="comment">//if full,return 0;</span></span><br><span class="line"></span><br><span class="line"><span class="function">Two_Heap <span class="title">InitHeap</span><span class="params">(<span class="keyword">int</span> Maxsize)</span><span class="comment">//if not space,return 0;</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Two_Heap H;</span><br><span class="line">	H=(Two_Heap)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct node));</span><br><span class="line">	<span class="keyword">if</span>(H==<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"no space!\n"</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	H-&gt;Array=(<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>)*Maxsize+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">if</span>(H-&gt;Array==<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"no space!\n"</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	H-&gt;capacity=Maxsize;</span><br><span class="line">	H-&gt;size=<span class="number">0</span>;</span><br><span class="line">	H-&gt;Array[<span class="number">0</span>]=MinDATA;<span class="comment">//signal to end insert's "for"</span></span><br><span class="line">	<span class="keyword">return</span> H;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Destroy</span><span class="params">(Two_Heap H)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">while</span>(IsEmpty(H)!=<span class="number">0</span>)<span class="comment">//not empty </span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">free</span>(H-&gt;Array);</span><br><span class="line">		<span class="built_in">free</span>(H);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Insert</span><span class="params">(Element X,Two_Heap H)</span><span class="comment">//上滤</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">if</span>(IsFull(H)==<span class="number">0</span>)<span class="comment">//has been full</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"This Two_Heap has been full.\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(i=++H-&gt;size;H-&gt;Array[i/<span class="number">2</span>]&gt;X;i/=<span class="number">2</span>)<span class="comment">//that"++H-&gt;size" make points from one space. </span></span><br><span class="line">			H-&gt;Array[i]=H-&gt;Array[i/<span class="number">2</span>];<span class="comment">//every father instead child,and insteaded X.</span></span><br><span class="line">		<span class="comment">//down to up,and every child instead of it's father.</span></span><br><span class="line">		<span class="comment">//child to father</span></span><br><span class="line">		<span class="comment">//and "H-&gt;size has been ++ in shadow."</span></span><br><span class="line">		H-&gt;Array[i]=X;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Element <span class="title">DeleteMin</span><span class="params">(Two_Heap H)</span><span class="comment">//下滤</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> i,child;</span><br><span class="line">	Element MinElement,LastElement;</span><br><span class="line">	<span class="comment">//why have LastElement?</span></span><br><span class="line">	<span class="comment">//MinElement to save array[1],because array[1] will be change,</span></span><br><span class="line">	<span class="comment">//LastElement is "people" who we should move to right space.</span></span><br><span class="line">	<span class="keyword">if</span>(IsEmpty(H)==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"No space can be delete,it's empty!\n"</span>);</span><br><span class="line">		<span class="keyword">return</span> H-&gt;Array[<span class="number">0</span>];</span><br><span class="line">	&#125;</span><br><span class="line">	MinElement=H-&gt;Array[<span class="number">1</span>];</span><br><span class="line">	LastElement=H-&gt;Array[H-&gt;size--];</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">1</span>;i*<span class="number">2</span>&lt;=H-&gt;size;i=child)</span><br><span class="line">	&#123;</span><br><span class="line">		child=i*<span class="number">2</span>;<span class="comment">//father to child</span></span><br><span class="line">		<span class="keyword">if</span>(child!=H-&gt;size &amp;&amp; H-&gt;Array[child+<span class="number">1</span>]&lt;H-&gt;Array[child])</span><br><span class="line">			child++;</span><br><span class="line">		<span class="comment">//find smaller child.</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">if</span>(LastElement&gt;H-&gt;Array[child])</span><br><span class="line">			H-&gt;Array[i]=H-&gt;Array[child];</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	H-&gt;Array[i]=LastElement;<span class="comment">//find right space.</span></span><br><span class="line">	<span class="keyword">return</span> MinElement;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Element <span class="title">FindMin</span><span class="params">(Two_Heap H)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> H-&gt;Array[<span class="number">1</span>];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Element <span class="title">IsEmpty</span><span class="params">(Two_Heap H)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(H-&gt;size==<span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Element <span class="title">IsFull</span><span class="params">(Two_Heap H)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(H-&gt;size==H-&gt;capacity)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//this not all,Two_Heap also support some fuction.</span></span><br><span class="line"><span class="comment">//like:</span></span><br><span class="line"><span class="comment">//*DecreaseKey*</span></span><br><span class="line"><span class="comment">//*IncreaseKey*</span></span><br><span class="line"><span class="comment">//*Delete*</span></span><br><span class="line"><span class="comment">//*BuildHeap*</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Two_Heap H;</span><br><span class="line">	<span class="keyword">int</span> maxsize;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;maxsize);</span><br><span class="line">	H=InitHeap(maxsize);</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;maxsize;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;temp);</span><br><span class="line">		Insert(temp,H);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> min1,min2;</span><br><span class="line">	min1=FindMin(H);</span><br><span class="line">	DeleteMin(H);</span><br><span class="line">	min2=FindMin(H);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>,min1,min2);</span><br><span class="line">	Destroy(H);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/c-acm/">c, acm</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/邻接表存图/" data-tooltip="邻接表存图" aria-label="Prev: 邻接表存图">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉查找树/" data-tooltip="二叉查找树" aria-label="Next: 二叉查找树">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉堆/&amp;title=二叉堆" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="gitment"></div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Tianyou Pan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/邻接表存图/" data-tooltip="邻接表存图" aria-label="Prev: 邻接表存图">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉查找树/" data-tooltip="二叉查找树" aria-label="Next: 二叉查找树">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉堆/&amp;title=二叉堆" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/二叉堆/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉堆/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉堆/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉堆/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉堆/&amp;title=二叉堆">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/二叉堆/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+        
+            <h4 id="about-card-name">Tianyou Pan</h4>
+        
+            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Java Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China.SiChuan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-t6ztvrkwotqq30w08guadl2mq4yn3gvnrzqwy1ojd4f6nrkqjn6kcdzdwznj.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: 'sherry0429.github.io/2018/02/11/二叉堆/',
+                        owner: 'sherry0429',
+                        repo: 'gitment-comments',
+                        oauth: {
+                            client_id: '8682c4503f3fef4dd481',
+                            client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//imsun.github.io/gitment/style/default.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
+    
+
+
+
+    </body>
+</html>

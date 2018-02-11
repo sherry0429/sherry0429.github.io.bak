@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>Welcome - Monster &amp; Flower</title>
+    <title>C++文件流 总结 - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="Welcome !  This is tianyou pan’s blog, This blog’s theme is developer by LouisBarranqueiro, you can see theme in here: https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/use">
-<meta name="keywords" content="guide">
+    <meta name="description" content="Prepare首先，需要加头文件。（即file stream），在包含这个头文件后，可使用三种类：  ofstream  写文件  （Output File Stream）   使用方法: 文件名&amp;lt;&amp;lt;内容&amp;lt;&amp;lt;endl;   ifstream   读文件 （Input File Stream）   使用方法:文件名&amp;gt;&amp;gt;内容;   fstream  打开文件供读写">
+<meta name="keywords" content="c++, file">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Welcome">
-<meta property="og:url" content="sherry0429.github.io/2018/02/11/Welcome/index.html">
+<meta property="og:title" content="C++文件流 总结">
+<meta property="og:url" content="sherry0429.github.io/2018/02/11/C-文件流-总结/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="Welcome !  This is tianyou pan’s blog, This blog’s theme is developer by LouisBarranqueiro, you can see theme in here: https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/use">
+<meta property="og:description" content="Prepare首先，需要加头文件。（即file stream），在包含这个头文件后，可使用三种类：  ofstream  写文件  （Output File Stream）   使用方法: 文件名&amp;lt;&amp;lt;内容&amp;lt;&amp;lt;endl;   ifstream   读文件 （Input File Stream）   使用方法:文件名&amp;gt;&amp;gt;内容;   fstream  打开文件供读写">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-11T03:46:12.670Z">
+<meta property="og:updated_time" content="2018-02-11T07:45:24.267Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome">
-<meta name="twitter:description" content="Welcome !  This is tianyou pan’s blog, This blog’s theme is developer by LouisBarranqueiro, you can see theme in here: https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/use">
+<meta name="twitter:title" content="C++文件流 总结">
+<meta name="twitter:description" content="Prepare首先，需要加头文件。（即file stream），在包含这个头文件后，可使用三种类：  ofstream  写文件  （Output File Stream）   使用方法: 文件名&amp;lt;&amp;lt;内容&amp;lt;&amp;lt;endl;   ifstream   读文件 （Input File Stream）   使用方法:文件名&amp;gt;&amp;gt;内容;   fstream  打开文件供读写">
     
     
         
@@ -235,12 +235,12 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            Welcome
+            C++文件流 总结
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T09:38:05+08:00">
+    <time itemprop="datePublished" datetime="2018-02-11T14:54:35+08:00">
 	
 		    2月 11, 2018
     	
@@ -248,7 +248,7 @@
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/other/">other</a>
+    <a class="category-link" href="/categories/think/">think</a>
 
 
     
@@ -259,11 +259,82 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>Welcome ! </p>
-<p>This is tianyou pan’s blog,</p>
-<p>This blog’s theme is developer by LouisBarranqueiro, you can see theme in here:</p>
-<p><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/user.md" target="_blank" rel="noopener">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/user.md</a></p>
-<p>Blog’s content is modify / edit / publish by myself.</p>
+            <h1 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h1><p>首先，需要加<fstream>头文件。（即file stream），在包含这个头文件后，可使用三种类：</fstream></p>
+<ul>
+<li>ofstream  写文件  （Output File Stream）  <ul>
+<li>使用方法: 文件名&lt;&lt;内容&lt;&lt;endl;</li>
+</ul>
+</li>
+<li>ifstream   读文件 （Input File Stream）  <ul>
+<li>使用方法:文件名&gt;&gt;内容;</li>
+</ul>
+</li>
+<li>fstream  打开文件供读写  （File Stream） <ul>
+<li>利用各种参数达到控制文件读写的目的</li>
+</ul>
+</li>
+</ul>
+<h1 id="Same"><a href="#Same" class="headerlink" title="Same"></a>Same</h1><p>每个类都有相同的两种函数功能：</p>
+<ul>
+<li>X.open(“String”);   <ul>
+<li>//String为路径，也可以string str；X.open(str);(用string类，没有引号，但是string本身内容里最后4个单位应为.txt）</li>
+<li>如果用fstream创建文件 必须加Ios::out.</li>
+</ul>
+</li>
+<li>X.close();</li>
+</ul>
+<p>同一时间，同一文件只能由一种类进行操作。若需要换，必须先将此类指针关闭，再用需要的类的指针Open目标文件。</p>
+<h1 id="fstream"><a href="#fstream" class="headerlink" title="fstream"></a>fstream</h1><p>fstream的open函数的参数定义了文件的打开模式。总共有如下模式：</p>
+<ul>
+<li>ios::in 读</li>
+<li>ios::out 写</li>
+<li>ios::app 从文件末尾开始写</li>
+<li>ios::binary       二进制模式</li>
+<li>ios::nocreate 打开一个文件时，如果文件不存在，不创建文件。</li>
+<li>ios::noreplace  打开一个文件时，如果文件不存在，创建该文件</li>
+<li>ios::trunc 打开一个文件，然后清空内容</li>
+<li>ios::ate 打开一个文件时，将位置移动到文件尾</li>
+</ul>
+<p>使用方式为：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.open(<span class="string">"file.ext"</span>,iso::in|ios::out)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>默认模式是文本</li>
+<li>默认如果文件不存在，那么创建一个新的</li>
+<li>多种模式可以混合，用|(按位或)</li>
+<li>文件的byte索引从0开始。（就像数组一样）</li>
+</ul>
+<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><ul>
+<li>good()<ul>
+<li>如果文件打开成功</li>
+</ul>
+</li>
+<li>bad() <ul>
+<li>打开文件时发生错误</li>
+</ul>
+</li>
+<li>eof() <ul>
+<li>到达文件尾</li>
+</ul>
+</li>
+</ul>
+<h2 id="Pointers"><a href="#Pointers" class="headerlink" title="Pointers"></a>Pointers</h2><ul>
+<li>seekg() </li>
+<li>tellg()</li>
+<li>seekp()          </li>
+<li>tellq()</li>
+</ul>
+<p>以g结尾的，处理get指针（ifstream），以p结尾的，处理put指针（ofstream）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seekg/p(X,INF);</span><br></pre></td></tr></table></figure>
+<p>X为一个数，可为正可为负，INF为一个参数，该参数可为以下：</p>
+<ul>
+<li>ios::beg  文件头</li>
+<li>ios::end  文件尾</li>
+<li>ios::cur  当前位置</li>
+</ul>
+<p>整个函数表示将指针从INF处，移动X个单位。</p>
+<p>例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seekg(<span class="number">-1</span>,ios::end);<span class="comment">//把指针从文件尾向前移动一个字节</span></span><br></pre></td></tr></table></figure>
+<p>tellg, tellp : 返回一个数，表示此时指针所在的位置。</p>
 
             
 
@@ -274,7 +345,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/guide/">guide</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/c-file/">c++, file</a>
 
             </div>
         
@@ -285,7 +356,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/单双链表的例程/" data-tooltip="单双链表的例程" aria-label="Prev: 单双链表的例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/LeetCode-001-Two-Num/" data-tooltip="LeetCode #001 Two Num" aria-label="Prev: LeetCode #001 Two Num">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -294,7 +365,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/10/helloworld/" data-tooltip="helloworld" aria-label="Next: helloworld">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/AC自动机/" data-tooltip="AC自动机" aria-label="Next: AC自动机">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -312,7 +383,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -320,7 +391,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -328,7 +399,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -336,7 +407,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/Welcome/&amp;title=Welcome" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/C-文件流-总结/&amp;title=C++文件流 总结" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -344,7 +415,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -395,7 +466,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/单双链表的例程/" data-tooltip="单双链表的例程" aria-label="Prev: 单双链表的例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/LeetCode-001-Two-Num/" data-tooltip="LeetCode #001 Two Num" aria-label="Prev: LeetCode #001 Two Num">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -404,7 +475,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/10/helloworld/" data-tooltip="helloworld" aria-label="Next: helloworld">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/AC自动机/" data-tooltip="AC自动机" aria-label="Next: AC自动机">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -422,7 +493,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -430,7 +501,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -438,7 +509,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -446,7 +517,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/Welcome/&amp;title=Welcome" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/C-文件流-总结/&amp;title=C++文件流 总结" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -454,7 +525,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/Welcome/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/C-文件流-总结/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -487,7 +558,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/Welcome/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/C-文件流-总结/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -495,7 +566,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/Welcome/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/C-文件流-总结/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -503,7 +574,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/Welcome/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/C-文件流-总结/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
@@ -511,7 +582,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/Welcome/&amp;title=Welcome">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/C-文件流-总结/&amp;title=C++文件流 总结">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -519,7 +590,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/Welcome/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/C-文件流-总结/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -579,7 +650,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'sherry0429.github.io/2018/02/11/Welcome/',
+                        id: 'sherry0429.github.io/2018/02/11/C-文件流-总结/',
                         owner: 'sherry0429',
                         repo: 'gitment-comments',
                         oauth: {

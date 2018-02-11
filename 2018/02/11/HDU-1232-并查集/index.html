@@ -1,0 +1,631 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Monster &amp; Flower">
+    <title>HDU 1232 并查集 - Monster &amp; Flower</title>
+    <meta name="author" content="Tianyou Pan">
+    
+    
+        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还">
+<meta name="keywords" content="c, acm, hdu">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="HDU 1232 并查集">
+<meta property="og:url" content="sherry0429.github.io/2018/02/11/HDU-1232-并查集/index.html">
+<meta property="og:site_name" content="Monster &amp; Flower">
+<meta property="og:description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://img.blog.csdn.net/20140610222158078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://img.blog.csdn.net/20140610222224500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2018-02-11T07:55:01.762Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HDU 1232 并查集">
+<meta name="twitter:description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20140610222158078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
+    
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-eonj0pe2aabccyzjrtkp7h1yt1tl45l2v3xwpl2nilpuholcj85zrpl3eiid.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Monster &amp; Flower</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Github</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/sherry0429@outlook.com"
+                            title="Mail"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png');"
+             data-behavior="4">
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaOut
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            HDU 1232 并查集
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-02-11T14:49:06+08:00">
+	
+		    2月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/algorithm/">algorithm</a>
+
+
+    
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <p>source link : <a href="http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee" target="_blank" rel="noopener">http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee</a></p>
+<h1 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h1><p>  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还需要建设多少条道路？</p>
+<h4 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h4><p>  测试输入包含若干测试用例。每个测试用例的第1行给出两个正整数，分别是城镇数目N ( &lt; 1000 )和道路数目M；随后的M行对应M条道路，每行给出一对正整数，分别是该条道路直接连通的两个城镇的编号。为简单起见，城镇从1到N编号。<br>  注意:两个城市之间可以有多条道路相通,也就是说</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>这种输入也是合法的<br> 当N为0时，输入结束，该用例不被处理。</p>
+<h4 id="Output"><a href="#Output" class="headerlink" title="Output"></a>Output</h4><p>对每个测试用例，在1行里输出最少还需要建设的道路数目。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Sample Input</span></span><br><span class="line"><span class="number">4</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">3</span></span><br><span class="line"><span class="number">4</span> <span class="number">3</span></span><br><span class="line"><span class="number">3</span> <span class="number">3</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">3</span></span><br><span class="line"><span class="number">2</span> <span class="number">3</span></span><br><span class="line"><span class="number">5</span> <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">3</span> <span class="number">5</span></span><br><span class="line"><span class="number">999</span> <span class="number">0</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="comment">//Sample Output</span></span><br><span class="line"><span class="number">1</span></span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="number">2</span></span><br><span class="line"><span class="number">998</span></span><br></pre></td></tr></table></figure>
+<h1 id="Solution"><a href="#Solution" class="headerlink" title="Solution"></a>Solution</h1><p><strong>并查集由一个整数型的数组和两个函数构成。数组pre[]记录了每个点的前导点是什么，函数find是查找，join是合并。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> pre[<span class="number">1000</span> ];  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123; <span class="comment">//查找根节点  </span></span><br><span class="line"><span class="keyword">int</span> r=x; <span class="keyword">while</span> (pre[r ]!=r) r=pre[r ]; <span class="comment">//路径压缩  </span></span><br><span class="line"><span class="keyword">int</span> i=x; <span class="keyword">int</span> j; <span class="keyword">while</span>(i!=r) &#123; j=pre[i ]; pre[i ]=r; i=j; &#125; <span class="comment">//返回根节点  </span></span><br><span class="line"><span class="keyword">return</span> r;  </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span> </span>&#123; <span class="comment">//判断x y是否连通  </span></span><br><span class="line"><span class="comment">//如果已经连通，就不用管了 //如果不连通，就把它们所在的连通分支合并起,  </span></span><br><span class="line"><span class="keyword">int</span> fx=find(x),fy=find(y);  </span><br><span class="line"><span class="keyword">if</span>(fx!=fy) pre[fx ]=fy; &#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://img.blog.csdn.net/20140610222158078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<p>话说江湖上散落着各式各样的大侠，有上千个之多。他们没有什么正当职业，整天背着剑在外面走来走去，碰到和自己不是一路人的，就免不了要打一架。但大侠们有一个优点就是讲义气，绝对不打自己的朋友。而且他们信奉“朋友的朋友就是我的朋友”，只要是能通过朋友关系串联起来的，不管拐了多少个弯，都认为是自己人。这样一来，江湖上就形成了一个一个的群落，通过两两之间的朋友关系串联起来。而不在同一个群落的人，无论如何都无法通过朋友关系连起来，于是就可以放心往死了打。但是两个原本互不相识的人，如何判断是否属于一个朋友圈呢？</p>
+<p>我们可以在每个朋友圈内推举出一个比较有名望的人，作为该圈子的代表人物，这样，每个圈子就可以这样命名“齐达内朋友之队”“罗纳尔多朋友之队”……两人只要互相对一下自己的队长是不是同一个人，就可以确定敌友关系了。</p>
+<p>但是还有问题啊，大侠们只知道自己直接的朋友是谁，很多人压根就不认识队长，要判断自己的队长是谁，只能漫无目的的通过朋友的朋友关系问下去：“你是不是队长？你是不是队长？”这样一来，队长面子上挂不住了，而且效率太低，还有可能陷入无限循环中。于是队长下令，重新组队。队内所有人实行分等级制度，形成树状结构，我队长就是根节点，下面分别是二级队员、三级队员。每个人只要记住自己的上级是谁就行了。遇到判断敌友的时候，只要一层层向上问，直到最高层，就可以在短时间内确定队长是谁了。由于我们关心的只是两个人之间是否连通，至于他们是如何连通的，以及每个圈子内部的结构是怎样的，甚至队长是谁，并不重要。所以我们可以放任队长随意重新组队，只要不搞错敌友关系就好了。于是，门派产生了。</p>
+<p> 下面我们来看并查集的实现。</p>
+<p> int pre[1000]; 这个数组，记录了每个大侠的上级是谁。</p>
+<p>大侠们从1或者0开始编号（依据题意而定），pre[15]=3就表示15号大侠的上级是3号大侠。如果一个人的上级就是他自己，那说明他就是掌门人了，查找到此为止。也有孤家寡人自成一派的，比如欧阳锋，那么他的上级就是他自己。每个人都只认自己的上级。比如胡青牛同学只知道自己的上级是杨左使。张无忌是谁？不认识！要想知道自己的掌门是谁，只能一级级查上去。 find这个函数就是找掌门用的，意义再清楚不过了（路径压缩算法先不论，后面再说）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">nt <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123; <span class="comment">//查找根节点  </span></span><br><span class="line"><span class="keyword">int</span> r=x; <span class="keyword">while</span> (pre[r ]!=r)<span class="comment">//如果我的上级不是掌门  </span></span><br><span class="line">r=pre[r ];<span class="comment">//我就接着找他的上级，直到找到掌门为止。  </span></span><br><span class="line"><span class="comment">//返回根节点  </span></span><br><span class="line"><span class="keyword">return</span> r;<span class="comment">//掌门驾到~~~  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再来看看join函数，就是在两个点之间连一条线，这样一来，原先它们所在的两个板块的所有点就都可以互通了。这在图上很好办，画条线就行了。但我们现在是用并查集来描述武林中的状况的，一共只有一个pre[]数组，该如何实现呢？ 还是举江湖的例子，假设现在武林中的形势如图所示。虚竹小和尚与周芷若MM是我非常喜欢的两个人物，他们的终极boss分别是玄慈方丈和灭绝师太，那明显就是两个阵营了。我不希望他们互相打架，就对他俩说：“你们两位拉拉勾，做好朋友吧。”他们看在我的面子上，同意了。这一同意可非同小可，整个少林和峨眉派的人就不能打架了。这么重大的变化，可如何实现呀，要改动多少地方？其实非常简单，我对玄慈方丈说：“大师，麻烦你把你的上级改为灭绝师太吧。这样一来，两派原先的所有人员的终极boss都是师太，那还打个球啊！反正我们关心的只是连通性，门派内部的结构不要紧的。”玄慈一听肯定火大了：“我靠，凭什么是我变成她手下呀，怎么不反过来？我抗议！”抗议无效，上天安排的，最大。反正谁加入谁效果是一样的，我就随手指定了一个。这段函数的意思很明白了吧？</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">join</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span><span class="comment">//我想让虚竹和周芷若做朋友  </span></span></span><br><span class="line"><span class="function"></span>&#123; <span class="keyword">int</span> fx=find(x),fy=find(y); <span class="comment">//虚竹的老大是玄慈，  </span></span><br><span class="line">芷若MM的老大是灭绝  </span><br><span class="line"><span class="keyword">if</span>(fx!=fy)<span class="comment">//玄慈和灭绝显然不是同一个人  </span></span><br><span class="line">pre[fx ]=fy;<span class="comment">//方丈只好委委屈屈地当了师太的手下啦  </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再来看看<strong>路径压缩算法</strong>。建立门派的过程是用join函数两个人两个人地连接起来的，谁当谁的手下完全随机。最后的树状结构会变成什么胎唇样，我也完全无法预计，一字长蛇阵也有可能。这样查找的效率就会比较低下。最理想的情况就是所有人的直接上级都是掌门，一共就两级结构，只要找一次就找到掌门了。哪怕不能完全做到，也最好尽量接近。这样就产生了路径压缩算法。 设想这样一个场景：两个互不相识的大侠碰面了，想知道能不能揍。 于是赶紧打电话问自己的上级：“你是不是掌门？” 上级说：“我不是呀，我的上级是谁谁谁，你问问他看看。” 一路问下去，原来两人的最终boss都是东厂曹公公。 “哎呀呀，原来是记己人，西礼西礼，在下三营六组白面葫芦娃!” “幸会幸会，在下九营十八组仙子狗尾巴花！” 两人高高兴兴地手拉手喝酒去了。 “等等等等，两位同学请留步，还有事情没完成呢！”我叫住他俩。 “哦，对了，还要做路径压缩。”两人醒悟。 白面葫芦娃打电话给他的上级六组长：“组长啊，我查过了，其习偶们的掌门是曹公公。不如偶们一起及接拜在曹公公手下吧，省得级别太低，以后查找掌门麻环。” “唔，有道理。” 白面葫芦娃接着打电话给刚才拜访过的三营长……仙子狗尾巴花也做了同样的事情。 这样，查询中所有涉及到的人物都聚集在曹公公的直接领导下。每次查询都做了优化处理，所以整个门派树的层数都会维持在比较低的水平上。路径压缩的代码，看得懂很好，看不懂也没关系，直接抄上用就行了。总之它所实现的功能就是这么个意思。</p>
+<p><img src="http://img.blog.csdn.net/20140610222224500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> int pre[1000 ];  </span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;  </span><br><span class="line"><span class="keyword">int</span> r=x;  </span><br><span class="line"><span class="keyword">while</span> (pre[r ]!=r)  </span><br><span class="line">r=pre[r ];  </span><br><span class="line"><span class="keyword">int</span> i=x; <span class="keyword">int</span> j;  </span><br><span class="line"><span class="keyword">while</span>(i!=r)  </span><br><span class="line">&#123;  </span><br><span class="line">j=pre[i ]; pre[i ]=r; i=j;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="keyword">return</span> r;  </span><br><span class="line">&#125;  </span><br><span class="line">   </span><br><span class="line">这里我没有路径压缩， 直接上代码吧！  </span><br><span class="line">有根树  </span><br><span class="line">Father[i] = i , 则i表示本集合，并是集合对应树的根  </span><br><span class="line">Father[i] = j, j!=i, 则 j 是 i 的父节点  </span><br><span class="line">#include &lt;iostream&gt;  </span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;  </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> MAX = <span class="number">1005</span>;  </span><br><span class="line"><span class="keyword">int</span> Father[MAX];  </span><br><span class="line"><span class="keyword">int</span> Ans;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">findx</span><span class="params">(<span class="keyword">int</span> x)</span><span class="comment">//找x的根节点  </span></span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> r = x;  </span><br><span class="line">    <span class="keyword">while</span>(Father[r]!=r) r=Father[r];  </span><br><span class="line">    <span class="keyword">return</span> r;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">Merge</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> xf = findx(x);<span class="comment">//x根节点  </span></span><br><span class="line">    <span class="keyword">int</span> yf = findx(y);<span class="comment">//y根节点  </span></span><br><span class="line">    <span class="keyword">if</span>(xf != yf)<span class="comment">//根节点不同则设一个位另外一个的根  </span></span><br><span class="line">    &#123;  </span><br><span class="line">        Father[xf] = yf;  </span><br><span class="line">        --Ans;<span class="comment">//合并了两颗树，所以需要添加的路径的数目减一！  </span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span>  </span></span><br><span class="line"><span class="function"></span>&#123;  </span><br><span class="line">    <span class="keyword">int</span> N,M,i,x,y;  </span><br><span class="line">    <span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;N)  </span><br><span class="line">    &#123;  </span><br><span class="line">        <span class="keyword">if</span>(N==<span class="number">0</span>) <span class="keyword">break</span>;  </span><br><span class="line">        Ans = N<span class="number">-1</span>; <span class="comment">//初始化Ans等于N个点联通所需要的最少边的数目！  </span></span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;=N;++i) Father[i] = i;  </span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;M;  </span><br><span class="line">        <span class="keyword">while</span>(M--)  </span><br><span class="line">        &#123;  </span><br><span class="line">            <span class="built_in">cin</span>&gt;&gt;x&gt;&gt;y;  </span><br><span class="line">            Merge(x,y);  </span><br><span class="line">        &#125;  </span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;Ans&lt;&lt;<span class="built_in">endl</span>;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/c-acm-hdu/">c, acm, hdu</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/Graham/" data-tooltip="Graham" aria-label="Prev: Graham">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/邻接表存图/" data-tooltip="邻接表存图" aria-label="Next: 邻接表存图">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/&amp;title=HDU 1232 并查集" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="gitment"></div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Tianyou Pan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/Graham/" data-tooltip="Graham" aria-label="Prev: Graham">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/邻接表存图/" data-tooltip="邻接表存图" aria-label="Next: 邻接表存图">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/&amp;title=HDU 1232 并查集" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1232-并查集/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1232-并查集/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/&amp;title=HDU 1232 并查集">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/HDU-1232-并查集/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+        
+            <h4 id="about-card-name">Tianyou Pan</h4>
+        
+            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Java Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China.SiChuan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-t6ztvrkwotqq30w08guadl2mq4yn3gvnrzqwy1ojd4f6nrkqjn6kcdzdwznj.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: 'sherry0429.github.io/2018/02/11/HDU-1232-并查集/',
+                        owner: 'sherry0429',
+                        repo: 'gitment-comments',
+                        oauth: {
+                            client_id: '8682c4503f3fef4dd481',
+                            client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//imsun.github.io/gitment/style/default.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
+    
+
+
+
+    </body>
+</html>

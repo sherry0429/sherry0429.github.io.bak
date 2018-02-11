@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Monster &amp; Flower">
+    <title>tag: c, leetcode - Monster &amp; Flower</title>
+    <meta name="author" content="Tianyou Pan">
+    
+    
+        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="personal blog about tianyou pan&apos;s program travel">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Monster &amp; Flower">
+<meta property="og:url" content="sherry0429.github.io/tags/c-leetcode/index.html">
+<meta property="og:site_name" content="Monster &amp; Flower">
+<meta property="og:description" content="personal blog about tianyou pan&apos;s program travel">
+<meta property="og:locale" content="zh-cn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Monster &amp; Flower">
+<meta name="twitter:description" content="personal blog about tianyou pan&apos;s program travel">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-eonj0pe2aabccyzjrtkp7h1yt1tl45l2v3xwpl2nilpuholcj85zrpl3eiid.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="1">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Monster &amp; Flower</a>
+    </div>
+    
+        
+            <a  class="header-right-icon open-algolia-search"
+                href="#search">
+        
+        
+            <i class="fa fa-lg fa-search"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Github</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/sherry0429@outlook.com"
+                            title="Mail"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-envelope-o" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Mail</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="1"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+    <section class="postShorten-group main-content-wrap">
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
+                            LeetCode #003 Longest Substring Without Repeating Characters
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2018-02-11T14:58:00+08:00">
+	
+		    2月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/algorithm/">algorithm</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>#003 Longest Substring Without Repeating Characters</p>
+<blockquote>
+<p>Given a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for “abcabcbb” is “abc”, which the length is 3. For “bbbbb” the longest substring is “b”, with the length of 1.</p>
+<p>Input: abcabccbb<br>Output: 3<br>题意：找到一个字符串中，没有重复字符的最长子串，返回它的长度</p>
+<p>#####思路：</p>
+<ol>
+<li>做一个一维数组HashTable，下标为字符的ASCII码，值为这个字符在字符串中的位置，初始化为-1</li>
+<li>设置一个变量LastPosition表示不重复最长串的第一个元素的下标</li>
+<li>遍历字符串，依次检测该字符是否存在HashTable中，例：<br><code>HashTable[&#39;a&#39;]=-1</code>表示该字符第一次出现。<br><code>HashTable[&#39;a&#39;]=2</code>表示该字符上一次出现的位置在str[2].</li>
+<li>如果第一次出现该字符a，HashTable[‘a’]=字符’a’在字符串中的位置.</li>
+<li>如果已经出现过字符’a’，如果上一次’a’在目前检测串中，则置LastPosition为a的下标（即上一次LastPostion）。否则置LastPosition为当前检测字符的下标（HashTable[temp]）。<br>该下标一定为：<code>LastPosition=std::max(LastPosition,HashTable[temp]);</code></li>
+<li>Max为<code>HashTable[temp]-LastPostion</code>所能得到的最大值<br>| a | b | c | d | a |<br>| – |</li>
+</ol>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>#####代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> Max=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> LastPosition=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> HashTable[<span class="number">255</span>]=&#123;<span class="number">-1</span>&#125;;</span><br><span class="line">        <span class="keyword">int</span> i=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;s.size();i++)&#123;</span><br><span class="line">            <span class="keyword">int</span> temp=(<span class="keyword">int</span>)s[i];</span><br><span class="line">            <span class="keyword">if</span>(HashTable[temp]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                LastPosition=<span class="built_in">std</span>::max(LastPosition,HashTable[temp]);</span><br><span class="line">            &#125;</span><br><span class="line">            HashTable[temp]=i+<span class="number">1</span>;</span><br><span class="line">            Max=<span class="built_in">std</span>::max(Max,HashTable[temp]-LastPosition);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> Max;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>#####知识点</p>
+<ol>
+<li>字符串中寻找最长符合要求的子串</li>
+<li>难点：当检测到重复字符时，应该从何处继续检测</li>
+<li>还有一种DP解法如下，其实上面的代码也是DP，DP指通过状态转移来解决问题的一种思路，每一种状态的决定总是与上一次状态有联系，以下代码中，Flag数组就是一种记录状态，而Longest每次依赖于上一次Longest还有Flag数组中的状态，因此说这种解决思路是一种DP思路。这个代码由LeetCode上的prime_tang所写，此处为引用。我询问后，他对DP思路的描述原文如下：<blockquote>
+<p>In my understanding, the dynamic programming is: every decision depends on the current status, and immediately cause the transfer of status. In this problem, flag is the status, and we can get the longest every time depends on the previous longest and the flag, so I think it also can be seen as DP solution, even though not obvious compared to the Maximum Subarray problem.</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; flag(<span class="number">256</span>, <span class="number">-1</span>);</span><br><span class="line">        <span class="keyword">int</span> start = <span class="number">0</span>, longest = <span class="number">0</span>, len = s.size();</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i != len; ++i) &#123;</span><br><span class="line">            <span class="keyword">if</span> (flag[s[i]] &gt;= start) &#123;</span><br><span class="line">                longest = <span class="built_in">std</span>::max(longest, i - start);</span><br><span class="line">                start = flag[s[i]] + <span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            flag[s[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">std</span>::max(longest, len - start);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+</ol>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/#post-footer" class="postShorten-excerpt_link link">
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2018/02/11/LeetCode-002-Add-Two-Numbers/">
+                            LeetCode #002 Add Two Numbers
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2018-02-11T14:57:37+08:00">
+	
+		    2月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/algorithm/">algorithm</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>#002 Add Two Numbers</p>
+<blockquote>
+<p>You are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.</p>
+<p>Input: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)<br>Output: 7 -&gt; 0 -&gt; 8</p>
+<p>#####思路：</p>
+<ol>
+<li>建立一个新的链表List</li>
+<li>依次检测两个链表节点是否为空，不为空则检测值</li>
+<li>如果检测到值，<code>int value = val1 + val2 + remain;</code></li>
+<li>val1=l1-&gt;val,val2=l2-&gt;val,它们被初始化为0,remain为进位值.</li>
+<li>将value存入List节点里<br>#####代码：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * struct ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode *next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</span></span><br><span class="line"><span class="comment"> * &#125;;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">ListNode* <span class="title">addTwoNumbers</span><span class="params">(ListNode* l1, ListNode* l2)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> remain = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//new list</span></span><br><span class="line">    ListNode* head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);<span class="comment">//head node,it is empty.</span></span><br><span class="line">    ListNode* p = head;</span><br><span class="line">    <span class="keyword">if</span>(l1==<span class="literal">NULL</span> &amp;&amp; l2==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(l1==<span class="literal">NULL</span> &amp;&amp; l2!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> l2;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(l1!=<span class="literal">NULL</span> &amp;&amp; l2==<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> l1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(l1 != <span class="literal">NULL</span> ||  l2 != <span class="literal">NULL</span>)<span class="comment">//only two list get end,while will be finish.</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> val1 = <span class="number">0</span>, val2 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(l1 != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            val1 = l1-&gt;val;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(l2 != <span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            val2 = l2-&gt;val;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> value = val1 + val2 + remain;</span><br><span class="line">        remain = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">if</span>(value &gt;= <span class="number">10</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            value -= <span class="number">10</span>;<span class="comment">//value = value % 10</span></span><br><span class="line">            remain = <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//build List</span></span><br><span class="line">        ListNode * pos = <span class="keyword">new</span> ListNode(value);</span><br><span class="line">        p-&gt;next = pos;</span><br><span class="line">        p = p-&gt;next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(l1 != <span class="literal">NULL</span>)</span><br><span class="line">            l1 = l1-&gt;next;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(l2 != <span class="literal">NULL</span>)</span><br><span class="line">            l2 = l2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    if ABCDE</span></span><br><span class="line"><span class="comment">    if FGHIG</span></span><br><span class="line"><span class="comment">    AND IF E+G&gt;10</span></span><br><span class="line"><span class="comment">    we need make a new node,it's val is (E+G)%10.</span></span><br><span class="line"><span class="comment">    like this:</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">if</span>(remain != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        ListNode* pos = <span class="keyword">new</span> ListNode(remain);</span><br><span class="line">        p-&gt;next = pos;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head-&gt;next;</span><br><span class="line">    <span class="comment">//!!!__Don't return head because head is empty,head-&gt;next is first node with val.</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>#####知识点</p>
+<ol>
+<li>如何用尾插法建立链表</li>
+<li>同时遍历两个链表并进行相应处理（均遍历到结尾时处理才结束）</li>
+<li>当遍历A节点时，得到需要处理A-&gt;next的信息，如何在遍历时延后一步处理。<ol>
+<li>方案1：用一个Bool量标记是否应当处理，在建表后的语句中加入处理语句</li>
+<li>方案2：类似这种求和，将信息保留在remain中，每次加上remain，无信息则remain=0,否则remain=溢出数.<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方案1</span></span><br><span class="line"><span class="keyword">bool</span> deal=<span class="literal">false</span>;</span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">....<span class="comment">//here you build list</span></span><br><span class="line">	<span class="keyword">if</span>(deal)&#123;</span><br><span class="line">....<span class="comment">//here you deal something</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方案2</span></span><br><span class="line"><span class="keyword">int</span> value = val1 + val2 + remain;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ol>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/02/11/LeetCode-002-Add-Two-Numbers/#post-footer" class="postShorten-excerpt_link link">
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    
+    <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+        <div class="postShorten-wrap">
+            
+            <div class="postShorten-header">
+                <h1 class="postShorten-title" itemprop="headline">
+                    
+                        <a class="link-unstyled" href="/2018/02/11/LeetCode-001-Two-Num/">
+                            LeetCode #001 Two Num
+                        </a>
+                    
+                </h1>
+                <div class="postShorten-meta">
+    <time itemprop="datePublished" datetime="2018-02-11T14:57:22+08:00">
+	
+		    2月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/algorithm/">algorithm</a>
+
+
+    
+</div>
+
+            </div>
+            
+                <div class="postShorten-content" itemprop="articleBody">
+                    <p>#01 Two Num</p>
+<blockquote>
+<p>Given an array of integers, find two numbers such that they add up to a specific target number.<br>The function twoSum should return indices of the two numbers such that they add up to the target, where index1 must be less than index2. Please note that your returned answers (both index1 and index2) are not zero-based.<br>You may assume that each input would have exactly one solution.</p>
+<p>Input: numbers={2, 7, 11, 15}, target=9<br>Output: index1=1, index2=2</p>
+<p>#####思路1：</p>
+<ol>
+<li>用STL Map，将数据存入Map，而后查找First和Target-First是否都存在，如都存在，输出他们的下标。（即First，Target-First对应的Value）.</li>
+<li>迭代器iterator两个域,iterator-&gt;first对应Key,iterator-&gt;second对应Value.</li>
+<li>循环遍历Nums，检测Map，跳过Nums下标为Map-Value的元素。（重要）<br>#####代码：<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;nums, <span class="keyword">int</span> target) &#123;</span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; solve;</span><br><span class="line">        <span class="built_in">map</span>&lt;<span class="keyword">int</span>, <span class="keyword">int</span>&gt; Map;</span><br><span class="line">        <span class="keyword">if</span> (nums.size() &lt; <span class="number">2</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> solve;   </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> i;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nums.size(); i++)&#123;</span><br><span class="line">            Map[nums[i]] = i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; nums.size(); i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> temp = target - nums[i];</span><br><span class="line">            <span class="keyword">if</span> (Map[temp]!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">                <span class="comment">//this if is important</span></span><br><span class="line">                <span class="keyword">if</span>(i == Map[temp])&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                    <span class="comment">//Map's value don't need in 'for' fuction.</span></span><br><span class="line">                &#125;</span><br><span class="line">                solve.push_back(i+<span class="number">1</span>);</span><br><span class="line">                solve.push_back(Map[temp]+<span class="number">1</span>);</span><br><span class="line">                <span class="keyword">return</span> solve;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> solve;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</blockquote>
+<p>####思路2</p>
+<ol>
+<li>分配一个数组空间，将数据拷贝至A</li>
+<li>将A数组排序</li>
+<li>建立两个查找指针头指针X,尾指针Y,依次相加比较指针所指的值E,F</li>
+<li>E大于F Y++</li>
+<li>E小于F X++</li>
+<li>当指针相等或相交时退出循环</li>
+<li>提前退出循环说明找到了E+F=target</li>
+<li>遍历nums，当值与找到的E,F相等时,将相应的下标Push进Vector</li>
+</ol>
+<p>#####代码<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span>* a,<span class="keyword">const</span> <span class="keyword">void</span>* b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> *(<span class="keyword">int</span>*)a - *(<span class="keyword">int</span>*)b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; twoSum(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&amp; nums, <span class="keyword">int</span> target) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//vector&lt;int&gt;temp;</span></span><br><span class="line">        <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;index;</span><br><span class="line">        <span class="keyword">int</span> len = nums.size();</span><br><span class="line">        <span class="keyword">int</span> *temp = <span class="keyword">new</span> <span class="keyword">int</span>[len];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">            temp[i] = nums[i];</span><br><span class="line">        <span class="comment">//for(int i = 0; i &lt; len;i++)</span></span><br><span class="line">        <span class="comment">//  temp.push_back(nums[i]);</span></span><br><span class="line">        <span class="comment">//sort(temp.begin(),temp.end());</span></span><br><span class="line">        qsort(temp,len,<span class="keyword">sizeof</span>(<span class="keyword">int</span>),compare);</span><br><span class="line">        <span class="keyword">int</span> left = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> right = len - <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(left &lt; right)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>((temp[left] + temp[right]) &gt; target)</span><br><span class="line">                right--;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>((temp[left] + temp[right]) &lt; target)</span><br><span class="line">                left++;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(nums[i] == temp[left] || nums[i] == temp[right])</span><br><span class="line">                index.push_back(i + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">delete</span> []temp;</span><br><span class="line">        <span class="keyword">return</span> index;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>#####知识点</p>
+<ol>
+<li>在一个数组中查找指定元素</li>
+<li>对数组元素进行排序</li>
+<li>得到排序数组中比某数小或大的区域（该数不一定存在在数组内）</li>
+<li>知道一组值，求与这组值有关的另一组值</li>
+<li>方法2的一种特殊思路.</li>
+</ol>
+<p>#####官网给出的Solution</p>
+<blockquote>
+<p>####O(n2) runtime, O(1) space – Brute force:</p>
+<p>The brute force approach is simple. Loop through each element x and find if there is another value that equals to target – x. As finding another value requires looping through the rest of array, its runtime complexity is O(n2).</p>
+<p>####O(n) runtime, O(n) space – Hash table:</p>
+<p>We could reduce the runtime complexity of looking up a value to O(1) using a hash map that maps a value to its index.</p>
+</blockquote>
+
+                    
+                        
+
+                    
+                    
+                        <p>
+                            <a href="/2018/02/11/LeetCode-001-Two-Num/#post-footer" class="postShorten-excerpt_link link">
+                                评论和共享
+                            </a>
+                        </p>
+                    
+                </div>
+            
+        </div>
+        
+    </article>
+    
+    <div class="pagination-bar">
+    <ul class="pagination">
+        
+        
+        <li class="pagination-number">第 1 页 共 1 页</li>
+    </ul>
+</div>
+
+</section>
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Tianyou Pan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+        
+            <h4 id="about-card-name">Tianyou Pan</h4>
+        
+            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Java Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China.SiChuan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-t6ztvrkwotqq30w08guadl2mq4yn3gvnrzqwy1ojd4f6nrkqjn6kcdzdwznj.min.js"></script>
+<!--SCRIPTS END-->
+
+
+
+    </body>
+</html>
