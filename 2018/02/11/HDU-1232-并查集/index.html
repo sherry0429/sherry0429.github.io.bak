@@ -15,20 +15,20 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还">
+    <meta name="description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少">
 <meta name="keywords" content="c, acm, hdu">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="HDU 1232 并查集">
 <meta property="og:url" content="sherry0429.github.io/2018/02/11/HDU-1232-并查集/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还">
+<meta property="og:description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://img.blog.csdn.net/20140610222158078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
 <meta property="og:image" content="http://img.blog.csdn.net/20140610222224500?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2018-02-11T07:55:01.762Z">
+<meta property="og:updated_time" content="2018-02-11T09:04:56.201Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HDU 1232 并查集">
-<meta name="twitter:description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还">
+<meta name="twitter:description" content="source link : http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee Problem Description  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20140610222158078?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMjUxNDM3Nw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
     
     
@@ -262,7 +262,8 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>source link : <a href="http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee" target="_blank" rel="noopener">http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee</a></p>
+            <!-- excerpt CSDN 博客搬家-->
+<p>source link : <a href="http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee" target="_blank" rel="noopener">http://hi.baidu.com/nicker2010/item/9b593c2019c720846f2cc3ee</a></p>
 <h1 id="Problem-Description"><a href="#Problem-Description" class="headerlink" title="Problem Description"></a>Problem Description</h1><p>  某省调查城镇交通状况，得到现有城镇道路统计表，表中列出了每条道路直接连通的城镇。省政府“畅通工程”的目标是使全省任何两个城镇间都可以实现交通（但不一定有直接的道路相连，只要互相间接通过道路可达即可）。问最少还需要建设多少条道路？</p>
 <h4 id="Input"><a href="#Input" class="headerlink" title="Input"></a>Input</h4><p>  测试输入包含若干测试用例。每个测试用例的第1行给出两个正整数，分别是城镇数目N ( &lt; 1000 )和道路数目M；随后的M行对应M条道路，每行给出一对正整数，分别是该条道路直接连通的两个城镇的编号。为简单起见，城镇从1到N编号。<br>  注意:两个城市之间可以有多条道路相通,也就是说</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span> <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>

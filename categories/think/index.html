@@ -248,7 +248,8 @@
             </div>
             
                 <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h1><p>首先，需要加<fstream>头文件。（即file stream），在包含这个头文件后，可使用三种类：</fstream></p>
+                    <!-- excerpt CSDN 博客搬家-->
+<h1 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h1><p>首先，需要加<fstream>头文件。（即file stream），在包含这个头文件后，可使用三种类：</fstream></p>
 <ul>
 <li>ofstream  写文件  （Output File Stream）  <ul>
 <li>使用方法: 文件名&lt;&lt;内容&lt;&lt;endl;</li>
@@ -372,7 +373,8 @@
             </div>
             
                 <div class="postShorten-content" itemprop="articleBody">
-                    <p>在实验室里听一点记一点，到时候再总结整理吧。先记下来再说。</p>
+                    <!-- excerpt CSDN 博客搬家-->
+<p>在实验室里听一点记一点，到时候再总结整理吧。先记下来再说。</p>
 <p>一定要记住的page：<a href="http://wiki.opencv.org.cn/index.php/%E9%A6%96%E9%A1%B5" target="_blank" rel="noopener">http://wiki.opencv.org.cn/index.php/%E9%A6%96%E9%A1%B5</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;highgui.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">     IplImage * test=NULL;</span><br><span class="line">     test = cvLoadImage (&quot;D:\\demo.jpg&quot;);</span><br><span class="line">     cvNamedWindow(&quot;test_demo&quot;,1);</span><br><span class="line">	 cvMoveWindow(&quot;test_demo&quot;,800,10);</span><br><span class="line">     cvShowImage(&quot;test_demo&quot;,test);</span><br><span class="line">     cvWaitKey(0);</span><br><span class="line">     cvDestroyWindow(&quot;test_demo&quot;);</span><br><span class="line">     cvReleaseImage(&amp;test);</span><br><span class="line">     return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>已知函数:</p>
@@ -591,7 +593,6 @@
 </li>
 <li><p>shift</p>
 <p>坐标点的小数点位数。</p>
-<p>　</p>
 </li>
 </ul>
 <p>函数 cvRectangle 通过对角线上的两个顶点绘制矩形。</p>
