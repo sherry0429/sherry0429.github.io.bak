@@ -15,20 +15,20 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="source link: http://blog.csdn.net/niushuai666/article/details/7002823 AC自动机简介：##AC自动机的构造：  构造一棵Trie，作为AC自动机的搜索数据结构。  构造fail指针，使当前字符失配时跳转到具有最长公共前后缀的字符继续匹配。 如同 KMP算法一样， AC自动机在匹配时如果当前字符匹配失败，那么利用fail指针进行">
+    <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="acm, c">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="AC自动机">
 <meta property="og:url" content="sherry0429.github.io/2018/02/11/AC自动机/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="source link: http://blog.csdn.net/niushuai666/article/details/7002823 AC自动机简介：##AC自动机的构造：  构造一棵Trie，作为AC自动机的搜索数据结构。  构造fail指针，使当前字符失配时跳转到具有最长公共前后缀的字符继续匹配。 如同 KMP算法一样， AC自动机在匹配时如果当前字符匹配失败，那么利用fail指针进行">
+<meta property="og:description" content="CSDN 博客搬家">
 <meta property="og:locale" content="zh-cn">
 <meta property="og:image" content="http://www.cppblog.com/images/cppblog_com/mythit/ac1.jpg">
 <meta property="og:image" content="http://www.cppblog.com/images/cppblog_com/mythit/ac2.JPG">
-<meta property="og:updated_time" content="2018-02-11T09:35:53.114Z">
+<meta property="og:updated_time" content="2018-02-12T02:47:30.578Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AC自动机">
-<meta name="twitter:description" content="source link: http://blog.csdn.net/niushuai666/article/details/7002823 AC自动机简介：##AC自动机的构造：  构造一棵Trie，作为AC自动机的搜索数据结构。  构造fail指针，使当前字符失配时跳转到具有最长公共前后缀的字符继续匹配。 如同 KMP算法一样， AC自动机在匹配时如果当前字符匹配失败，那么利用fail指针进行">
+<meta name="twitter:description" content="CSDN 博客搬家">
 <meta name="twitter:image" content="http://www.cppblog.com/images/cppblog_com/mythit/ac1.jpg">
     
     
@@ -262,7 +262,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <!-- excerpt CSDN 博客搬家-->
+            <!-- excerpt -->
 <p>source link: <a href="http://blog.csdn.net/niushuai666/article/details/7002823" target="_blank" rel="noopener">http://blog.csdn.net/niushuai666/article/details/7002823</a></p>
 <h1 id="AC自动机简介："><a href="#AC自动机简介：" class="headerlink" title="AC自动机简介："></a>AC自动机简介：</h1><p>##AC自动机的构造：</p>
 <ul>
@@ -296,7 +296,6 @@
 <p> 对照上图，看一下模式匹配这个详细的流程，其中模式串为yasherhs。对于i=0,1。Trie中没有对应的路径，故不做任何操作；i=2,3,4时，指针p走到左下节点e。因为节点e的count信息为1，所以cnt+1，并且讲节点e的count值设置为-1，表示改单词已经出现过了，防止重复计数，最后temp指向e节点的失败指针所指向的节点继续查找，以此类推，最后temp指向root，退出while循环，这个过程中count增加了2。表示找到了2个单词she和he。当i=5时，程序进入第5行，p指向其失败指针的节点，也就是右边那个e节点，随后在第6行指向r节点，r节点的count值为1，从而count+1，循环直到temp指向root为止。最后i=6,7时，找不到任何匹配，匹配过程结束。</p>
 <p>到此，AC自动机入门知识就讲完了。HDU 2222入门题必须果断A掉，反正我是参考别人代码敲的。。。</p>
 <p>AC自动机貌似还有很多需要优化的地方，等把基础搞定之后再学习一下怎么优化吧。。</p>
-
             
 
         </div>

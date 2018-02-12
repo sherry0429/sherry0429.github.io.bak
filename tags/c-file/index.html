@@ -247,95 +247,13 @@
 
             </div>
             
-                <div class="postShorten-content" itemprop="articleBody">
-                    <!-- excerpt CSDN 博客搬家-->
-<h1 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h1><p>首先，需要加<fstream>头文件。（即file stream），在包含这个头文件后，可使用三种类：</fstream></p>
-<ul>
-<li>ofstream  写文件  （Output File Stream）  <ul>
-<li>使用方法: 文件名&lt;&lt;内容&lt;&lt;endl;</li>
-</ul>
-</li>
-<li>ifstream   读文件 （Input File Stream）  <ul>
-<li>使用方法:文件名&gt;&gt;内容;</li>
-</ul>
-</li>
-<li>fstream  打开文件供读写  （File Stream） <ul>
-<li>利用各种参数达到控制文件读写的目的</li>
-</ul>
-</li>
-</ul>
-<h1 id="Same"><a href="#Same" class="headerlink" title="Same"></a>Same</h1><p>每个类都有相同的两种函数功能：</p>
-<ul>
-<li>X.open(“String”);   <ul>
-<li>//String为路径，也可以string str；X.open(str);(用string类，没有引号，但是string本身内容里最后4个单位应为.txt）</li>
-<li>如果用fstream创建文件 必须加Ios::out.</li>
-</ul>
-</li>
-<li>X.close();</li>
-</ul>
-<p>同一时间，同一文件只能由一种类进行操作。若需要换，必须先将此类指针关闭，再用需要的类的指针Open目标文件。</p>
-<h1 id="fstream"><a href="#fstream" class="headerlink" title="fstream"></a>fstream</h1><p>fstream的open函数的参数定义了文件的打开模式。总共有如下模式：</p>
-<ul>
-<li>ios::in 读</li>
-<li>ios::out 写</li>
-<li>ios::app 从文件末尾开始写</li>
-<li>ios::binary       二进制模式</li>
-<li>ios::nocreate 打开一个文件时，如果文件不存在，不创建文件。</li>
-<li>ios::noreplace  打开一个文件时，如果文件不存在，创建该文件</li>
-<li>ios::trunc 打开一个文件，然后清空内容</li>
-<li>ios::ate 打开一个文件时，将位置移动到文件尾</li>
-</ul>
-<p>使用方式为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.open(<span class="string">"file.ext"</span>,iso::in|ios::out)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>默认模式是文本</li>
-<li>默认如果文件不存在，那么创建一个新的</li>
-<li>多种模式可以混合，用|(按位或)</li>
-<li>文件的byte索引从0开始。（就像数组一样）</li>
-</ul>
-<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><ul>
-<li>good()<ul>
-<li>如果文件打开成功</li>
-</ul>
-</li>
-<li>bad() <ul>
-<li>打开文件时发生错误</li>
-</ul>
-</li>
-<li>eof() <ul>
-<li>到达文件尾</li>
-</ul>
-</li>
-</ul>
-<h2 id="Pointers"><a href="#Pointers" class="headerlink" title="Pointers"></a>Pointers</h2><ul>
-<li>seekg() </li>
-<li>tellg()</li>
-<li>seekp()          </li>
-<li>tellq()</li>
-</ul>
-<p>以g结尾的，处理get指针（ifstream），以p结尾的，处理put指针（ofstream）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seekg/p(X,INF);</span><br></pre></td></tr></table></figure>
-<p>X为一个数，可为正可为负，INF为一个参数，该参数可为以下：</p>
-<ul>
-<li>ios::beg  文件头</li>
-<li>ios::end  文件尾</li>
-<li>ios::cur  当前位置</li>
-</ul>
-<p>整个函数表示将指针从INF处，移动X个单位。</p>
-<p>例：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seekg(<span class="number">-1</span>,ios::end);<span class="comment">//把指针从文件尾向前移动一个字节</span></span><br></pre></td></tr></table></figure>
-<p>tellg, tellp : 返回一个数，表示此时指针所在的位置。</p>
-
+                <div class="postShorten-excerpt" itemprop="articleBody">
+                    <p>CSDN 博客搬家</p>
                     
+                        <a href="/2018/02/11/C-文件流-总结/" class="postShorten-excerpt_link link">
+                            阅读全文
+                        </a>
                         
-
-                    
-                    
-                        <p>
-                            <a href="/2018/02/11/C-文件流-总结/#post-footer" class="postShorten-excerpt_link link">
-                                评论和共享
-                            </a>
-                        </p>
                     
                 </div>
             
