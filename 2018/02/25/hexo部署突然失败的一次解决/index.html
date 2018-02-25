@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Monster &amp; Flower">
+    <title>hexo部署突然失败的一次解决 - Monster &amp; Flower</title>
+    <meta name="author" content="Tianyou Pan">
+    
+    
+        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <meta name="description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
+<meta name="keywords" content="hexo,bugs">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="hexo部署突然失败的一次解决">
+<meta property="og:url" content="sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/index.html">
+<meta property="og:site_name" content="Monster &amp; Flower">
+<meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-02-25T06:48:07.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hexo部署突然失败的一次解决">
+<meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
+    
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-eonj0pe2aabccyzjrtkp7h1yt1tl45l2v3xwpl2nilpuholcj85zrpl3eiid.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Monster &amp; Flower</a>
+    </div>
+    
+        
+            <a  class="header-right-icon "
+                href="#about">
+        
+        
+            <i class="fa fa-lg fa-question"></i>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="Home"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="Categories"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="Tags"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="Archives"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="About"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Github</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png');"
+             data-behavior="4">
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaOut
+                        ">
+                
+<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title" itemprop="headline">
+            hexo部署突然失败的一次解决
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time itemprop="datePublished" datetime="2018-02-25T14:46:25+08:00">
+	
+		    2月 25, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/knowledge/">knowledge</a>
+
+
+    
+</div>
+
+    
+</div>
+    
+    <div class="post-content markdown" itemprop="articleBody">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>春节过后，重新写blog提交，发现hexo d没问题，但hexo g则出现如下错误：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fatal: HttpRequestException encountered.</span><br><span class="line">   ▒▒▒▒▒▒▒▒ʱ▒▒▒▒</span><br><span class="line">bash: /dev/tty: No such device <span class="keyword">or</span> address</span><br><span class="line">error: <span class="function">failed to execute prompt <span class="title">script</span> <span class="params">(<span class="built_in">exit</span> code <span class="number">1</span>)</span></span></span><br><span class="line">fatal: could not read Username for 'https://github.com': No error</span><br><span class="line">FATAL Something's wrong. Maybe you can find the solution here: http:<span class="comment">//hexo.io/do                                                                                                                                                                                               cs/troubleshooting.html</span></span><br><span class="line">Error: fatal: HttpRequestException encountered.</span><br><span class="line">   ��������ʱ������</span><br><span class="line">bash: /dev/tty: No such device <span class="keyword">or</span> address</span><br></pre></td></tr></table></figure>
+<p>一开始我以为是因为配置文件的问题，确认后发现并不是这样。没有改动过，为什么以前可以，现在却不行了呢？</p>
+<p>然鹅，即使我现在解决了，我也不知道为什么这个问题出现，因为从上次成功提交blog到出现这个问题为止，这台电脑并没有被动过。</p>
+<p>唯一可能的原因大概是提交的时候，<strong><em>我在hexo d的时候ctrl+c强行终止了</em></strong>。</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>github上有一个[issue][<a href="https://github.com/hexojs/hexo/issues/1495" target="_blank" rel="noopener">https://github.com/hexojs/hexo/issues/1495</a>]</p>
+<p>这里对younglaker的回答做一下引用：</p>
+<hr>
+<p>I try SSH instead HTTPS, it works. If you still have problem with HTTPS, try this command:</p>
+<p>ssh -T git@github.com</p>
+<hr>
+<p>我使用的是windows，在power shell 下无此命令，在git bash下可以使用，但会报出如下错误：</p>
+<hr>
+<p>Warning: Permanently added the RSA host key for IP address ‘(随机IP)’ to th                                                                                                                                                                                               e list of known hosts.<br>sherry0429@github.com: Permission denied (publickey).</p>
+<hr>
+<p>在cmd下ping报出的ip，也无法ping通，上VPN也没用。</p>
+<p>这里的原因我个人推测，ip不是原因，原因是permisson denied，即本机的ssh无法和github的ssh配对。[这里GitHub官方给出了对这个问题的分析步骤和解决方案][<a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="noopener">https://help.github.com/articles/error-permission-denied-publickey/</a>]</p>
+<p>我看过以后依次尝试，最终打算简单粗暴：</p>
+<p><strong><em>重新生成ssh</em></strong></p>
+<p>下面说步骤。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li>找见本机存放ssh的地方<ul>
+<li>在gitbash中输入<figure class="highlight plain"><figcaption><span>-vT git@github.com```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   - 在一大串debug信息中找到Offering public key: ... /c/Users/username/.ssh/id_rsa</span><br><span class="line">   - 这里的.ssh就是存放ssh的地方</span><br><span class="line">2. 删除掉本机的ssh</span><br><span class="line">3. 利用命令重新生成ssh</span><br><span class="line">   - 在gitbash中 输入： ```ssh-keygen -t rsa -C `&quot;youremail@example.com&quot;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>密码可以不用输，一路回车即可创建</li>
+</ul>
+<ol>
+<li>修改github账号settings内的ssh选项<ul>
+<li>此时去先前存ssh的地方，可以看到有一个文件id_rsa.pub，用notepad++打开，复制里面的所有内容</li>
+<li>登录github账号，右上角settings-&gt;SSH and GPG Keys</li>
+<li>New SSH Keys，把前面复制的id_rsa.pub的内容复制进去，给这个ssh key取个名</li>
+</ul>
+</li>
+<li>修改hexo的_config.xml<ul>
+<li>将hexo配置文件deploy部分的repo选项修改为你的github.io库的ssh repo地址</li>
+<li>repo ssh地址可以打开repo，在clone or download那个下拉框里，点右上角的use ssh就可以转换到ssh的repo地址</li>
+</ul>
+</li>
+<li>hexo clean, hexo g, hexo d<ul>
+<li>因为修改了_config.xml，clean一下比较好</li>
+</ul>
+</li>
+<li>it’s works !</li>
+</ol>
+<h2 id="Linux-下"><a href="#Linux-下" class="headerlink" title="Linux 下"></a>Linux 下</h2><p>Linux下步骤也是类似的，不过考虑到真正的生产环境中，ssh-key可能不止一个，不要全删了…仔细分辨之后在进行处理。</p>
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/bugs/">bugs</a> <a class="tag tag--primary tag--small t-link" href="/tags/hexo/">hexo</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/24/快速开发scrapy爬虫/" data-tooltip="快速开发scrapy爬虫" aria-label="Next: 快速开发scrapy爬虫">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/&amp;title=hexo部署突然失败的一次解决" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="gitment"></div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Tianyou Pan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/24/快速开发scrapy爬虫/" data-tooltip="快速开发scrapy爬虫" aria-label="Next: 快速开发scrapy爬虫">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/&amp;title=hexo部署突然失败的一次解决" title="分享到 QQ">
+                    <i class="fa fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment-o"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/&amp;title=hexo部署突然失败的一次解决">
+                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
+        
+            <h4 id="about-card-name">Tianyou Pan</h4>
+        
+            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Java Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                China.SiChuan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-t6ztvrkwotqq30w08guadl2mq4yn3gvnrzqwy1ojd4f6nrkqjn6kcdzdwznj.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: 'sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/',
+                        owner: 'sherry0429',
+                        repo: 'gitment-comments',
+                        oauth: {
+                            client_id: '8682c4503f3fef4dd481',
+                            client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//imsun.github.io/gitment/style/default.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
+    
+
+
+
+    </body>
+</html>
