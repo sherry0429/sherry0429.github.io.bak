@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>hexo could not read Username for &#39;https://github.com&#39; - Monster &amp; Flower</title>
+    <title>hexo could not read Username for https://github.com - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -18,14 +18,14 @@
     <meta name="description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
 <meta name="keywords" content="hexo,bugs">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="hexo could not read Username for &#39;https:&#x2F;&#x2F;github.com&#39;">
+<meta property="og:title" content="hexo could not read Username for https:&#x2F;&#x2F;github.com">
 <meta property="og:url" content="sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
 <meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T03:40:45.479Z">
+<meta property="og:updated_time" content="2018-02-25T03:47:30.502Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo could not read Username for &#39;https:&#x2F;&#x2F;github.com&#39;">
+<meta name="twitter:title" content="hexo could not read Username for https:&#x2F;&#x2F;github.com">
 <meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
     
     
@@ -223,7 +223,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            hexo could not read Username for &#39;https://github.com&#39;
+            hexo could not read Username for https://github.com
         </h1>
     
     
@@ -255,7 +255,7 @@
 <h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>github上有一个[issue][<a href="https://github.com/hexojs/hexo/issues/1495],这里对younglaker的回答做一下引用：" target="_blank" rel="noopener">https://github.com/hexojs/hexo/issues/1495],这里对younglaker的回答做一下引用：</a></p>
 <blockquote>
 <p>I try SSH instead HTTPS, it works. If you still have problem with HTTPS, try this command:</p>
-<figure class="highlight plain"><figcaption><span>-T git@github.com```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">我使用的是windows，在power shell 下无此命令，在git bash下可以使用，但会报出如下错误：</span><br><span class="line"></span><br><span class="line">&gt;Warning: Permanently added the RSA host key for IP address &apos;(随机IP)&apos; to th                                                                                                                                                                                               e list of known hosts.</span><br><span class="line">&gt;sherry0429@github.com: Permission denied (publickey).</span><br><span class="line"></span><br><span class="line">在cmd下ping报出的ip，也无法ping通，上VPN也没用。</span><br><span class="line"></span><br><span class="line">这里的原因我个人推测，ip不是原因，原因是permisson denied，即本机的ssh无法和github的ssh配对。[这里][https://help.github.com/articles/error-permission-denied-publickey/]GitHub官方给出了对这个问题的分析步骤和解决方案，我看过以后依次尝试，最终打算简单粗暴：</span><br><span class="line"></span><br><span class="line">___重新生成ssh___</span><br><span class="line"></span><br><span class="line">下面说步骤。</span><br><span class="line"></span><br><span class="line">## 解决方案</span><br><span class="line"></span><br><span class="line">1. 找见本机存放ssh的地方</span><br><span class="line"></span><br><span class="line">   - 在gitbash中输入```ssh -vT git@github.com</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>-T git@github.com```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">我使用的是windows，在power shell 下无此命令，在git bash下可以使用，但会报出如下错误：</span><br><span class="line"></span><br><span class="line">&gt;Warning: Permanently added the RSA host key for IP address &apos;(随机IP)&apos; to th                                                                                                                                                                                               e list of known hosts.</span><br><span class="line">&gt;sherry0429@github.com: Permission denied (publickey).</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">在cmd下ping报出的ip，也无法ping通，上VPN也没用。</span><br><span class="line"></span><br><span class="line">这里的原因我个人推测，ip不是原因，原因是permisson denied，即本机的ssh无法和github的ssh配对。[这里][https://help.github.com/articles/error-permission-denied-publickey/]GitHub官方给出了对这个问题的分析步骤和解决方案，我看过以后依次尝试，最终打算简单粗暴：</span><br><span class="line"></span><br><span class="line">___重新生成ssh___</span><br><span class="line"></span><br><span class="line">下面说步骤。</span><br><span class="line"></span><br><span class="line">## 解决方案</span><br><span class="line"></span><br><span class="line">1. 找见本机存放ssh的地方</span><br><span class="line"></span><br><span class="line">   - 在gitbash中输入```ssh -vT git@github.com</span><br></pre></td></tr></table></figure>
 </blockquote>
 <ul>
 <li>在一大串debug信息中找到Offering public key: … /c/Users/username/.ssh/id_rsa</li>
@@ -366,7 +366,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/&amp;title=hexo could not read Username for &#39;https://github.com&#39;" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/&amp;title=hexo could not read Username for https://github.com" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -475,7 +475,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/&amp;title=hexo could not read Username for &#39;https://github.com&#39;" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/&amp;title=hexo could not read Username for https://github.com" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -540,7 +540,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/&amp;title=hexo could not read Username for &#39;https://github.com&#39;">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/&amp;title=hexo could not read Username for https://github.com">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
