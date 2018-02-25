@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。  起因春节过后，重新写blog提交，发现d```没问题，但是```hexo g```则出现如下错误：1234567891011```cfatal: HttpRequestException encountered.   ▒▒▒▒▒▒▒▒ʱ▒▒▒▒bash: /dev/tty: No such device or addresserr">
+    <meta name="description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
 <meta name="keywords" content="hexo,bugs">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="hexo could not read Username for &#39;https:&#x2F;&#x2F;github.com&#39;">
 <meta property="og:url" content="sherry0429.github.io/2018/02/25/hexo-could-not-read-Username-for-https-github-com/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。  起因春节过后，重新写blog提交，发现d```没问题，但是```hexo g```则出现如下错误：1234567891011```cfatal: HttpRequestException encountered.   ▒▒▒▒▒▒▒▒ʱ▒▒▒▒bash: /dev/tty: No such device or addresserr">
+<meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T03:37:06.014Z">
+<meta property="og:updated_time" content="2018-02-25T03:40:45.479Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo could not read Username for &#39;https:&#x2F;&#x2F;github.com&#39;">
-<meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。  起因春节过后，重新写blog提交，发现d```没问题，但是```hexo g```则出现如下错误：1234567891011```cfatal: HttpRequestException encountered.   ▒▒▒▒▒▒▒▒ʱ▒▒▒▒bash: /dev/tty: No such device or addresserr">
+<meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
     
     
         
@@ -247,8 +247,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。</p>
-<!-- except -->
+            <!-- excerpt -->
 <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>春节过后，重新写blog提交，发现<figure class="highlight plain"><figcaption><span>d```没问题，但是```hexo g```则出现如下错误：</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```c</span><br><span class="line">fatal: HttpRequestException encountered.</span><br><span class="line">   ▒▒▒▒▒▒▒▒ʱ▒▒▒▒</span><br><span class="line">bash: /dev/tty: No such device or address</span><br><span class="line">error: failed to execute prompt script (exit code 1)</span><br><span class="line">fatal: could not read Username for &apos;https://github.com&apos;: No error</span><br><span class="line">FATAL Something&apos;s wrong. Maybe you can find the solution here: http://hexo.io/do                                                                                                                                                                                               cs/troubleshooting.html</span><br><span class="line">Error: fatal: HttpRequestException encountered.</span><br><span class="line">   ��������ʱ������</span><br><span class="line">bash: /dev/tty: No such device or address</span><br></pre></td></tr></table></figure></p>
 <p>一开始我以为是因为配置文件的问题，确认后发现并不是这样。没有改动过，为什么以前可以，现在却不行了呢？</p>
 <p>然鹅，即使我现在解决了，我也不知道为什么这个问题出现，因为从上次成功提交blog到出现这个问题为止，这台电脑并没有被动过。</p>
@@ -297,7 +296,6 @@
 </li>
 </ol>
 <h2 id="Linux-下"><a href="#Linux-下" class="headerlink" title="Linux 下"></a>Linux 下</h2><p>Linux下步骤也是类似的，不过考虑到真正的生产环境中，ssh-key可能不止一个，不要全删了…仔细分辨之后在进行处理。</p>
-
             
 
         </div>
