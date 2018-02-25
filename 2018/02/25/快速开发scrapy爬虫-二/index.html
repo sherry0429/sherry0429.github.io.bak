@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Monster &amp; Flower">
 <meta property="og:description" content="接上一篇，这一篇将如何实现爬取动态加载的数据">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T07:24:53.563Z">
+<meta property="og:updated_time" content="2018-02-25T10:05:24.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速开发scrapy爬虫(二)">
 <meta name="twitter:description" content="接上一篇，这一篇将如何实现爬取动态加载的数据">
@@ -248,6 +248,31 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
+<p>首先我们回顾一下上一节说过的爬虫步骤：</p>
+<ul>
+<li>找出需求中属于静态网页数据（即查看网页源码就能获取的内容）</li>
+<li>找出需求中属于动态加载的数据（通过Chrome开发者工具的NetWork面板）</li>
+<li>判断爬虫实现难度（主要在动态加载部分上，如果动态加载部分的请求URL过于难拼，考虑放弃该字段，没办法放弃就硬啃吧，做好心理准备和工期规划）</li>
+<li>构造静态网页数据的爬取规则</li>
+<li>构造动态加载数据的请求URL</li>
+<li>实现爬虫</li>
+</ul>
+<p>上一节，我们走完了前4个步骤，这篇文章主要讲如何实现第五个步骤。</p>
+<p>首先通过chrome的开发者工具，NETWORK面板搜XHR请求，可以发现在加载商品详情页时有如下请求：</p>
+<p><a href="https://www.amazon.cn/gp/product-description/ajaxGetProuductDescription.html?ref_=dp_apl_pc_loaddesc&amp;asin=B002WC7NGS&amp;cacheTime=1519547354719&amp;merchantId=A1AJ19PSB66TGU&amp;deviceType=web" target="_blank" rel="noopener">https://www.amazon.cn/gp/product-description/ajaxGetProuductDescription.html?ref_=dp_apl_pc_loaddesc&amp;asin=B002WC7NGS&amp;cacheTime=1519547354719&amp;merchantId=A1AJ19PSB66TGU&amp;deviceType=web</a></p>
+<p>分析可知它需要如下几个参数：</p>
+<ol>
+<li>asin</li>
+<li>cacheTime</li>
+<li>merchantId</li>
+<li>deviceType</li>
+</ol>
+<p>asin和merchantId通过爬取获得，cacheTime通过unix时间戳获得，deviceType固定为Web.</p>
+<p>上一节我们的代码是这样的：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_0</span><span class="params">(self, response)</span>:</span></span><br><span class="line">    info(<span class="string">'Parse 0 '</span>+response.url)</span><br><span class="line">    item = self.parse_with_rules(response, self.css_rules, dict)</span><br><span class="line">    <span class="keyword">if</span> isinstance(item, dict):</span><br><span class="line">        <span class="keyword">yield</span> item</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        data_dict = dict()</span><br><span class="line">        data_dict[<span class="string">'data'</span>] = item</span><br><span class="line">        <span class="keyword">yield</span> data_dict</span><br></pre></td></tr></table></figure>
+<p>现在只需要略微修改爬取规则，然后在item返回之后，取出来所需参数，拼接成一个URL。再发起请求和对应的css规则，在新的method里面进行解析即可。</p>
+<p>还记得上一节，使用css selector的时候不知道如何选择标签内的属性值，在这一节，我使用了先通过css selector获取html标签，再通过正则获取属性的方式。</p>
+<p>临时有事，未完待续</p>
             
 
         </div>
@@ -268,7 +293,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在博客中插入图片" aria-label="Prev: 如何便捷的在博客中插入图片">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在Hexo博客中插入图片" aria-label="Prev: 如何便捷的在Hexo博客中插入图片">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -378,7 +403,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在博客中插入图片" aria-label="Prev: 如何便捷的在博客中插入图片">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在Hexo博客中插入图片" aria-label="Prev: 如何便捷的在Hexo博客中插入图片">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
