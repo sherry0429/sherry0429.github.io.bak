@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>hexo部署突然失败的一次解决 - Monster &amp; Flower</title>
+    <title>如何便捷的在博客中插入图片 - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,18 +15,21 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
-<meta name="keywords" content="hexo,bugs">
+    <meta name="description" content="Hexo部署，如果使用GitPages，不得不面对上传图片过多时超过github.io库限制的问题，而使用OSS，又需要先上传到OSS，再在blog里引用链接， 有没有一种办法，写博客时插入图片，所见即所得，部署后，博客也自动采用OSS上的链接呢？ 这里提供一种思路和实现">
+<meta name="keywords" content="python,spider,scrapy">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="hexo部署突然失败的一次解决">
-<meta property="og:url" content="sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/index.html">
+<meta property="og:title" content="如何便捷的在博客中插入图片">
+<meta property="og:url" content="sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
+<meta property="og:description" content="Hexo部署，如果使用GitPages，不得不面对上传图片过多时超过github.io库限制的问题，而使用OSS，又需要先上传到OSS，再在blog里引用链接， 有没有一种办法，写博客时插入图片，所见即所得，部署后，博客也自动采用OSS上的链接呢？ 这里提供一种思路和实现">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T06:57:03.942Z">
+<meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/upload_oss_step_1.jpg">
+<meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/upload_oss_step_2.jpg">
+<meta property="og:updated_time" content="2018-02-25T08:19:22.051Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo部署突然失败的一次解决">
-<meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
+<meta name="twitter:title" content="如何便捷的在博客中插入图片">
+<meta name="twitter:description" content="Hexo部署，如果使用GitPages，不得不面对上传图片过多时超过github.io库限制的问题，而使用OSS，又需要先上传到OSS，再在blog里引用链接， 有没有一种办法，写博客时插入图片，所见即所得，部署后，博客也自动采用OSS上的链接呢？ 这里提供一种思路和实现">
+<meta name="twitter:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/upload_oss_step_1.jpg">
     
     
         
@@ -223,12 +226,12 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            hexo部署突然失败的一次解决
+            如何便捷的在博客中插入图片
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-25T14:46:25+08:00">
+    <time itemprop="datePublished" datetime="2018-02-25T15:37:06+08:00">
 	
 		    2月 25, 2018
     	
@@ -248,54 +251,34 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>春节过后，重新写blog提交，发现hexo d没问题，但hexo g则出现如下错误：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fatal: HttpRequestException encountered.</span><br><span class="line">   ▒▒▒▒▒▒▒▒ʱ▒▒▒▒</span><br><span class="line">bash: /dev/tty: No such device <span class="keyword">or</span> address</span><br><span class="line">error: <span class="function">failed to execute prompt <span class="title">script</span> <span class="params">(<span class="built_in">exit</span> code <span class="number">1</span>)</span></span></span><br><span class="line">fatal: could not read Username for 'https://github.com': No error</span><br><span class="line">FATAL Something's wrong. Maybe you can find the solution here: http:<span class="comment">//hexo.io/do                                                                                                                                                                                               cs/troubleshooting.html</span></span><br><span class="line">Error: fatal: HttpRequestException encountered.</span><br><span class="line">   ��������ʱ������</span><br><span class="line">bash: /dev/tty: No such device <span class="keyword">or</span> address</span><br></pre></td></tr></table></figure>
-<p>一开始我以为是因为配置文件的问题，确认后发现并不是这样。没有改动过，为什么以前可以，现在却不行了呢？</p>
-<p>然鹅，即使我现在解决了，我也不知道为什么这个问题出现，因为从上次成功提交blog到出现这个问题为止，这台电脑并没有被动过。</p>
-<p>唯一可能的原因大概是提交的时候，<strong><em>我在hexo d的时候ctrl+c强行终止了</em></strong>。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>github上有一个<a href="https://github.com/hexojs/hexo/issues/1495" target="_blank" rel="noopener">issue</a></p>
-<p>这里对younglaker的回答做一下引用：</p>
-<hr>
-<p>I try SSH instead HTTPS, it works. If you still have problem with HTTPS, try this command:</p>
-<p>ssh -T git@github.com</p>
-<hr>
-<p>我使用的是windows，在power shell 下无此命令，在git bash下可以使用，但会报出如下错误：</p>
-<hr>
-<p>Warning: Permanently added the RSA host key for IP address ‘(随机IP)’ to th                                                                                                                                                                                               e list of known hosts.<br>sherry0429@github.com: Permission denied (publickey).</p>
-<hr>
-<p>在cmd下ping报出的ip，也无法ping通，上VPN也没用。</p>
-<p>这里的原因我个人推测，ip不是原因，原因是permisson denied，即本机的ssh无法和github的ssh配对。<a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="noopener">这里GitHub官方给出了对这个问题的分析步骤和解决方案</a></p>
-<p>我看过以后依次尝试，最终打算简单粗暴：</p>
-<p><strong><em>重新生成ssh</em></strong></p>
-<p>下面说步骤。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
-<li>找见本机存放ssh的地方<ul>
-<li>在gitbash中输入<figure class="highlight plain"><figcaption><span>-vT git@github.com```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   - 在一大串debug信息中找到Offering public key: ... /c/Users/username/.ssh/id_rsa</span><br><span class="line">   - 这里的.ssh就是存放ssh的地方</span><br><span class="line">2. 删除掉本机的ssh</span><br><span class="line">3. 利用命令重新生成ssh</span><br><span class="line">   - 在gitbash中 输入： ```ssh-keygen -t rsa -C `&quot;youremail@example.com&quot;</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ol>
+<p>直接上干货，最好的实现当然是：</p>
 <ul>
-<li>密码可以不用输，一路回车即可创建</li>
+<li>在blog里贴本地link</li>
+<li>hexo g的时候自动转化为oss的link并上传</li>
+<li>hexo g的时候将blog里的local link转化为oss link</li>
 </ul>
-<ol>
-<li>修改github账号settings内的ssh选项<ul>
-<li>此时去先前存ssh的地方，可以看到有一个文件id_rsa.pub，用notepad++打开，复制里面的所有内容</li>
-<li>登录github账号，右上角settings-&gt;SSH and GPG Keys</li>
-<li>New SSH Keys，把前面复制的id_rsa.pub的内容复制进去，给这个ssh key取个名</li>
+<p>我找了下这方面的插件，因为我用的是腾讯云的OSS，没有找到对应插件，想自己实现，但无奈nodejs太过垃圾。。</p>
+<p>那么是不是就没有办法呢，倒也不是。</p>
+<p>经过我的思考，我决定这样做：</p>
+<ul>
+<li>在Typora里直接放入本地图片，观察效果</li>
+<li>开启Typora的“插入图片时使用相对路径功能”</li>
+<li>开启Typora的“插入图片时拷贝到指定文件夹”功能</li>
+<li>写一个python脚本，将指定文件夹的图片全部上传至OSS</li>
 </ul>
-</li>
-<li>修改hexo的_config.xml<ul>
-<li>将hexo配置文件deploy部分的repo选项修改为你的github.io库的ssh repo地址</li>
-<li>repo ssh地址可以打开repo，在clone or download那个下拉框里，点右上角的use ssh就可以转换到ssh的repo地址</li>
+<p>实际使用时，则这样：</p>
+<ul>
+<li>写博客，插入图片（本地），观察效果</li>
+<li>跑一遍python脚本</li>
+<li>全文替换博客中所有图片的前缀为OSS前缀</li>
+<li>部署</li>
 </ul>
-</li>
-<li>hexo clean, hexo g, hexo d<ul>
-<li>因为修改了_config.xml，clean一下比较好</li>
-</ul>
-</li>
-<li>it’s works !</li>
-</ol>
-<h2 id="Linux-下"><a href="#Linux-下" class="headerlink" title="Linux 下"></a>Linux 下</h2><p>Linux下步骤也是类似的，不过考虑到真正的生产环境中，ssh-key可能不止一个，不要全删了…仔细分辨之后在进行处理。</p>
+<p>下面两张图，就是用这种方式上传的图片</p>
+<p><img src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/upload_oss_step_1.jpg" alt="upload_oss_step_1"></p>
+<p><img src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/upload_oss_step_2.jpg" alt="upload_oss_step_2"></p>
+<p>关于python脚本的代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="string">Copyright (C) 2017 tianyou pan &lt;sherry0429 at SOAPython&gt;</span></span><br><span class="line"><span class="string">"""</span></span><br><span class="line"><span class="keyword">from</span> qcloud_cos <span class="keyword">import</span> CosConfig</span><br><span class="line"><span class="keyword">from</span> qcloud_cos <span class="keyword">import</span> CosS3Client</span><br><span class="line"><span class="keyword">import</span> redis</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UploadOSSClass</span><span class="params">(object)</span>:</span></span><br><span class="line"></span><br><span class="line">    secret_id = <span class="string">''</span>  <span class="comment"># 替换为用户的secret_id</span></span><br><span class="line">    secret_key = <span class="string">''</span>  <span class="comment"># 替换为用户的secret_key</span></span><br><span class="line">    region = <span class="string">''</span>  <span class="comment"># 替换为用户的region</span></span><br><span class="line">    token = <span class="string">''</span>  <span class="comment"># 使用临时秘钥需要传入Token，默认为空,可不填</span></span><br><span class="line">    config = CosConfig(Region=region, Secret_id=secret_id, Secret_key=secret_key, Token=token)  <span class="comment"># 获取配置对象</span></span><br><span class="line">    client = CosS3Client(config)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.redis_c = redis.StrictRedis(<span class="string">"localhost"</span>, <span class="number">6379</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">upload_img</span><span class="params">(self, file_name)</span>:</span></span><br><span class="line">        <span class="keyword">with</span> open(file_name, <span class="string">'rb'</span>) <span class="keyword">as</span> fp:</span><br><span class="line">            response = self.client.put_object(</span><br><span class="line">                Bucket=<span class="string">''</span>,  <span class="comment"># Bucket由bucketname-appid组成</span></span><br><span class="line">                Body=fp,</span><br><span class="line">                Key=file_name,</span><br><span class="line">                StorageClass=<span class="string">'STANDARD'</span>,</span><br><span class="line">                CacheControl=<span class="string">'no-cache'</span>,</span><br><span class="line">                ContentDisposition=<span class="string">'download.txt'</span></span><br><span class="line">            )</span><br><span class="line">        <span class="keyword">if</span> response[<span class="string">'ETag'</span>] <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"upload success : "</span>,</span><br><span class="line">            <span class="keyword">print</span> response[<span class="string">'ETag'</span>]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"upload failed"</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">make_cache</span><span class="params">(self, img_path)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.redis_c.sadd(<span class="string">'blog-img'</span>, img_path)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">for</span> root, dirs, files <span class="keyword">in</span> os.walk(<span class="string">"."</span>):</span><br><span class="line">            <span class="keyword">for</span> name <span class="keyword">in</span> files:</span><br><span class="line">                img_path = os.path.join(root, name)</span><br><span class="line">                <span class="keyword">print</span> (<span class="string">"upload : "</span> + img_path)</span><br><span class="line">                <span class="keyword">if</span> self.make_cache(img_path):</span><br><span class="line">                    self.upload_img(name)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"upload done"</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    upload_c = UploadOSSClass()</span><br><span class="line">    upload_c.start()</span><br></pre></td></tr></table></figure>
+<p>自行添加对应字段。</p>
             
 
         </div>
@@ -305,7 +288,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/bugs/">bugs</a> <a class="tag tag--primary tag--small t-link" href="/tags/hexo/">hexo</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/python/">python</a> <a class="tag tag--primary tag--small t-link" href="/tags/scrapy/">scrapy</a> <a class="tag tag--primary tag--small t-link" href="/tags/spider/">spider</a>
 
             </div>
         
@@ -315,8 +298,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/快速开发scrapy爬虫-二/" data-tooltip="快速开发scrapy爬虫(二)" aria-label="Prev: 快速开发scrapy爬虫(二)">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -325,7 +307,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/24/快速开发scrapy爬虫/" data-tooltip="快速开发scrapy爬虫" aria-label="Next: 快速开发scrapy爬虫">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/快速开发scrapy爬虫-二/" data-tooltip="快速开发scrapy爬虫(二)" aria-label="Next: 快速开发scrapy爬虫(二)">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -343,7 +325,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -351,7 +333,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -359,7 +341,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -367,7 +349,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/&amp;title=hexo部署突然失败的一次解决" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/&amp;title=如何便捷的在博客中插入图片" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -375,7 +357,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -425,8 +407,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/快速开发scrapy爬虫-二/" data-tooltip="快速开发scrapy爬虫(二)" aria-label="Prev: 快速开发scrapy爬虫(二)">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -435,7 +416,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/24/快速开发scrapy爬虫/" data-tooltip="快速开发scrapy爬虫" aria-label="Next: 快速开发scrapy爬虫">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/快速开发scrapy爬虫-二/" data-tooltip="快速开发scrapy爬虫(二)" aria-label="Next: 快速开发scrapy爬虫(二)">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -453,7 +434,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -461,7 +442,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -469,7 +450,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -477,7 +458,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/&amp;title=hexo部署突然失败的一次解决" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/&amp;title=如何便捷的在博客中插入图片" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -485,7 +466,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -518,7 +499,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -526,7 +507,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -534,7 +515,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
@@ -542,7 +523,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/&amp;title=hexo部署突然失败的一次解决">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/&amp;title=如何便捷的在博客中插入图片">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -550,7 +531,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -610,7 +591,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'sherry0429.github.io/2018/02/25/hexo部署突然失败的一次解决/',
+                        id: 'sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/',
                         owner: 'sherry0429',
                         repo: 'gitment-comments',
                         oauth: {

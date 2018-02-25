@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Monster &amp; Flower">
 <meta property="og:description" content="适合有一定爬虫经验和前端/后端开发经验的人，快速通过github上的scrapy-example，改造出适合自己的爬虫。 需要的基础知识点为python, scrapy, css selector。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T06:58:00.518Z">
+<meta property="og:updated_time" content="2018-02-25T07:03:01.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="快速开发scrapy爬虫">
 <meta name="twitter:description" content="适合有一定爬虫经验和前端/后端开发经验的人，快速通过github上的scrapy-example，改造出适合自己的爬虫。 需要的基础知识点为python, scrapy, css selector。">
@@ -251,7 +251,7 @@
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>首先介绍一下项目来源：</p>
 <p><a href="https://github.com/geekan/scrapy-examples" target="_blank" rel="noopener">https://github.com/geekan/scrapy-examples</a></p>
 <p>这个项目的开发者和维护者不是我，这里感谢该项目的contributors，因为需求，现在需要开发一个具体的书籍内容爬取爬虫，但迫于时间关系，想直接通过快速修改来获取自己能使用的爬虫，在github上找到了这个轮子。</p>
-<h2 id="源代码分析"><a href="#源代码分析" class="headerlink" title="源代码分析"></a>源代码分析</h2><p>代码中除了各个网站的实例外，有一个[misc][<a href="https://github.com/geekan/scrapy-examples/tree/master/misc]的module，在这个module里可以看到底层CommonSpider的实现。" target="_blank" rel="noopener">https://github.com/geekan/scrapy-examples/tree/master/misc]的module，在这个module里可以看到底层CommonSpider的实现。</a></p>
+<h2 id="源代码分析"><a href="#源代码分析" class="headerlink" title="源代码分析"></a>源代码分析</h2><p>代码中除了各个网站的实例外，有一个<a href="https://github.com/geekan/scrapy-examples/tree/master/misc" target="_blank" rel="noopener">misc</a>的module，在这个module里可以看到底层CommonSpider的实现。</p>
 <p>在CommonSpider类中，可以看到下面这个函数：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dfs</span><span class="params">(self, sel, rules, item_class, force_1_item)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> sel <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">return</span> []</span><br><span class="line"></span><br><span class="line">    items = []</span><br><span class="line">    <span class="keyword">if</span> item_class != dict:</span><br><span class="line">        self.traversal(sel, rules, item_class, <span class="keyword">None</span>, items)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        self.traversal_dict(sel, rules, item_class, <span class="keyword">None</span>, items, force_1_item)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> items</span><br></pre></td></tr></table></figure>
 <p>DFS即深度优先搜索，再联系该类的css_ruls注释：</p>
@@ -267,7 +267,7 @@
 <li><a href="https://github.com/geekan/scrapy-examples/blob/master/misc/spider.py" target="_blank" rel="noopener">spider.py</a>则调用了misc中CommonSpider的具体函数</li>
 </ul>
 <p>因此，我们如果需要快速模板化一个网站去爬取，那么只需要修改amazon_book中spider.py中的css_rules就可以了</p>
-<p>如果我们需要修改爬取的具体行为，或者中间件，代理代理设置等，则需要去[misc][<a href="https://github.com/geekan/scrapy-examples/tree/master/misc]这个module中去寻找。" target="_blank" rel="noopener">https://github.com/geekan/scrapy-examples/tree/master/misc]这个module中去寻找。</a></p>
+<p>如果我们需要修改爬取的具体行为，或者中间件，代理代理设置等，则需要去<a href="https://github.com/geekan/scrapy-examples/tree/master/misc" target="_blank" rel="noopener">misc</a>这个module中去寻找。</p>
 <h2 id="开始动手"><a href="#开始动手" class="headerlink" title="开始动手"></a>开始动手</h2><p>那么现在直接从对这个爬虫的具体修改讲起。</p>
 <p>首先说需求，我需要爬取amazon中某个具体book详情页的：</p>
 <ul>
