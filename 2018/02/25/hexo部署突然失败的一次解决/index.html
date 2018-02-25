@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Monster &amp; Flower">
 <meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T06:48:07.147Z">
+<meta property="og:updated_time" content="2018-02-25T06:57:03.942Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo部署突然失败的一次解决">
 <meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
@@ -253,7 +253,7 @@
 <p>一开始我以为是因为配置文件的问题，确认后发现并不是这样。没有改动过，为什么以前可以，现在却不行了呢？</p>
 <p>然鹅，即使我现在解决了，我也不知道为什么这个问题出现，因为从上次成功提交blog到出现这个问题为止，这台电脑并没有被动过。</p>
 <p>唯一可能的原因大概是提交的时候，<strong><em>我在hexo d的时候ctrl+c强行终止了</em></strong>。</p>
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>github上有一个[issue][<a href="https://github.com/hexojs/hexo/issues/1495" target="_blank" rel="noopener">https://github.com/hexojs/hexo/issues/1495</a>]</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>github上有一个<a href="https://github.com/hexojs/hexo/issues/1495" target="_blank" rel="noopener">issue</a></p>
 <p>这里对younglaker的回答做一下引用：</p>
 <hr>
 <p>I try SSH instead HTTPS, it works. If you still have problem with HTTPS, try this command:</p>
@@ -264,7 +264,7 @@
 <p>Warning: Permanently added the RSA host key for IP address ‘(随机IP)’ to th                                                                                                                                                                                               e list of known hosts.<br>sherry0429@github.com: Permission denied (publickey).</p>
 <hr>
 <p>在cmd下ping报出的ip，也无法ping通，上VPN也没用。</p>
-<p>这里的原因我个人推测，ip不是原因，原因是permisson denied，即本机的ssh无法和github的ssh配对。[这里GitHub官方给出了对这个问题的分析步骤和解决方案][<a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="noopener">https://help.github.com/articles/error-permission-denied-publickey/</a>]</p>
+<p>这里的原因我个人推测，ip不是原因，原因是permisson denied，即本机的ssh无法和github的ssh配对。<a href="https://help.github.com/articles/error-permission-denied-publickey/" target="_blank" rel="noopener">这里GitHub官方给出了对这个问题的分析步骤和解决方案</a></p>
 <p>我看过以后依次尝试，最终打算简单粗暴：</p>
 <p><strong><em>重新生成ssh</em></strong></p>
 <p>下面说步骤。</p>
