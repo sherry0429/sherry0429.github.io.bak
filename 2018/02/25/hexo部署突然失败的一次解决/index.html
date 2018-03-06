@@ -23,7 +23,7 @@
 <meta property="og:site_name" content="Monster &amp; Flower">
 <meta property="og:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-25T06:57:03.943Z">
+<meta property="og:updated_time" content="2018-03-06T11:31:32.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hexo部署突然失败的一次解决">
 <meta name="twitter:description" content="春节放完假回来再hexo提交时出现的问题，这里记录一下解决方式。">
@@ -268,28 +268,33 @@
 <p>我看过以后依次尝试，最终打算简单粗暴：</p>
 <p><strong><em>重新生成ssh</em></strong></p>
 <p>下面说步骤。</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h4 id="删除原SSH"><a href="#删除原SSH" class="headerlink" title="删除原SSH"></a>删除原SSH</h4><ol>
 <li>找见本机存放ssh的地方<ul>
-<li>在gitbash中输入<figure class="highlight plain"><figcaption><span>-vT git@github.com```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   - 在一大串debug信息中找到Offering public key: ... /c/Users/username/.ssh/id_rsa</span><br><span class="line">   - 这里的.ssh就是存放ssh的地方</span><br><span class="line">2. 删除掉本机的ssh</span><br><span class="line">3. 利用命令重新生成ssh</span><br><span class="line">   - 在gitbash中 输入： ```ssh-keygen -t rsa -C `&quot;youremail@example.com&quot;</span><br></pre></td></tr></table></figure></li>
+<li>在gitbash中输入<strong>ssh -vT git@github.com</strong></li>
+<li>在一大串debug信息中找到Offering public key: … /c/Users/username/.ssh/id_rsa</li>
+<li>这里的.ssh就是存放ssh的地方</li>
+</ul>
+</li>
+<li>删除掉本机的ssh</li>
+<li>利用命令重新生成ssh<ul>
+<li>在gitbash中 输入： <strong>ssh-keygen -t rsa -C “youremail@example.com”</strong></li>
+<li>密码可以不用输，一路回车即可创建</li>
 </ul>
 </li>
 </ol>
-<ul>
-<li>密码可以不用输，一路回车即可创建</li>
-</ul>
-<ol>
-<li>修改github账号settings内的ssh选项<ul>
+<h4 id="关联新SSH"><a href="#关联新SSH" class="headerlink" title="关联新SSH"></a>关联新SSH</h4><ol>
+<li>修改github账号settings内的ssh选项__<ul>
 <li>此时去先前存ssh的地方，可以看到有一个文件id_rsa.pub，用notepad++打开，复制里面的所有内容</li>
 <li>登录github账号，右上角settings-&gt;SSH and GPG Keys</li>
 <li>New SSH Keys，把前面复制的id_rsa.pub的内容复制进去，给这个ssh key取个名</li>
 </ul>
 </li>
-<li>修改hexo的_config.xml<ul>
+<li><strong>修改hexo的_config.xml</strong><ul>
 <li>将hexo配置文件deploy部分的repo选项修改为你的github.io库的ssh repo地址</li>
 <li>repo ssh地址可以打开repo，在clone or download那个下拉框里，点右上角的use ssh就可以转换到ssh的repo地址</li>
 </ul>
 </li>
-<li>hexo clean, hexo g, hexo d<ul>
+<li><strong>hexo clean, hexo g, hexo d</strong><ul>
 <li>因为修改了_config.xml，clean一下比较好</li>
 </ul>
 </li>
