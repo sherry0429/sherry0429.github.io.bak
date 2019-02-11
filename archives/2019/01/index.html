@@ -214,7 +214,7 @@
                 <h1 class="postShorten-title" itemprop="headline">
                     
                         <a class="link-unstyled" href="/2019/01/30/postgresql的序列/">
-                            (Unamed)
+                            postgresql的序列重置
                         </a>
                     
                 </h1>
@@ -225,12 +225,18 @@
     	
     </time>
     
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/other/">other</a>
+
+
+    
 </div>
 
             </div>
             
                 <div class="postShorten-content" itemprop="articleBody">
-                    <h1 id="postgresql的序列"><a href="#postgresql的序列" class="headerlink" title="postgresql的序列"></a>postgresql的序列</h1><p>SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true); </p>
+                    <h1 id="postgresql的序列"><a href="#postgresql的序列" class="headerlink" title="postgresql的序列"></a>postgresql的序列</h1><p>设置pfund_stockindexdata表的id序列起始值为338<br>SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true); </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">下一个值：nextval(regclass)</span><br><span class="line">当前值：currval(regclass)</span><br><span class="line">设置值：setval(regclass)</span><br></pre></td></tr></table></figure>
 
                     

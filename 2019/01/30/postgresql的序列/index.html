@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title> - Monster &amp; Flower</title>
+    <title>postgresql的序列重置 - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,17 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="postgresql的序列SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true);  123下一个值：nextval(regclass)当前值：currval(regclass)设置值：setval(regclass)">
+    <meta name="description" content="postgresql的序列设置pfund_stockindexdata表的id序列起始值为338SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true);  123下一个值：nextval(regclass)当前值：currval(regclass)设置值：setval(regclass)">
+<meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Monster &amp; Flower">
+<meta property="og:title" content="postgresql的序列重置">
 <meta property="og:url" content="sherry0429.github.io/2019/01/30/postgresql的序列/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="postgresql的序列SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true);  123下一个值：nextval(regclass)当前值：currval(regclass)设置值：setval(regclass)">
+<meta property="og:description" content="postgresql的序列设置pfund_stockindexdata表的id序列起始值为338SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true);  123下一个值：nextval(regclass)当前值：currval(regclass)设置值：setval(regclass)">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-01-30T09:47:29.326Z">
+<meta property="og:updated_time" content="2019-02-11T08:48:02.539Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Monster &amp; Flower">
-<meta name="twitter:description" content="postgresql的序列SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true);  123下一个值：nextval(regclass)当前值：currval(regclass)设置值：setval(regclass)">
+<meta name="twitter:title" content="postgresql的序列重置">
+<meta name="twitter:description" content="postgresql的序列设置pfund_stockindexdata表的id序列起始值为338SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true);  123下一个值：nextval(regclass)当前值：currval(regclass)设置值：setval(regclass)">
     
     
         
@@ -34,6 +35,9 @@
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
     
     
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png" />
     
     
     <!--STYLES-->
@@ -200,9 +204,17 @@
 </nav>
 
             
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png');"
+             data-behavior="4">
+            
+        </div>
+
             <div id="main" data-behavior="4"
-                 class="
-                        hasCoverMetaIn
+                 class="hasCover
+                        hasCoverMetaOut
                         ">
                 
 <article class="post" itemscope itemType="http://schema.org/BlogPosting">
@@ -211,7 +223,7 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            (Unamed)
+            postgresql的序列重置
         </h1>
     
     
@@ -222,6 +234,12 @@
     	
     </time>
     
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/other/">other</a>
+
+
+    
 </div>
 
     
@@ -229,7 +247,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <h1 id="postgresql的序列"><a href="#postgresql的序列" class="headerlink" title="postgresql的序列"></a>postgresql的序列</h1><p>SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true); </p>
+            <h1 id="postgresql的序列"><a href="#postgresql的序列" class="headerlink" title="postgresql的序列"></a>postgresql的序列</h1><p>设置pfund_stockindexdata表的id序列起始值为338<br>SELECT setval(‘pfund_stockindexdata_id_seq’, 338, true); </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">下一个值：nextval(regclass)</span><br><span class="line">当前值：currval(regclass)</span><br><span class="line">设置值：setval(regclass)</span><br></pre></td></tr></table></figure>
 
             
@@ -238,13 +256,21 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/guide/">guide</a>
+
+            </div>
+        
         
             <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/README/" data-tooltip="README" aria-label="Prev: README">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -295,7 +321,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/01/30/postgresql的序列/&amp;title=" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/01/30/postgresql的序列/&amp;title=postgresql的序列重置" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -353,7 +379,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/README/" data-tooltip="README" aria-label="Prev: README">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -404,7 +431,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/01/30/postgresql的序列/&amp;title=" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/01/30/postgresql的序列/&amp;title=postgresql的序列重置" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -469,7 +496,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/01/30/postgresql的序列/&amp;title=">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/01/30/postgresql的序列/&amp;title=postgresql的序列重置">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
