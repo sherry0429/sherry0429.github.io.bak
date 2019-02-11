@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="sherry0429.github.io/"/>
-  <updated>2018-02-12T03:01:04.000Z</updated>
+  <updated>2019-02-11T08:11:16.647Z</updated>
   <id>sherry0429.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="sherry0429.github.io/2019/02/11/README/"/>
+    <id>sherry0429.github.io/2019/02/11/README/</id>
+    <published>2019-02-11T08:11:16.614Z</published>
+    <updated>2019-02-11T08:11:16.647Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="explain"><a href="#explain" class="headerlink" title="explain"></a>explain</h2><p>personal blog.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;explain&quot;&gt;&lt;a href=&quot;#explain&quot; class=&quot;headerlink&quot; title=&quot;explain&quot;&gt;&lt;/a&gt;explain&lt;/h2&gt;&lt;p&gt;personal blog.&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>all-archives</title>
@@ -461,30 +483,6 @@
     </summary>
     
       <category term="code_template" scheme="sherry0429.github.io/categories/code-template/"/>
-    
-    
-      <category term="acm" scheme="sherry0429.github.io/tags/acm/"/>
-    
-      <category term="c" scheme="sherry0429.github.io/tags/c/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>prim</title>
-    <link href="sherry0429.github.io/2018/02/11/prim/"/>
-    <id>sherry0429.github.io/2018/02/11/prim/</id>
-    <published>2018-02-11T06:50:36.000Z</published>
-    <updated>2018-02-12T03:48:48.000Z</updated>
-    
-    <content type="html"><![CDATA[<!-- excerpt --><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 100000</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> <span class="built_in">map</span>[<span class="number">100</span>][<span class="number">100</span>];</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> i,j;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;j++)</span><br><span class="line"><span class="built_in">map</span>[i][j]=MAX;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Prim</span><span class="params">(<span class="keyword">int</span> n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> i,j;</span><br><span class="line"><span class="keyword">int</span> minc,mht;</span><br><span class="line"><span class="keyword">int</span> sum=<span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> visit[<span class="number">100</span>],lowcost[<span class="number">100</span>];</span><br><span class="line"><span class="built_in">memset</span>(visit,<span class="number">0</span>,<span class="keyword">sizeof</span>(visit));</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">lowcost[i]=<span class="built_in">map</span>[<span class="number">0</span>][i];</span><br><span class="line">visit[<span class="number">0</span>]=<span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">1</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line">mht=<span class="number">-1</span>;</span><br><span class="line">minc=MAX;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;j++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">if</span>(visit[j]==<span class="number">0</span> &amp;&amp; minc&gt;lowcost[j])</span><br><span class="line">&#123;</span><br><span class="line">minc=lowcost[j];</span><br><span class="line">mht=j;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(mht==<span class="number">-1</span>)</span><br><span class="line"><span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">sum+=minc;</span><br><span class="line">visit[mht]=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;n;j++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">if</span>(visit[j]==<span class="number">0</span> &amp;&amp; lowcost[j]&gt;<span class="built_in">map</span>[mht][j])</span><br><span class="line">lowcost[j]=<span class="built_in">map</span>[mht][j];</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> n;</span><br><span class="line"><span class="keyword">while</span>(<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n) &amp;&amp; n!=<span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">init(n);</span><br><span class="line"><span class="keyword">int</span> m=(n*(n<span class="number">-1</span>))/<span class="number">2</span>;</span><br><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;m;i++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">int</span> a,b,c;</span><br><span class="line"><span class="built_in">scanf</span>(<span class="string">"%d %d %d"</span>,&amp;a,&amp;b,&amp;c);</span><br><span class="line">a--,b--;</span><br><span class="line"><span class="built_in">map</span>[a][b]=c;</span><br><span class="line"><span class="built_in">map</span>[b][a]=c;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">int</span> sum=Prim(n);</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">"%d\n"</span>,sum);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>该算法的精华在：</p><ul><li>初始化（MAX！！！）这牵扯到后面的比较，十分重要。</li><li>两个数组vistied[max],和lowcast[max].</li><li>每找到一条边后进行的更新操作.</li></ul><p>理解该算法的重点在，理解lowcast里存的到底是什么。</p><p>简单来说，lowcast[i],就是i可达的顶点中，到i的最小距离，它在prim算法执行过程中被不断更新（或不更新，因为没有更小的路径）。</p><p>如果要标记出一条最小路径，那么记忆一下mht即可。</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;CSDN 博客搬家&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="algorithm" scheme="sherry0429.github.io/categories/algorithm/"/>
     
     
       <category term="acm" scheme="sherry0429.github.io/tags/acm/"/>
