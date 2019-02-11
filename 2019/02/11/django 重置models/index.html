@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>README - Monster &amp; Flower</title>
+    <title>Django重置models的办法 - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="个人博客">
+    <meta name="description" content="1.删除app的migrations 2.删除数据库django_migrations表中对应该app的所有记录 3.确保数据库的表和app中的migrations一致 4.python manage.py makemigrations app_name  5.python manage.py migrate app_name –fake 6.此时已经重置该app的migration记录到此项目">
 <meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="README">
-<meta property="og:url" content="sherry0429.github.io/2019/02/11/README/index.html">
+<meta property="og:title" content="Django重置models的办法">
+<meta property="og:url" content="sherry0429.github.io/2019/02/11/django 重置models/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="个人博客">
+<meta property="og:description" content="1.删除app的migrations 2.删除数据库django_migrations表中对应该app的所有记录 3.确保数据库的表和app中的migrations一致 4.python manage.py makemigrations app_name  5.python manage.py migrate app_name –fake 6.此时已经重置该app的migration记录到此项目">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-02-11T08:45:40.879Z">
+<meta property="og:updated_time" content="2019-02-11T09:09:36.374Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="README">
-<meta name="twitter:description" content="个人博客">
+<meta name="twitter:title" content="Django重置models的办法">
+<meta name="twitter:description" content="1.删除app的migrations 2.删除数据库django_migrations表中对应该app的所有记录 3.确保数据库的表和app中的migrations一致 4.python manage.py makemigrations app_name  5.python manage.py migrate app_name –fake 6.此时已经重置该app的migration记录到此项目">
     
     
         
@@ -223,12 +223,12 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            README
+            Django重置models的办法
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2019-02-11T16:11:16+08:00">
+    <time itemprop="datePublished" datetime="2019-02-11T17:10:37+08:00">
 	
 		    2月 11, 2019
     	
@@ -247,7 +247,13 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>个人博客</p>
+            <p>1.删除app的migrations</p>
+<p>2.删除数据库django_migrations表中对应该app的所有记录</p>
+<p>3.确保数据库的表和app中的migrations一致</p>
+<p>4.python manage.py makemigrations app_name </p>
+<p>5.python manage.py migrate app_name –fake</p>
+<p>6.此时已经重置该app的migration记录到此项目</p>
+<p>7.在此项目进行变更时，make migrations , migrate将可以同步到数据库</p>
 
             
 
@@ -269,7 +275,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/django 重置models/" data-tooltip="Django重置models的办法" aria-label="Prev: Django重置models的办法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/centos使用ss 客户端/" data-tooltip="centos使用ss客户端" aria-label="Prev: centos使用ss客户端">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -278,7 +284,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/30/postgresql的序列/" data-tooltip="postgresql的序列重置" aria-label="Next: postgresql的序列重置">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/README/" data-tooltip="README" aria-label="Next: README">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -296,7 +302,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/README/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -304,7 +310,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/README/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -312,7 +318,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/README/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -320,7 +326,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/README/&amp;title=README" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/django 重置models/&amp;title=Django重置models的办法" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -328,7 +334,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/README/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -379,7 +385,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/django 重置models/" data-tooltip="Django重置models的办法" aria-label="Prev: Django重置models的办法">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/centos使用ss 客户端/" data-tooltip="centos使用ss客户端" aria-label="Prev: centos使用ss客户端">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -388,7 +394,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/30/postgresql的序列/" data-tooltip="postgresql的序列重置" aria-label="Next: postgresql的序列重置">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/README/" data-tooltip="README" aria-label="Next: README">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -406,7 +412,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/README/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -414,7 +420,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/README/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -422,7 +428,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/README/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -430,7 +436,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/README/&amp;title=README" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/django 重置models/&amp;title=Django重置models的办法" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -438,7 +444,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/README/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/django 重置models/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -471,7 +477,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/README/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/django 重置models/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -479,7 +485,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/README/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/django 重置models/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -487,7 +493,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/README/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/django 重置models/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
@@ -495,7 +501,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/README/&amp;title=README">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/django 重置models/&amp;title=Django重置models的办法">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -503,7 +509,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/README/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/django 重置models/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -563,7 +569,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'sherry0429.github.io/2019/02/11/README/',
+                        id: 'sherry0429.github.io/2019/02/11/django 重置models/',
                         owner: 'sherry0429',
                         repo: 'gitment-comments',
                         oauth: {
