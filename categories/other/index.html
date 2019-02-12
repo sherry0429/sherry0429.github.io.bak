@@ -238,7 +238,7 @@
                 <div class="postShorten-content" itemprop="articleBody">
                     <p>现在全网的gitment都出现了一个问题[object ProgressEvent]，见：</p>
 <p><a href="https://github.com/imsun/gitment/issues/170" target="_blank" rel="noopener">https://github.com/imsun/gitment/issues/170</a></p>
-<p>我记录一下我自己的修复过程，截止目前，我的gitment还没有恢复，这主要是由于我只在本地修复的原因，因为涉及到部分博客迁移。整体工作还没有放在线上进行。</p>
+<p>我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。</p>
 <h3 id="1-起因"><a href="#1-起因" class="headerlink" title="1. 起因"></a>1. 起因</h3><p><a href="https://imsun.github.io/gitment/dist/gitment.browser.js" target="_blank" rel="noopener">https://imsun.github.io/gitment/dist/gitment.browser.js</a> 内 </p>
 <p>向网址 <a href="https://gh-oauth.imsun.net" target="_blank" rel="noopener">https://gh-oauth.imsun.net</a> 发送了验证请求，这个gh-oauth.imsun.net是作者自行搭建的，现在不在维护了。所以出现了问题。</p>
 <p>那么修复过程就是：</p>

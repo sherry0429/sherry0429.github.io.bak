@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，截止目前，我的gitment还没有恢复，这主要是由于我只在本地修复的原因，因为涉及到部分博客迁移。整体工作还没有放在线上进行。 1. 起因https://imsun.github.io/git">
+    <meta name="description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。 1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内  向网址">
 <meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="gitment修复[object ProgressEvent]">
 <meta property="og:url" content="sherry0429.github.io/2019/02/12/gitment修复/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，截止目前，我的gitment还没有恢复，这主要是由于我只在本地修复的原因，因为涉及到部分博客迁移。整体工作还没有放在线上进行。 1. 起因https://imsun.github.io/git">
+<meta property="og:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。 1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内  向网址">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-02-12T02:48:43.821Z">
+<meta property="og:updated_time" content="2019-02-12T10:17:28.068Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gitment修复[object ProgressEvent]">
-<meta name="twitter:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，截止目前，我的gitment还没有恢复，这主要是由于我只在本地修复的原因，因为涉及到部分博客迁移。整体工作还没有放在线上进行。 1. 起因https://imsun.github.io/git">
+<meta name="twitter:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。 1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内  向网址">
     
     
         
@@ -249,7 +249,7 @@
         <div class="main-content-wrap">
             <p>现在全网的gitment都出现了一个问题[object ProgressEvent]，见：</p>
 <p><a href="https://github.com/imsun/gitment/issues/170" target="_blank" rel="noopener">https://github.com/imsun/gitment/issues/170</a></p>
-<p>我记录一下我自己的修复过程，截止目前，我的gitment还没有恢复，这主要是由于我只在本地修复的原因，因为涉及到部分博客迁移。整体工作还没有放在线上进行。</p>
+<p>我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。</p>
 <h3 id="1-起因"><a href="#1-起因" class="headerlink" title="1. 起因"></a>1. 起因</h3><p><a href="https://imsun.github.io/gitment/dist/gitment.browser.js" target="_blank" rel="noopener">https://imsun.github.io/gitment/dist/gitment.browser.js</a> 内 </p>
 <p>向网址 <a href="https://gh-oauth.imsun.net" target="_blank" rel="noopener">https://gh-oauth.imsun.net</a> 发送了验证请求，这个gh-oauth.imsun.net是作者自行搭建的，现在不在维护了。所以出现了问题。</p>
 <p>那么修复过程就是：</p>
@@ -318,7 +318,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -374,7 +374,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -427,7 +427,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -483,7 +483,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -603,7 +603,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+				gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;
