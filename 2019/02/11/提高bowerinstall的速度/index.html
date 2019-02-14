@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>NPM INSTALL过程中的gyp error - Monster &amp; Flower</title>
+    <title>提高bower install的速度 - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="执行npm install的时候可能会遇到如下错误： 12gyp ERR! build errorgyp ERR! stack Error: *`C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe`* failed with exit code: 1 如何修复？以下主讲在win10环境下的修复。">
-<meta name="keywords" content="npm,gyp">
+    <meta name="description" content="bower install的速度太慢了，即使加了VPN，也慢如老狗，如何破之？">
+<meta name="keywords" content="node">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="NPM INSTALL过程中的gyp error">
-<meta property="og:url" content="sherry0429.github.io/2018/02/11/npm install过程中的gyp error/index.html">
+<meta property="og:title" content="提高bower install的速度">
+<meta property="og:url" content="sherry0429.github.io/2019/02/11/提高bowerinstall的速度/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="执行npm install的时候可能会遇到如下错误： 12gyp ERR! build errorgyp ERR! stack Error: *`C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe`* failed with exit code: 1 如何修复？以下主讲在win10环境下的修复。">
+<meta property="og:description" content="bower install的速度太慢了，即使加了VPN，也慢如老狗，如何破之？">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-02-13T09:02:16.394Z">
+<meta property="og:updated_time" content="2019-02-14T03:05:43.797Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NPM INSTALL过程中的gyp error">
-<meta name="twitter:description" content="执行npm install的时候可能会遇到如下错误： 12gyp ERR! build errorgyp ERR! stack Error: *`C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe`* failed with exit code: 1 如何修复？以下主讲在win10环境下的修复。">
+<meta name="twitter:title" content="提高bower install的速度">
+<meta name="twitter:description" content="bower install的速度太慢了，即使加了VPN，也慢如老狗，如何破之？">
     
     
         
@@ -223,14 +223,14 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            NPM INSTALL过程中的gyp error
+            提高bower install的速度
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:52:54+08:00">
+    <time itemprop="datePublished" datetime="2019-02-11T14:52:54+08:00">
 	
-		    2月 11, 2018
+		    2月 11, 2019
     	
     </time>
     
@@ -248,9 +248,16 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h4 id="1-安装-NET"><a href="#1-安装-NET" class="headerlink" title="1. 安装.NET"></a>1. 安装.NET</h4><p>控制面板 -&gt; 程序 -&gt; 程序和功能 -&gt; 启用或关闭windows功能 -&gt; .NET framework 3.5 (包括2.0和1.0) 之前打勾，点击确定。等待它安装完毕。</p>
-<h4 id="2-执行如下命令"><a href="#2-执行如下命令" class="headerlink" title="2. 执行如下命令"></a>2. 执行如下命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g node-gyp</span><br><span class="line">npm install --global --production windows-build-tools</span><br></pre></td></tr></table></figure>
-<p>接下来就可以到你原来想npm install的地方，去执行npm install了！</p>
+<p>我在bower install的过程中，需要git clone font-awesome，这个过程中断了N次。即使加了代理，设置为全局，提高git clone的buffer，也没有什么用处。</p>
+<p>最后在这里找到了解决方式：</p>
+<p><a href="https://www.jianshu.com/p/ba132d8b6ed7" target="_blank" rel="noopener">https://www.jianshu.com/p/ba132d8b6ed7</a></p>
+<p>采用这位博主的方案1，给git clone设置代理，并且代理设置为自己的socks5代理即可。</p>
+<p>以我为例，我使用ss代理，本地端口为1080，则这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<p>查看是否生效：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy</span><br></pre></td></tr></table></figure>
+<p>关闭代理（因为可能代理会失效，或者会关闭，所以记录一下）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
             
 
         </div>
@@ -260,7 +267,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/gyp/">gyp</a> <a class="tag tag--primary tag--small t-link" href="/tags/npm/">npm</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/node/">node</a>
 
             </div>
         
@@ -271,7 +278,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/AC自动机/" data-tooltip="AC自动机" aria-label="Prev: AC自动机">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/README/" data-tooltip="README" aria-label="Prev: README">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -280,7 +287,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/OpenCV-随笔记录/" data-tooltip="OpenCV 随笔记录" aria-label="Next: OpenCV 随笔记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/30/postgresql的序列/" data-tooltip="postgresql的序列重置" aria-label="Next: postgresql的序列重置">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -298,7 +305,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -306,7 +313,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -314,7 +321,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -322,7 +329,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/&amp;title=NPM INSTALL过程中的gyp error" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/&amp;title=提高bower install的速度" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -330,7 +337,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -381,7 +388,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/AC自动机/" data-tooltip="AC自动机" aria-label="Prev: AC自动机">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/11/README/" data-tooltip="README" aria-label="Prev: README">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -390,7 +397,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/OpenCV-随笔记录/" data-tooltip="OpenCV 随笔记录" aria-label="Next: OpenCV 随笔记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/01/30/postgresql的序列/" data-tooltip="postgresql的序列重置" aria-label="Next: postgresql的序列重置">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -408,7 +415,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -416,7 +423,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -424,7 +431,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -432,7 +439,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/&amp;title=NPM INSTALL过程中的gyp error" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/&amp;title=提高bower install的速度" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -440,7 +447,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -473,7 +480,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -481,7 +488,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -489,7 +496,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
@@ -497,7 +504,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/&amp;title=NPM INSTALL过程中的gyp error">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/&amp;title=提高bower install的速度">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -505,7 +512,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/npm install过程中的gyp error/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/11/提高bowerinstall的速度/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -565,7 +572,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'sherry0429.github.io/2018/02/11/npm install过程中的gyp error/',
+                        id: 'sherry0429.github.io/2019/02/11/提高bowerinstall的速度/',
                         owner: 'sherry0429',
                         repo: 'gitment-comments',
                         oauth: {
