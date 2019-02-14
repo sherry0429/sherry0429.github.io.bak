@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>git clone error RPC failed - Monster &amp; Flower</title>
+    <title> - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,18 +15,17 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="git clone时总是失败，提示RPC failed。">
-<meta name="keywords" content="guide">
+    <meta name="description" content="1234567891011121314title: 提高bower install的速度date: 2018-02-11 14:52:54tags: - nodecategories: - guideclearReading: truecoverMeta: outcoverSize: fullcoverImage: https://blogimage-1253148269.cos.ap-cheng">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="git clone error RPC failed">
-<meta property="og:url" content="sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/index.html">
+<meta property="og:title" content="Monster &amp; Flower">
+<meta property="og:url" content="sherry0429.github.io/2019/02/14/提高bowerinstall的速度/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="git clone时总是失败，提示RPC failed。">
+<meta property="og:description" content="1234567891011121314title: 提高bower install的速度date: 2018-02-11 14:52:54tags: - nodecategories: - guideclearReading: truecoverMeta: outcoverSize: fullcoverImage: https://blogimage-1253148269.cos.ap-cheng">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-02-13T09:02:47.756Z">
+<meta property="og:updated_time" content="2019-02-14T01:44:26.540Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git clone error RPC failed">
-<meta name="twitter:description" content="git clone时总是失败，提示RPC failed。">
+<meta name="twitter:title" content="Monster &amp; Flower">
+<meta name="twitter:description" content="1234567891011121314title: 提高bower install的速度date: 2018-02-11 14:52:54tags: - nodecategories: - guideclearReading: truecoverMeta: outcoverSize: fullcoverImage: https://blogimage-1253148269.cos.ap-cheng">
     
     
         
@@ -35,9 +34,6 @@
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
     
     
-    
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png" />
     
     
     <!--STYLES-->
@@ -204,17 +200,9 @@
 </nav>
 
             
-        <div class="post-header-cover
-                    text-left
-                    post-header-cover--full"
-             style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png');"
-             data-behavior="4">
-            
-        </div>
-
             <div id="main" data-behavior="4"
-                 class="hasCover
-                        hasCoverMetaOut
+                 class="
+                        hasCoverMetaIn
                         ">
                 
 <article class="post" itemscope itemType="http://schema.org/BlogPosting">
@@ -223,22 +211,16 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title" itemprop="headline">
-            git clone error RPC failed
+            (Unamed)
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2019-02-13T10:17:09+08:00">
+    <time itemprop="datePublished" datetime="2019-02-14T09:40:24+08:00">
 	
-		    2月 13, 2019
+		    2月 14, 2019
     	
     </time>
-    
-        <span>发布在 </span>
-        
-    <a class="category-link" href="/categories/git/">git</a>
-
-
     
 </div>
 
@@ -248,29 +230,21 @@
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
             <!-- excerpt -->
-<h4 id="1-错误内容："><a href="#1-错误内容：" class="headerlink" title="1. 错误内容："></a>1. 错误内容：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">error: RPC failed; curl 18 transfer closed with 31812496 bytes remaining to read</span><br><span class="line">fatal: The remote end hung up unexpectedly</span><br><span class="line">fatal: early EOF</span><br><span class="line">fatal: index-pack failed</span><br></pre></td></tr></table></figure>
-<h4 id="2-错误原因："><a href="#2-错误原因：" class="headerlink" title="2. 错误原因："></a>2. 错误原因：</h4><p>git clone 分为两种形式，https或者ssh，前者（https）clone时会有一个buffer上限。当超过此上限就会报错。后者则不会。</p>
-<h4 id="3-修改方法："><a href="#3-修改方法：" class="headerlink" title="3. 修改方法："></a>3. 修改方法：</h4><p>方法1：</p>
-<p>使用ssh的方式克隆。</p>
-<p>方法2：</p>
-<p>shell下输入：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.postBuffer 524288000</span><br></pre></td></tr></table></figure>
-<p>修改postBuffer为500MB。当然这个值可以视情况自己去增大，如果真的非常大，还是使用方法一，不建议此方法。</p>
-<h4 id="4-另"><a href="#4-另" class="headerlink" title="4. 另"></a>4. 另</h4><p>git clone瘦身的方式还有一种，即给仓库开一个新分支，在新分支中只放少量需要修改的文件。之后</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone -b branch_name git_repo_url</span><br></pre></td></tr></table></figure>
-<p>只克隆该分支，之后pull。然后由owner对两个branch做merge即可。</p>
+<p>我在bower install的过程中，需要git clone font-awesome，这个过程中断了N次。即使加了代理，设置为全局，提高git clone的buffer，也没有什么用处。</p>
+<p>最后在这里找到了解决方式：</p>
+<p><a href="https://www.jianshu.com/p/ba132d8b6ed7" target="_blank" rel="noopener">https://www.jianshu.com/p/ba132d8b6ed7</a></p>
+<p>采用这位博主的方案1，给git clone设置代理，并且代理设置为自己的socks5代理即可。</p>
+<p>以我为例，我使用ss代理，本地端口为1080，则这样：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure>
+<p>查看是否生效：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy</span><br></pre></td></tr></table></figure>
+<p>关闭代理（因为可能代理会失效，或者会关闭，所以记录一下）</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>
             
 
         </div>
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
-        
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">标签</span><br/>
-                
-    <a class="tag tag--primary tag--small t-link" href="/tags/guide/">guide</a>
-
-            </div>
         
         
             <div class="post-actions-wrap">
@@ -278,8 +252,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/14/提高bowerinstall的速度/" data-tooltip="(Unamed)" aria-label="Prev: (Unamed)">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -288,7 +261,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/12/gitment修复/" data-tooltip="gitment修复[object ProgressEvent]" aria-label="Next: gitment修复[object ProgressEvent]">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/13/gitclone的postbuffer上限问题/" data-tooltip="git clone error RPC failed" aria-label="Next: git clone error RPC failed">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -306,7 +279,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -314,7 +287,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -322,7 +295,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -330,7 +303,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/&amp;title=git clone error RPC failed" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/&amp;title=" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -338,7 +311,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -388,8 +361,7 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/14/提高bowerinstall的速度/" data-tooltip="(Unamed)" aria-label="Prev: (Unamed)">
+                    <a class="post-action-btn btn btn--disabled">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
@@ -398,7 +370,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/12/gitment修复/" data-tooltip="gitment修复[object ProgressEvent]" aria-label="Next: gitment修复[object ProgressEvent]">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/02/13/gitclone的postbuffer上限问题/" data-tooltip="git clone error RPC failed" aria-label="Next: git clone error RPC failed">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">Next</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -416,7 +388,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -424,7 +396,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -432,7 +404,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -440,7 +412,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/&amp;title=git clone error RPC failed" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/&amp;title=" title="分享到 QQ">
                     <i class="fa fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -448,7 +420,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -481,7 +453,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -489,7 +461,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -497,7 +469,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
@@ -505,7 +477,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/&amp;title=git clone error RPC failed">
+                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/&amp;title=">
                     <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                 </a>
             </li>
@@ -513,7 +485,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/">
+                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/02/14/提高bowerinstall的速度/">
                     <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                 </a>
             </li>
@@ -573,7 +545,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'sherry0429.github.io/2019/02/13/gitclone的postbuffer上限问题/',
+                        id: 'sherry0429.github.io/2019/02/14/提高bowerinstall的速度/',
                         owner: 'sherry0429',
                         repo: 'gitment-comments',
                         oauth: {

@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。 1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内  向网址">
+    <meta name="description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。">
 <meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="gitment修复[object ProgressEvent]">
 <meta property="og:url" content="sherry0429.github.io/2019/02/12/gitment修复/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。 1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内  向网址">
+<meta property="og:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-02-12T10:17:28.068Z">
+<meta property="og:updated_time" content="2019-02-13T09:02:56.655Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gitment修复[object ProgressEvent]">
-<meta name="twitter:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。 1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内  向网址">
+<meta name="twitter:description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。">
     
     
         
@@ -247,9 +247,7 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>现在全网的gitment都出现了一个问题[object ProgressEvent]，见：</p>
-<p><a href="https://github.com/imsun/gitment/issues/170" target="_blank" rel="noopener">https://github.com/imsun/gitment/issues/170</a></p>
-<p>我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。</p>
+            <!-- excerpt -->
 <h3 id="1-起因"><a href="#1-起因" class="headerlink" title="1. 起因"></a>1. 起因</h3><p><a href="https://imsun.github.io/gitment/dist/gitment.browser.js" target="_blank" rel="noopener">https://imsun.github.io/gitment/dist/gitment.browser.js</a> 内 </p>
 <p>向网址 <a href="https://gh-oauth.imsun.net" target="_blank" rel="noopener">https://gh-oauth.imsun.net</a> 发送了验证请求，这个gh-oauth.imsun.net是作者自行搭建的，现在不在维护了。所以出现了问题。</p>
 <p>那么修复过程就是：</p>
@@ -279,7 +277,6 @@
 <p>运行自带的build-tranquilpeak.sh即可。</p>
 <p>运行之后会生成新的tranquilpeak，是一个新文件夹，hexo-theme-tranquilpeak-built-for-production-1.11.0</p>
 <p>在hexo的config.yml中引用这个新文件夹即可。</p>
-
             
 
         </div>

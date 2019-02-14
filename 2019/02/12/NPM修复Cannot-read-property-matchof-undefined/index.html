@@ -15,18 +15,18 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <meta name="description" content="npm出现 12345678910111213141516171819202122232418 verbose stack TypeError: Cannot read property &apos;match&apos; of undefined18 verbose stack     at tarballToVersion (C:\Program Files\nodejs\node_modules\npm\lib">
+    <meta name="description" content="NPM修复Cannot read property ‘match’ of undefined问题。">
 <meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="NPM修复Cannot read property &#39;match&#39; of undefined">
 <meta property="og:url" content="sherry0429.github.io/2019/02/12/NPM修复Cannot-read-property-matchof-undefined/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="npm出现 12345678910111213141516171819202122232418 verbose stack TypeError: Cannot read property &apos;match&apos; of undefined18 verbose stack     at tarballToVersion (C:\Program Files\nodejs\node_modules\npm\lib">
+<meta property="og:description" content="NPM修复Cannot read property ‘match’ of undefined问题。">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-02-12T02:13:30.506Z">
+<meta property="og:updated_time" content="2019-02-13T09:03:18.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NPM修复Cannot read property &#39;match&#39; of undefined">
-<meta name="twitter:description" content="npm出现 12345678910111213141516171819202122232418 verbose stack TypeError: Cannot read property &apos;match&apos; of undefined18 verbose stack     at tarballToVersion (C:\Program Files\nodejs\node_modules\npm\lib">
+<meta name="twitter:description" content="NPM修复Cannot read property ‘match’ of undefined问题。">
     
     
         
@@ -247,12 +247,12 @@
     
     <div class="post-content markdown" itemprop="articleBody">
         <div class="main-content-wrap">
-            <p>npm出现</p>
+            <!-- excerpt -->
+<p>npm出现</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">18 verbose stack TypeError: Cannot read property 'match' of undefined</span><br><span class="line">18 verbose stack     at tarballToVersion (C:\Program Files\nodejs\node_modules\npm\lib\install\inflate-shrinkwrap.js:87:20)</span><br><span class="line">18 verbose stack     at inflatableChild (C:\Program Files\nodejs\node_modules\npm\lib\install\inflate-shrinkwrap.js:99:22)</span><br><span class="line">18 verbose stack     at BB.each (C:\Program Files\nodejs\node_modules\npm\lib\install\inflate-shrinkwrap.js:55:12)</span><br><span class="line">18 verbose stack     at tryCatcher (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\util.js:16:23)</span><br><span class="line">18 verbose stack     at Object.gotValue (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\reduce.js:155:18)</span><br><span class="line">18 verbose stack     at Object.gotAccum (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\reduce.js:144:25)</span><br><span class="line">18 verbose stack     at Object.tryCatcher (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\util.js:16:23)</span><br><span class="line">18 verbose stack     at Promise._settlePromiseFromHandler (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\promise.js:512:31)</span><br><span class="line">18 verbose stack     at Promise._settlePromise (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\promise.js:569:18)</span><br><span class="line">18 verbose stack     at Promise._settlePromise0 (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\promise.js:614:10)</span><br><span class="line">18 verbose stack     at Promise._settlePromises (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\promise.js:693:18)</span><br><span class="line">18 verbose stack     at Async._drainQueue (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\async.js:133:16)</span><br><span class="line">18 verbose stack     at Async._drainQueues (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\async.js:143:10)</span><br><span class="line">18 verbose stack     at Immediate.Async.drainQueues [as _onImmediate] (C:\Program Files\nodejs\node_modules\npm\node_modules\bluebird\js\release\async.js:17:14)</span><br><span class="line">18 verbose stack     at runCallback (timers.js:696:18)</span><br><span class="line">18 verbose stack     at tryOnImmediate (timers.js:667:5)</span><br><span class="line">19 verbose cwd C:\blog\themes\tranquilpeak</span><br><span class="line">20 verbose Windows_NT 10.0.17763</span><br><span class="line">21 verbose argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "--registry=https://registry.npm.taobao.org"</span><br><span class="line">22 verbose node v10.3.0</span><br><span class="line">23 verbose npm  v6.1.0</span><br><span class="line">24 error Cannot read property 'match' of undefined</span><br><span class="line">25 verbose exit [ 1, true ]</span><br></pre></td></tr></table></figure>
 <p>如何解决？</p>
 <p>删除package-lock.json和node_modules即可，然后重新npm install</p>
 <p><a href="https://npm.community/t/cannot-read-property-match-of-undefined/203/2" target="_blank" rel="noopener">https://npm.community/t/cannot-read-property-match-of-undefined/203/2</a></p>
-
             
 
         </div>
