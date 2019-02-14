@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="sherry0429.github.io/"/>
-  <updated>2019-02-14T01:44:26.540Z</updated>
+  <updated>2019-02-13T09:02:47.756Z</updated>
   <id>sherry0429.github.io/</id>
   
   <author>
@@ -15,25 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title></title>
-    <link href="sherry0429.github.io/2019/02/14/%E6%8F%90%E9%AB%98bowerinstall%E7%9A%84%E9%80%9F%E5%BA%A6/"/>
-    <id>sherry0429.github.io/2019/02/14/提高bowerinstall的速度/</id>
-    <published>2019-02-14T01:40:24.439Z</published>
-    <updated>2019-02-14T01:44:26.540Z</updated>
-    
-    <content type="html"><![CDATA[<!-- excerpt --><p>我在bower install的过程中，需要git clone font-awesome，这个过程中断了N次。即使加了代理，设置为全局，提高git clone的buffer，也没有什么用处。</p><p>最后在这里找到了解决方式：</p><p><a href="https://www.jianshu.com/p/ba132d8b6ed7" target="_blank" rel="noopener">https://www.jianshu.com/p/ba132d8b6ed7</a></p><p>采用这位博主的方案1，给git clone设置代理，并且代理设置为自己的socks5代理即可。</p><p>以我为例，我使用ss代理，本地端口为1080，则这样：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure><p>查看是否生效：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy</span><br></pre></td></tr></table></figure><p>关闭代理（因为可能代理会失效，或者会关闭，所以记录一下）</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;title: 提高bower install的速度&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;date: 2018-02-11 14:52:54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;tags: &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- node&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;categories: &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;- guide&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;clearReading: true&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;coverMeta: out&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;coverSize: full&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;coverImage: https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;comments: true&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;meta: true&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;actions: true&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typora-copy-images-to: ..\..\ossimage&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;bower install的速度太慢了，即使加了VPN，也慢如老狗，如何破之？&lt;/p&gt;
-    
-    </summary>
-    
-    
-  </entry>
   
   <entry>
     <title>git clone error RPC failed</title>
@@ -276,9 +257,9 @@
       <category term="knowledge" scheme="sherry0429.github.io/categories/knowledge/"/>
     
     
-      <category term="python" scheme="sherry0429.github.io/tags/python/"/>
-    
       <category term="hexo" scheme="sherry0429.github.io/tags/hexo/"/>
+    
+      <category term="python" scheme="sherry0429.github.io/tags/python/"/>
     
   </entry>
   
@@ -498,6 +479,28 @@
       <category term="c++" scheme="sherry0429.github.io/tags/c/"/>
     
       <category term="file" scheme="sherry0429.github.io/tags/file/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>提高bower install的速度</title>
+    <link href="sherry0429.github.io/2018/02/11/%E6%8F%90%E9%AB%98bowerinstall%E7%9A%84%E9%80%9F%E5%BA%A6/"/>
+    <id>sherry0429.github.io/2018/02/11/提高bowerinstall的速度/</id>
+    <published>2018-02-11T06:52:54.000Z</published>
+    <updated>2019-02-14T02:57:46.556Z</updated>
+    
+    <content type="html"><![CDATA[<!-- excerpt --><p>我在bower install的过程中，需要git clone font-awesome，这个过程中断了N次。即使加了代理，设置为全局，提高git clone的buffer，也没有什么用处。</p><p>最后在这里找到了解决方式：</p><p><a href="https://www.jianshu.com/p/ba132d8b6ed7" target="_blank" rel="noopener">https://www.jianshu.com/p/ba132d8b6ed7</a></p><p>采用这位博主的方案1，给git clone设置代理，并且代理设置为自己的socks5代理即可。</p><p>以我为例，我使用ss代理，本地端口为1080，则这样：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy 'socks5://127.0.0.1:1080</span><br><span class="line">git config --global https.proxy 'socks5://127.0.0.1:1080'</span><br></pre></td></tr></table></figure><p>查看是否生效：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global http.proxy</span><br></pre></td></tr></table></figure><p>关闭代理（因为可能代理会失效，或者会关闭，所以记录一下）</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global --unset http.proxy</span><br><span class="line">git config --global --unset https.proxy</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;bower install的速度太慢了，即使加了VPN，也慢如老狗，如何破之？&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="guide" scheme="sherry0429.github.io/categories/guide/"/>
+    
+    
+      <category term="node" scheme="sherry0429.github.io/tags/node/"/>
     
   </entry>
   
