@@ -10,11 +10,12 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124#include \"stdio.h\"#include \"stdlib.h\"#define Element intstruct QueueRecord;typedef struct QueueRecord *Queue;int IsEmpty(Queue Q); int Isfull(Queue Q);Queue creat(int Maxsize);void DisposeQueue(Queue Q);void MakeEmpty(Queue Q);void EnQueue(Element X,Queue Q);//入队void DeQueue(Queue Q);//出队Element ReturnQueue(Queue Q);//返回队首元素#define Minsize (5)struct QueueRecord&#123;\tint capacity;//上限，可由Maxsize输入控制，或利用define.\tint front;//队首\tint rear;//队尾\tint size;\tElement *Array;&#125;;int IsEmpty(Queue Q)&#123;\treturn Q-&gt;size==0;//if Q-&gt;size==0, return it&#125;int IsFull(Queue Q)&#123;\tif(Q-&gt;size==Q-&gt;capacity)\t\treturn 0;\telse\t\treturn 1;&#125;Queue creat(int Maxsize)&#123;\tQueue Q;\tQ=(Queue)malloc(sizeof(struct QueueRecord));\tMakeEmpty(Q);\tQ-&gt;capacity=Maxsize;\tQ-&gt;Array=(Element*)malloc(sizeof(Element)*Maxsize);\treturn Q;&#125;void DisposeQueue(Queue Q)&#123;\tif(!IsEmpty(Q))\t&#123;\t\tfree(Q-&gt;Array);\t\tfree(Q);\t&#125;&#125;void MakeEmpty(Queue Q)&#123;\tQ-&gt;size=0;\tQ-&gt;front=1;\tQ-&gt;rear=0;&#125;int Succ(int Value,Queue Q)&#123;\tif(Value==Q-&gt;capacity)//若队尾过界，重新置为0，进行入队\t\tValue=0;\telse\t\tValue++;\treturn Value;//上一个if条件句&#125;void EnQueue(Element X,Queue Q)&#123;\tif(IsFull(Q)==0)//若队列满(若循环队列，此行需改变)\t\tprintf(\"Queue has been full!\\n\");\telse\t&#123;\t\tQ-&gt;size++;\t\tQ-&gt;rear=Succ(Q-&gt;rear,Q);//并非构建循环队列 只是为了防止rear或front超出数组范围\t\tQ-&gt;Array[Q-&gt;rear]=X;\t&#125;&#125;void DeQueue(Queue Q)&#123;\tif(IsFull(Q)==0)\t\tprintf(\"Queue has been full!\\n\");\telse\t&#123;\t\tQ-&gt;size--;\t\tQ-&gt;front=Succ(Q-&gt;front,Q);\t&#125;&#125;Element ReturnQueue(Queue Q)&#123;\treturn Q-&gt;Array[Q-&gt;front];&#125;int main()&#123;\tQueue Q;\tint n;\tscanf(\"%d\",&amp;n);\tQ=creat(n);\tint x;\tint i;\tint temp;\tEnQueue(3,Q);\tEnQueue(4,Q);\ttemp=ReturnQueue(Q);\tprintf(\"%d\\n\",temp);\tDeQueue(Q);\ttemp=ReturnQueue(Q);\tprintf(\"%d\\n\",temp);\treturn 0;\t&#125;c","dateCreated":"2018-02-11T14:47:36+08:00","dateModified":"2018-02-12T11:51:38+08:00","datePublished":"2018-02-11T14:47:36+08:00","description":"CSDN 博客搬家","headline":"队列例程","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/队列例程/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/队列例程/","keywords":"c, queue","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,queue">
 <meta property="og:type" content="blog">
@@ -32,8 +33,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -41,7 +40,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -53,6 +52,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -60,11 +61,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -73,23 +72,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -99,24 +83,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -125,11 +109,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -138,11 +122,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -151,11 +148,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -165,19 +162,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -193,7 +199,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -217,18 +223,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             队列例程
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:47:36+08:00">
+    <time datetime="2018-02-11T14:47:36+08:00">
 	
 		    2月 11, 2018
     	
@@ -244,8 +250,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Element int</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">QueueRecord</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">QueueRecord</span> *<span class="title">Queue</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">IsEmpty</span><span class="params">(Queue Q)</span></span>; </span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Isfull</span><span class="params">(Queue Q)</span></span>;</span><br><span class="line"><span class="function">Queue <span class="title">creat</span><span class="params">(<span class="keyword">int</span> Maxsize)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DisposeQueue</span><span class="params">(Queue Q)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MakeEmpty</span><span class="params">(Queue Q)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EnQueue</span><span class="params">(Element X,Queue Q)</span></span>;<span class="comment">//入队</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DeQueue</span><span class="params">(Queue Q)</span></span>;<span class="comment">//出队</span></span><br><span class="line"><span class="function">Element <span class="title">ReturnQueue</span><span class="params">(Queue Q)</span></span>;<span class="comment">//返回队首元素</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Minsize (5)</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">QueueRecord</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="keyword">int</span> capacity;<span class="comment">//上限，可由Maxsize输入控制，或利用define.</span></span><br><span class="line">	<span class="keyword">int</span> front;<span class="comment">//队首</span></span><br><span class="line">	<span class="keyword">int</span> rear;<span class="comment">//队尾</span></span><br><span class="line">	<span class="keyword">int</span> size;</span><br><span class="line">	Element *Array;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">IsEmpty</span><span class="params">(Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> Q-&gt;size==<span class="number">0</span>;<span class="comment">//if Q-&gt;size==0, return it</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">IsFull</span><span class="params">(Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(Q-&gt;size==Q-&gt;capacity)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Queue <span class="title">creat</span><span class="params">(<span class="keyword">int</span> Maxsize)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Queue Q;</span><br><span class="line">	Q=(Queue)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct QueueRecord));</span><br><span class="line">	MakeEmpty(Q);</span><br><span class="line">	Q-&gt;capacity=Maxsize;</span><br><span class="line">	Q-&gt;Array=(Element*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Element)*Maxsize);</span><br><span class="line">	<span class="keyword">return</span> Q;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DisposeQueue</span><span class="params">(Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(!IsEmpty(Q))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">free</span>(Q-&gt;Array);</span><br><span class="line">		<span class="built_in">free</span>(Q);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">MakeEmpty</span><span class="params">(Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Q-&gt;size=<span class="number">0</span>;</span><br><span class="line">	Q-&gt;front=<span class="number">1</span>;</span><br><span class="line">	Q-&gt;rear=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">Succ</span><span class="params">(<span class="keyword">int</span> Value,Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(Value==Q-&gt;capacity)<span class="comment">//若队尾过界，重新置为0，进行入队</span></span><br><span class="line">		Value=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		Value++;</span><br><span class="line">	<span class="keyword">return</span> Value;<span class="comment">//上一个if条件句</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">EnQueue</span><span class="params">(Element X,Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(IsFull(Q)==<span class="number">0</span>)<span class="comment">//若队列满(若循环队列，此行需改变)</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Queue has been full!\n"</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Q-&gt;size++;</span><br><span class="line">		Q-&gt;rear=Succ(Q-&gt;rear,Q);<span class="comment">//并非构建循环队列 只是为了防止rear或front超出数组范围</span></span><br><span class="line">		Q-&gt;Array[Q-&gt;rear]=X;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">DeQueue</span><span class="params">(Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(IsFull(Q)==<span class="number">0</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Queue has been full!\n"</span>);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Q-&gt;size--;</span><br><span class="line">		Q-&gt;front=Succ(Q-&gt;front,Q);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Element <span class="title">ReturnQueue</span><span class="params">(Queue Q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> Q-&gt;Array[Q-&gt;front];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Queue Q;</span><br><span class="line">	<span class="keyword">int</span> n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">	Q=creat(n);</span><br><span class="line">	<span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">int</span> temp;</span><br><span class="line">	EnQueue(<span class="number">3</span>,Q);</span><br><span class="line">	EnQueue(<span class="number">4</span>,Q);</span><br><span class="line">	temp=ReturnQueue(Q);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,temp);</span><br><span class="line">	DeQueue(Q);</span><br><span class="line">	temp=ReturnQueue(Q);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"%d\n"</span>,temp);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">c</span><br></pre></td></tr></table></figure>
@@ -269,18 +276,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉查找树/" data-tooltip="二叉查找树" aria-label="Prev: 二叉查找树">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉查找树/" data-tooltip="二叉查找树" aria-label="上一篇: 二叉查找树">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="Next: 栈例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="下一篇: 栈例程">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -288,7 +295,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -297,7 +304,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -305,7 +312,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -313,7 +320,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -321,7 +336,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/队列例程/&amp;title=队列例程" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -337,14 +352,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -379,18 +394,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉查找树/" data-tooltip="二叉查找树" aria-label="Prev: 二叉查找树">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉查找树/" data-tooltip="二叉查找树" aria-label="上一篇: 二叉查找树">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="Next: 栈例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="下一篇: 栈例程">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -398,7 +413,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -407,7 +422,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -415,7 +430,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -423,7 +438,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/队列例程/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -431,7 +454,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/队列例程/&amp;title=队列例程" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -447,14 +470,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -464,88 +487,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/队列例程/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/队列例程/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/队列例程/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/队列例程/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/队列例程/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/队列例程/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/队列例程/&amp;title=队列例程">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/队列例程/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/队列例程/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/队列例程/&amp;title=队列例程">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/队列例程/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -553,9 +580,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -565,7 +592,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/11/队列例程/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -574,7 +601,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;

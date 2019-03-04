@@ -10,13 +10,14 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175//二叉查找树#include \"stdio.h\"#include \"stdlib.h\"#define Type intstruct TreeNode;typedef struct TreeNode *SearchTree;typedef struct TreeNode *Position;struct TreeNode&#123;\tType Element;\tSearchTree left;\tSearchTree right;\t//bool turn; 懒惰删除域&#125;;SearchTree MakeEmpty(SearchTree T);Position Find(Type X,SearchTree T);Position FindMin(SearchTree T);Position FindMax(SearchTree T);SearchTree Insert(Type X,SearchTree T);SearchTree Delete(Type X,SearchTree T);SearchTree MakeEmpty(SearchTree T)//销毁树&#123;\tif(T!=NULL)\t&#123;\t\tMakeEmpty(T-&gt;left);\t\tMakeEmpty(T-&gt;right);\t\tfree(T);//清空T的内容\t&#125;\treturn NULL;&#125;Position Find(Type X,SearchTree T)//注意，返回的是节点，并不是值!&#123;\tif(T==NULL)\t\treturn NULL;\telse if(X&lt;T-&gt;Element)\t\treturn Find(X,T-&gt;left);//每个节点的Element大于left的Element，小于right的Element\telse if(X&gt;T-&gt;Element)\t\treturn Find(X,T-&gt;right);\telse//找到了那个元素\t\treturn T;&#125;Position FindMin(SearchTree T)//自顶向下查找 &#123;\tif(T==NULL)//此节点无儿子\t\treturn NULL;\telse if(T-&gt;left==NULL)\t\treturn T;\telse\t\treturn FindMin(T-&gt;left);&#125;Position FindMax(SearchTree T)//与Findmin均为递归实现，若不递归，利用If和while不断遍历左节点或右节点即可&#123;\tif(T==NULL)//此节点无儿子\t\treturn NULL;\telse if(T-&gt;right==NULL)\t\treturn T;\telse\t\treturn FindMax(T-&gt;right);&#125;SearchTree Insert(Type X,SearchTree T)//相当于creat,再不断的input同时，creat Tree;&#123;\tif(T==NULL)//建立一个二叉树,若无树，应先运用MakeEmpty例程\t&#123;\t\tT=(SearchTree)malloc(sizeof(struct TreeNode));\t\tif(T==NULL)\t\t\tprintf(\"OUT OF SPACE\\n\");\t\telse\t\t&#123;\t\t\tT-&gt;Element=X;\t\t\tT-&gt;left=NULL;\t\t\tT-&gt;right=NULL;\t\t&#125;\t&#125;\telse if(X&lt;T-&gt;Element)\t&#123;\t\tT-&gt;left=Insert(X,T-&gt;left);//递归过程中不断遍历至适当的左节点。\t&#125;\telse if(X&gt;T-&gt;Element)\t&#123;\t\tT-&gt;right=Insert(X,T-&gt;right);\t&#125;\t//此例程并未考虑如果insert的元素已在树中。可以在下面的代码段加入适当内容以补充\t//if(X===T-&gt;Element)\t//&#123;\t//     ;\t//&#125;\treturn T;//tree root&#125;SearchTree Delete(Type X,SearchTree T)&#123;\t/*自己画图，如果删除的是树叶，则直接删除，不是树叶，需要考虑\t1.有一个儿子的节点.通过更改该节点的父节点的指针，指向该节点的儿子（参考链表绕过被删元素);\t2.有两个儿子的节点,用该节点的右子树最小节点代替该节点，删除右子树最小节点.\t注意:这里的删除涉及到指针的改变,和空间的释放(free).缺一不可.\t*/\tPosition TmpCell;\tif(T==NULL)\t\tprintf(\"You can't delete a NULL Tree\\n\");\telse if(X&lt;T-&gt;Element)\t\tT-&gt;left=Delete(X,T-&gt;left);\telse if(X&gt;T-&gt;Element)\t\tT-&gt;right=Delete(X,T-&gt;right);\t//以上两句相当于在遍历整个树以找到元素,一旦找到,执行下面的语句\telse//找到了元素\t&#123;\t\tif(T-&gt;left &amp;&amp; T-&gt;right)//if(T-&gt;left!=NULL &amp;&amp; T-&gt;right!=NULL)\t\t&#123;\t\t\tTmpCell=FindMin(T-&gt;right);//此处FindMin小题大做了，可以直接找right的left,不断遍历left.\t\t\tT-&gt;Element=TmpCell-&gt;Element;\t\t\tT-&gt;right=Delete(T-&gt;Element,T-&gt;right);//找到右子数的最小节点(it has only one children)，删除它.\t\t&#125;\t\telse//one children or leaf\t\t&#123;\t\t\tTmpCell=T;\t\t\tif(T-&gt;left==NULL)\t\t\t\tT=T-&gt;right;\t\t\telse if(T-&gt;right==NULL)\t\t\t\tT=T-&gt;left;\t\t\tfree(TmpCell);\t\t\t//若left,right有其一,则T被其取代,否则直接freeT(Tmpcell).\t\t\t//这是一个包含例程，它能同时处理one children和leaf的情况!\t\t&#125;\t&#125;\treturn T;&#125;//若采用懒惰删除,则用bool turn域给每个元素加一个标记,依据标记进行遍历，符合的输出/遍历，不符合的不输出/遍历 .//二叉查找树只是一种结构,它并不完美,如果有一些不好的输入,会产生一些很差的二叉树(一边深一边浅)但它是树的一个基本构架.int main()&#123;\tSearchTree T=NULL;\tint n;\tint i;\tfor(i=0;i&lt;5;i++)\t&#123;\t\tscanf(\"%d\",&amp;n);\t\tT=Insert(n,T);\t&#125;\tint Max;\tint Min;\tSearchTree tmp;\ttmp=FindMax(T);\tMax=tmp-&gt;Element;\ttmp=FindMin(T);\tMin=tmp-&gt;Element;\tprintf(\"Max=%d Min=%d\\n\",Max,Min);\tT=Delete(Max,T);\ttmp=FindMax(T);\tMax=tmp-&gt;Element;\tprintf(\"Max=%d Min=%d\\n\",Max,Min);\treturn 0;&#125;/*输入输出检测3 1 2 5 4Max=5 Min=1Max=4 Min=1Press any key to continue*/\n\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175176177178179180181182183184185186187188189190191192193194195196197198199200201202203204205206207208209210211212213214215216217218219220221222223224225226//二叉AVL查找树#include \"stdio.h\"#include \"stdlib.h\"#include \"malloc.h\"#define ElementType intstruct AvlNode;typedef struct AvlNode *AvlTree;typedef struct AvlNode *Position;//AvlTree means find a root plus,Position means return a plus in position.AvlTree MakeEmpty(AvlTree T);Position Find(ElementType X,AvlTree T);Position FindMin(AvlTree T);Position FindMax(AvlTree T);AvlTree Insert(ElementType X,AvlTree T);AvlTree Delete(ElementType X,AvlTree T);//fuctionint Height(Position P);//return plus's height to balance the treeint Max(int x,int y);//RotatePosition SingleRotateWithLeft(Position P);Position SingleRotateWithRight(Position P);Position DoubleRotateWithLeft(Position P);Position DoubleRotateWithRight(Position P);struct AvlNode&#123;\tElementType Element;\tAvlTree left;\tAvlTree right;\tint height;//how much meter?laugh~~&#125;;int Height(Position P)&#123;\tif(P==NULL)\t\treturn -1;\telse\t\treturn P-&gt;height;&#125;int Max(int x,int y)&#123;\tif(x&gt;=y)\t\treturn x;\telse\t\treturn y;&#125;AvlTree Insert(ElementType X,AvlTree T)&#123;\tif(T==NULL)\t&#123;\t\tT=(AvlTree)malloc(sizeof(struct AvlNode));\t\tif(T==NULL)\t\t\tprintf(\"OUT OF SPACE!\\n\");\t\telse\t\t&#123;\t\t\tT-&gt;Element=X;\t\t\tT-&gt;height=0;\t\t\tT-&gt;left=NULL;\t\t\tT-&gt;right=NULL;\t\t&#125;\t&#125;\telse if(X&lt;T-&gt;Element)\t&#123;\t\tT-&gt;left=Insert(X,T-&gt;left);\t\tif(Height(T-&gt;left)-Height(T-&gt;right)==2)\t\t&#123;\t\t\tif(X&lt;T-&gt;left-&gt;Element)\t\t\t\tT=SingleRotateWithLeft(T);\t\t\telse\t\t\t\tT=DoubleRotateWithLeft(T);\t\t&#125;\t&#125;\telse if(X&gt;T-&gt;Element)\t&#123;\t\tT-&gt;right=Insert(X,T-&gt;right);\t\tif(Height(T-&gt;right)-Height(T-&gt;left)==2)\t\t&#123;\t\t\tif(X&gt;T-&gt;right-&gt;Element)\t\t\t\tT=SingleRotateWithRight(T);\t\t\telse\t\t\t\tT=DoubleRotateWithRight(T);\t\t&#125;\t&#125;\t//there not x==Element phonemeon\tT-&gt;height=Max(Height(T-&gt;left),Height(T-&gt;right))+1;\treturn T;&#125;Position SingleRotateWithLeft(Position P)&#123;\tPosition tmp;\ttmp=P-&gt;left;\tP-&gt;left=tmp-&gt;right;\ttmp-&gt;right=P;\tP-&gt;height=Max(Height(P-&gt;left),Height(P-&gt;right))+1;\ttmp-&gt;height=Max(Height(tmp-&gt;left),Height(tmp-&gt;right))+1;\treturn tmp;&#125;Position SingleRotateWithRight(Position P)&#123;\tPosition tmp;\ttmp=P-&gt;right;\tP-&gt;right=tmp-&gt;left;\ttmp-&gt;left=P;\tP-&gt;height=Max(Height(P-&gt;left),Height(P-&gt;right))+1;\ttmp-&gt;height=Max(Height(tmp-&gt;left),Height(tmp-&gt;right))+1;\treturn tmp;&#125;Position DoubleRotateWithLeft(Position P)&#123;\tP-&gt;left=SingleRotateWithRight(P-&gt;left);\treturn SingleRotateWithLeft(P);&#125;Position DoubleRotateWithRight(Position P)&#123;\tP-&gt;right=SingleRotateWithLeft(P-&gt;right);\treturn SingleRotateWithRight(P);&#125;Position Find(ElementType X,AvlTree T)&#123;\tif(T==NULL)\t\treturn NULL;\telse if(X&lt;T-&gt;Element)\t\treturn Find(X,T-&gt;left);\telse if(X&gt;T-&gt;Element)\t\treturn Find(X,T-&gt;right);\telse\t\treturn T;&#125;Position FindMin(AvlTree T)&#123;\tif(T==NULL)\t\treturn NULL;\telse if(T-&gt;left==NULL)\t\treturn T;\telse\t\treturn FindMin(T-&gt;left);&#125;Position FindMax(AvlTree T)&#123;\tif(T==NULL)\t\treturn NULL;\telse if(T-&gt;right==NULL)\t\treturn T;\telse\t\treturn FindMax(T-&gt;right);&#125;AvlTree Delete(ElementType X,AvlTree T)&#123;\tPosition TmpCell;\tif(T==NULL)\t\tprintf(\"You can't delete a NULL Tree\\n\");\telse if(X&lt;T-&gt;Element)\t\tT-&gt;left=Delete(X,T-&gt;left);\telse if(X&gt;T-&gt;Element)\t\tT-&gt;right=Delete(X,T-&gt;right);\telse\t&#123;\t\tif(T-&gt;left &amp;&amp; T-&gt;right)\t\t&#123;\t\t\tTmpCell=FindMin(T-&gt;right);\t\t\tT-&gt;Element=TmpCell-&gt;Element;\t\t\tT-&gt;right=Delete(T-&gt;Element,T-&gt;right);\t\t&#125;\t\telse\t\t&#123;\t\t\tTmpCell=T;\t\t\tif(T-&gt;left==NULL)\t\t\t\tT=T-&gt;right;\t\t\telse if(T-&gt;right==NULL)\t\t\t\tT=T-&gt;left;\t\t\tfree(TmpCell);\t\t&#125;\t&#125;\treturn T;&#125;int main()&#123;\tAvlTree T=NULL;\tint n;\tint i;\tfor(i=0;i&lt;5;i++)\t&#123;\t\tscanf(\"%d\",&amp;n);\t\tT=Insert(n,T);\t&#125;\tPosition tmp;\tint max;\tint min;\ttmp=FindMax(T);\tmax=tmp-&gt;Element;\ttmp=FindMin(T);\tmin=tmp-&gt;Element;\tprintf(\"Max=%d Min=%d\\n\",max,min);\ttmp=Delete(max,T);\tmax=FindMax(tmp)-&gt;Element;\tprintf(\"Max=%d Min=%d\\n\",max,min);\treturn 0;&#125;/*示例输入INPUT3 1 2 4 5OUTPUTMax=5 Min=1Max=4 Min=1Press any key to continue*/","dateCreated":"2018-02-11T14:48:11+08:00","dateModified":"2018-02-12T11:49:16+08:00","datePublished":"2018-02-11T14:48:11+08:00","description":"CSDN 博客搬家","headline":"二叉查找树","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/二叉查找树/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/二叉查找树/","keywords":"c, acm","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
-<meta name="keywords" content="acm,c">
+<meta name="keywords" content="c,acm">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="二叉查找树">
 <meta property="og:url" content="sherry0429.github.io/2018/02/11/二叉查找树/index.html">
@@ -32,8 +33,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -41,7 +40,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -53,6 +52,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -60,11 +61,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -73,23 +72,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -99,24 +83,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -125,11 +109,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -138,11 +122,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -151,11 +148,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -165,19 +162,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -193,7 +199,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -217,18 +223,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             二叉查找树
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:48:11+08:00">
+    <time datetime="2018-02-11T14:48:11+08:00">
 	
 		    2月 11, 2018
     	
@@ -244,8 +250,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//二叉查找树</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Type int</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">SearchTree</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">Position</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	Type Element;</span><br><span class="line">	SearchTree left;</span><br><span class="line">	SearchTree right;</span><br><span class="line">	<span class="comment">//bool turn; 懒惰删除域</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">SearchTree <span class="title">MakeEmpty</span><span class="params">(SearchTree T)</span></span>;</span><br><span class="line"><span class="function">Position <span class="title">Find</span><span class="params">(Type X,SearchTree T)</span></span>;</span><br><span class="line"><span class="function">Position <span class="title">FindMin</span><span class="params">(SearchTree T)</span></span>;</span><br><span class="line"><span class="function">Position <span class="title">FindMax</span><span class="params">(SearchTree T)</span></span>;</span><br><span class="line"><span class="function">SearchTree <span class="title">Insert</span><span class="params">(Type X,SearchTree T)</span></span>;</span><br><span class="line"><span class="function">SearchTree <span class="title">Delete</span><span class="params">(Type X,SearchTree T)</span></span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function">SearchTree <span class="title">MakeEmpty</span><span class="params">(SearchTree T)</span><span class="comment">//销毁树</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		MakeEmpty(T-&gt;left);</span><br><span class="line">		MakeEmpty(T-&gt;right);</span><br><span class="line">		<span class="built_in">free</span>(T);<span class="comment">//清空T的内容</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Position <span class="title">Find</span><span class="params">(Type X,SearchTree T)</span><span class="comment">//注意，返回的是节点，并不是值!</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T==<span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(X&lt;T-&gt;Element)</span><br><span class="line">		<span class="keyword">return</span> Find(X,T-&gt;left);<span class="comment">//每个节点的Element大于left的Element，小于right的Element</span></span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(X&gt;T-&gt;Element)</span><br><span class="line">		<span class="keyword">return</span> Find(X,T-&gt;right);</span><br><span class="line">	<span class="keyword">else</span><span class="comment">//找到了那个元素</span></span><br><span class="line">		<span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Position <span class="title">FindMin</span><span class="params">(SearchTree T)</span><span class="comment">//自顶向下查找 </span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T==<span class="literal">NULL</span>)<span class="comment">//此节点无儿子</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(T-&gt;left==<span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> T;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> FindMin(T-&gt;left);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">Position <span class="title">FindMax</span><span class="params">(SearchTree T)</span><span class="comment">//与Findmin均为递归实现，若不递归，利用If和while不断遍历左节点或右节点即可</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T==<span class="literal">NULL</span>)<span class="comment">//此节点无儿子</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(T-&gt;right==<span class="literal">NULL</span>)</span><br><span class="line">		<span class="keyword">return</span> T;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> FindMax(T-&gt;right);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">SearchTree <span class="title">Insert</span><span class="params">(Type X,SearchTree T)</span><span class="comment">//相当于creat,再不断的input同时，creat Tree;</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(T==<span class="literal">NULL</span>)<span class="comment">//建立一个二叉树,若无树，应先运用MakeEmpty例程</span></span><br><span class="line">	&#123;</span><br><span class="line">		T=(SearchTree)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct TreeNode));</span><br><span class="line">		<span class="keyword">if</span>(T==<span class="literal">NULL</span>)</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"OUT OF SPACE\n"</span>);</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			T-&gt;Element=X;</span><br><span class="line">			T-&gt;left=<span class="literal">NULL</span>;</span><br><span class="line">			T-&gt;right=<span class="literal">NULL</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(X&lt;T-&gt;Element)</span><br><span class="line">	&#123;</span><br><span class="line">		T-&gt;left=Insert(X,T-&gt;left);<span class="comment">//递归过程中不断遍历至适当的左节点。</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(X&gt;T-&gt;Element)</span><br><span class="line">	&#123;</span><br><span class="line">		T-&gt;right=Insert(X,T-&gt;right);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//此例程并未考虑如果insert的元素已在树中。可以在下面的代码段加入适当内容以补充</span></span><br><span class="line">	<span class="comment">//if(X===T-&gt;Element)</span></span><br><span class="line">	<span class="comment">//&#123;</span></span><br><span class="line">	<span class="comment">//     ;</span></span><br><span class="line">	<span class="comment">//&#125;</span></span><br><span class="line">	<span class="keyword">return</span> T;<span class="comment">//tree root</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">SearchTree <span class="title">Delete</span><span class="params">(Type X,SearchTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">/*自己画图，如果删除的是树叶，则直接删除，不是树叶，需要考虑</span></span><br><span class="line"><span class="comment">	1.有一个儿子的节点.通过更改该节点的父节点的指针，指向该节点的儿子（参考链表绕过被删元素);</span></span><br><span class="line"><span class="comment">	2.有两个儿子的节点,用该节点的右子树最小节点代替该节点，删除右子树最小节点.</span></span><br><span class="line"><span class="comment">	注意:这里的删除涉及到指针的改变,和空间的释放(free).缺一不可.</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">	Position TmpCell;</span><br><span class="line">	<span class="keyword">if</span>(T==<span class="literal">NULL</span>)</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"You can't delete a NULL Tree\n"</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(X&lt;T-&gt;Element)</span><br><span class="line">		T-&gt;left=Delete(X,T-&gt;left);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(X&gt;T-&gt;Element)</span><br><span class="line">		T-&gt;right=Delete(X,T-&gt;right);</span><br><span class="line">	<span class="comment">//以上两句相当于在遍历整个树以找到元素,一旦找到,执行下面的语句</span></span><br><span class="line">	<span class="keyword">else</span><span class="comment">//找到了元素</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(T-&gt;left &amp;&amp; T-&gt;right)<span class="comment">//if(T-&gt;left!=NULL &amp;&amp; T-&gt;right!=NULL)</span></span><br><span class="line">		&#123;</span><br><span class="line">			TmpCell=FindMin(T-&gt;right);<span class="comment">//此处FindMin小题大做了，可以直接找right的left,不断遍历left.</span></span><br><span class="line">			T-&gt;Element=TmpCell-&gt;Element;</span><br><span class="line">			T-&gt;right=Delete(T-&gt;Element,T-&gt;right);<span class="comment">//找到右子数的最小节点(it has only one children)，删除它.</span></span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span><span class="comment">//one children or leaf</span></span><br><span class="line">		&#123;</span><br><span class="line">			TmpCell=T;</span><br><span class="line">			<span class="keyword">if</span>(T-&gt;left==<span class="literal">NULL</span>)</span><br><span class="line">				T=T-&gt;right;</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(T-&gt;right==<span class="literal">NULL</span>)</span><br><span class="line">				T=T-&gt;left;</span><br><span class="line">			<span class="built_in">free</span>(TmpCell);</span><br><span class="line">			<span class="comment">//若left,right有其一,则T被其取代,否则直接freeT(Tmpcell).</span></span><br><span class="line">			<span class="comment">//这是一个包含例程，它能同时处理one children和leaf的情况!</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//若采用懒惰删除,则用bool turn域给每个元素加一个标记,依据标记进行遍历，符合的输出/遍历，不符合的不输出/遍历 .</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//二叉查找树只是一种结构,它并不完美,如果有一些不好的输入,会产生一些很差的二叉树(一边深一边浅)但它是树的一个基本构架.</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	SearchTree T=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">int</span> n;</span><br><span class="line">	<span class="keyword">int</span> i;</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);</span><br><span class="line">		T=Insert(n,T);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">int</span> Max;</span><br><span class="line">	<span class="keyword">int</span> Min;</span><br><span class="line">	SearchTree tmp;</span><br><span class="line">	tmp=FindMax(T);</span><br><span class="line">	Max=tmp-&gt;Element;</span><br><span class="line">	tmp=FindMin(T);</span><br><span class="line">	Min=tmp-&gt;Element;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Max=%d Min=%d\n"</span>,Max,Min);</span><br><span class="line">	T=Delete(Max,T);</span><br><span class="line">	tmp=FindMax(T);</span><br><span class="line">	Max=tmp-&gt;Element;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"Max=%d Min=%d\n"</span>,Max,Min);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">输入输出检测</span></span><br><span class="line"><span class="comment">3 1 2 5 4</span></span><br><span class="line"><span class="comment">Max=5 Min=1</span></span><br><span class="line"><span class="comment">Max=4 Min=1</span></span><br><span class="line"><span class="comment">Press any key to continue</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
@@ -271,18 +278,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉堆/" data-tooltip="二叉堆" aria-label="Prev: 二叉堆">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉堆/" data-tooltip="二叉堆" aria-label="上一篇: 二叉堆">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/队列例程/" data-tooltip="队列例程" aria-label="Next: 队列例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/队列例程/" data-tooltip="队列例程" aria-label="下一篇: 队列例程">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -290,7 +297,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -299,7 +306,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -307,7 +314,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -315,7 +322,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -323,7 +338,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉查找树/&amp;title=二叉查找树" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -339,14 +354,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -381,18 +396,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉堆/" data-tooltip="二叉堆" aria-label="Prev: 二叉堆">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/二叉堆/" data-tooltip="二叉堆" aria-label="上一篇: 二叉堆">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/队列例程/" data-tooltip="队列例程" aria-label="Next: 队列例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/队列例程/" data-tooltip="队列例程" aria-label="下一篇: 队列例程">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -400,7 +415,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -409,7 +424,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -417,7 +432,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -425,7 +440,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/二叉查找树/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -433,7 +456,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉查找树/&amp;title=二叉查找树" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -449,14 +472,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -466,88 +489,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉查找树/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/二叉查找树/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉查找树/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉查找树/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/二叉查找树/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/二叉查找树/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉查找树/&amp;title=二叉查找树">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/二叉查找树/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/二叉查找树/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/二叉查找树/&amp;title=二叉查找树">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/二叉查找树/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -555,9 +582,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -567,7 +594,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/11/二叉查找树/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -576,7 +603,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;

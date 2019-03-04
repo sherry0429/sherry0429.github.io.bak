@@ -10,11 +10,12 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n回顾首先我们回顾一下上一节说过的爬虫步骤：\n\n找出需求中属于静态网页数据（即查看网页源码就能获取的内容）\n找出需求中属于动态加载的数据（通过Chrome开发者工具的NetWork面板）\n判断爬虫实现难度（主要在动态加载部分上，如果动态加载部分的请求URL过于难拼，考虑放弃该字段，没办法放弃就硬啃吧，做好心理准备和工期规划）\n构造静态网页数据的爬取规则\n构造动态加载数据的请求URL\n实现爬虫\n\n上一节，我们走完了前4个步骤，这篇文章主要讲如何实现第五个步骤。\n分析首先通过chrome的开发者工具，NETWORK面板搜XHR请求，可以发现在加载商品详情页时有如下请求：\nhttps://www.amazon.cn/gp/product-description/ajaxGetProuductDescription.html?ref_=dp_apl_pc_loaddesc&amp;asin=B002WC7NGS&amp;cacheTime=1519547354719&amp;merchantId=A1AJ19PSB66TGU&amp;deviceType=web\n分析可知它需要如下几个参数：\n\nasin\ncacheTime\nmerchantId\ndeviceType\n\nasin和merchantId通过爬取获得，cacheTime通过unix时间戳获得，deviceType固定为Web.\n上一节我们的代码是这样的：\n123456789def parse_0(self, response):    info('Parse 0 '+response.url)    item = self.parse_with_rules(response, self.css_rules, dict)    if isinstance(item, dict):        yield item    else:        data_dict = dict()        data_dict['data'] = item        yield data_dict\n现在只需要略微修改爬取规则，然后在item返回之后，取出来所需参数，拼接成一个URL。再发起请求和对应的css规则，在新的method里面进行解析即可。\n还记得上一节，使用css selector的时候不知道如何选择标签内的属性值，在这一节，我使用了先通过css selector获取html标签，再通过正则获取属性的方式。\n代码首先是新的css规则：\n12345678910111213141516171819202122232425css_rules = &#123;        \"#title\": &#123;            \"title\": \"#productTitle::text\"        &#125;,        \"#byline\": &#123;            \"author\": \".a-link-normal::text\"        &#125;,        \".bucket&gt;.content\": &#123;            \"base_info_title\": \"li&gt;b::text\",            \"base_info_content\": \"li::text\",            \"average_star\": \".a-icon-alt::text\",            \"sum_comments\": \".a-link-normal::text\"        &#125;,        \"#addToCart\":&#123;            \"ASIN\": \"#ASIN\",            \"merchantID\": \"#merchantID\"        &#125;    &#125;content_css_rules = &#123;    \"#s_contents\":&#123;        \"name\": \"h3::text\",        \"content\": \"p::text\"        &#125;    &#125;\n我们在原有规则上添加了#addToCart这个css selector，用于定位ASIN，和merchantID。这两个值爬下来是HTML标签的形式，我们要用正则把它替换为可读形式，再拼接URL发送请求\n下面为关键代码：\n12345678910111213141516171819202122232425262728293031def parse_0(self, response):    info('Parse 0 '+response.url)    items = self.parse_with_rules(response, self.css_rules, dict)    if isinstance(items, dict):        yield items    else:        data_dict = dict()        data_dict['data'] = items        yield data_dict    asin = ''    merchant = ''    for base_data in items:        need_params = base_data['#addToCart']        for params in need_params:            asin_html = params['ASIN']            asin = self.get_html_attr(asin_html[0], \"value\")            merchant_html = params['merchantID']            merchant = self.get_html_attr(merchant_html[0], \"value\")    unix_time = str(int(time.time() * 1000))    content_url = \"https://www.amazon.cn/gp/product-description/ajaxGetProuductDescription.html?ref_=dp_apl_pc_loaddesc&amp;asin=%s&amp;cacheTime=%s&amp;merchantId=%s&amp;deviceType=web\" % (asin[0], unix_time, merchant[0])    yield Request(url=content_url, callback=self.parse_1)def parse_1(self, response):    info('Parse 1 '+ response.url)    items = self.parse_with_rules(response, self.content_css_rules, dict)    if isinstance(items, dict):        yield items    else:        data_dict = dict()        data_dict['data'] = items        yield data_dict\n结果爬取后的结果为：\n12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273&#123;  \"data\":[    &#123;      \"#title\":[        &#123;          \"title\":[            \"数据结构与算法分析:C语言描述(原书第2版)\"          ]        &#125;      ],      \"#addToCart\":[        &#123;          \"ASIN\":[            \"&lt;input type=\\\"hidden\\\" id=\\\"ASIN\\\" name=\\\"ASIN\\\" value=\\\"B002WC7NGS\\\"&gt;\"          ],          \"merchantID\":[            \"&lt;input type=\\\"hidden\\\" id=\\\"merchantID\\\" name=\\\"merchantID\\\" value=\\\"A1AJ19PSB66TGU\\\"&gt;\"          ]        &#125;      ],      \"#byline\":[        &#123;          \"author\":[            \"维斯\",            \"冯舜玺\"          ]        &#125;      ],      \".bucket&gt;.content\":[        &#123;          \"base_info_title\":[            \"出版社:\",            \"丛书名:\",            \"平装:\",            \"语种：\",            \"开本:\",            \"ISBN:\",            \"条形码:\",            \" 商品尺寸: \",            \" 商品重量: \",            \"品牌:\",            \"ASIN: \",            \"用户评分:\",            \"亚马逊热销商品排名:\"          ],          \"average_star\":[            \"平均 4.2 星\"          ],          \"base_info_content\":[            \" 机械工业出版社; 第1版 (2004年1月1日)\",            \" \",            \" 391页\",            \" 简体中文\",            \" 16\",            \" 711112748X,             9787111127482\",            \" 9787111127482\",            \" 25.7 x 18.3 x 1.8 cm \",            \" 621 g \",            \" 机械工业出版社\",            \"B002WC7NGS\",            \" 图书商品里排第1,            618名 (\",            \") \"          ],          \"sum_comments\":[            \" 236 条商品评论 \"          ]        &#125;      ]    &#125;  ]&#125;\n1234567891011121314151617181920212223242526272829303132333435363738394041&#123;  \"data\":[    &#123;      \"#s_contents\":[        &#123;          \"content\":[            \" 《数据结构与算法分析:C语言描述(原书第2版)》讨论数据结构和算法分析。数据结构主要研究组织大量数据的方法，而算法分析则是对算法运行时间的评估。随着计算机的速度越来越快，对于能够处理大量输入数据的程序的需求变得日益急切。可是，由于在输入量很大的时候，程序的低效率现象变得非常明显，因此这又要求对效率问题给予更仔细的关注。通过在实际编程之前对算法的分析，学生可以决定一个特定的解法是否可行。例如，学生在《数据结构与算法分析:C语言描述(原书第2版)》中将读到一些特定的问题并看到精心的实现方法是如何把对大量数据的时间限制从16年减至不到1秒的。因此，若无运行时间的阐释，就不会有算法和数据结构的提出。\",            \"《数据结构与算法分析:C语言描述(原书第2版)》是国外数据结构与算法分析方在的标准教材，介绍了数据结构（大量数据的组织方法）以及算法分析（算法运行时间的估算）。《数据结构与算法分析:C语言描述(原书第2版)》的编写目标是同时廛授好的程序设计和算法分析技巧，使读者可以开发出具有高效率的程序。\",            \"《数据结构与算法分析:C语言描述(原书第2版)》可作为高级数据结构课程或研究生一年级算法分析课程的教材，使用《数据结构与算法分析:C语言描述(原书第2版)》需具有一些中级程序设计知识，还需要离散数学的一些背景知识。\",            \"随着速度的不断提高和存储容量的持续增长，计算机的功能日益强大，从而处理数据和解决问题的规模和复杂程度与日俱增。这不仅带来了需要认真研究的新课题，而且突出了原有数据结构和算法效率低下的缺点。程序的效率问题不是由于计算机功能的强大而受到冷落，相反地，倒是被人们提到前所未有的重视程度，因为大型问题的解决所涉及到的大容量存储和高速度运算容不得我们对效率有丝毫的忽视。《数据结构与算法分析:C语言描述(原书第2版)》正是在阐述数据结构基本概念的同时深入地分析了算法的效率。 \",            \" 作者：（美国）维斯 译者：冯舜玺\",            \"Mark Allen Weiss是佛罗里达国际大学计算机学院教授，普林斯顿大学计算机科学博士。除本书外，他编写的关于数据结构与算法方面的知名教材还有：Data Structures and Algorithm Analysis：in Java,             Data Structures and Algonthm Analysis：in C++以及Data Structures and Problem Solving：Using Jave、Data Struchures and Problem Solving：Using C++等。他目前是AP考试计算机学科委员会的主席。 \",            \" 出版者的话\",            \"专家指导委员会\",            \"译者序\",            \"前言 \",            \"第1章 引论\",            \"第2章 算法分析\",            \"第3章 表、栈和队列\",            \"第4章 树\",            \"第5章 散列\",            \"第6章 优先队列（堆）\",            \"第7章 排序\",            \"第8章 不相交集AD\",            \"第9章 图论算法\",            \"第10章 算法设计技巧\",            \"第11章 摊还分析\",            \"第12章 高级数据结构及其实现\",            \"索引 \"          ],          \"name\":[            \"编辑推荐\",            \"作者简介\",            \"目录\"          ]        &#125;      ]    &#125;  ]&#125;\n结尾值得注意的是，这是两条记录，因此，我们需要在pipeline里面对它进行合并。\n最简单的方式，就是使用Redis，给这些数据一个mainkey（data-ASIN），把这个main_key作为redis_key，把数据使用hset存入。\n最后，为了减轻被爬取网站的压力，我建议将settings.py中的对应选项改为：\n12DOWNLOAD_DELAY = 5CONCURRENT_REQUESTS_PER_DOMAIN = 4","dateCreated":"2018-02-25T15:19:43+08:00","dateModified":"2018-02-26T10:01:16+08:00","datePublished":"2018-02-25T15:19:43+08:00","description":"接上一篇，这一篇将如何实现爬取动态加载的数据","headline":"快速开发scrapy爬虫(二)","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/","keywords":"python, spider, scrapy","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="接上一篇，这一篇将如何实现爬取动态加载的数据">
 <meta name="keywords" content="python,spider,scrapy">
 <meta property="og:type" content="blog">
@@ -32,8 +33,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -41,7 +40,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -53,6 +52,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -60,11 +61,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -73,23 +72,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -99,24 +83,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -125,11 +109,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -138,11 +122,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -151,11 +148,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -165,19 +162,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -193,7 +199,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -217,18 +223,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             快速开发scrapy爬虫(二)
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-25T15:19:43+08:00">
+    <time datetime="2018-02-25T15:19:43+08:00">
 	
 		    2月 25, 2018
     	
@@ -244,8 +250,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <h2 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h2><p>首先我们回顾一下上一节说过的爬虫步骤：</p>
@@ -304,18 +311,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在Hexo博客中插入图片" aria-label="Prev: 如何便捷的在Hexo博客中插入图片">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在Hexo博客中插入图片" aria-label="上一篇: 如何便捷的在Hexo博客中插入图片">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/hexo部署突然失败的一次解决/" data-tooltip="hexo部署突然失败的一次解决" aria-label="Next: hexo部署突然失败的一次解决">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/hexo部署突然失败的一次解决/" data-tooltip="hexo部署突然失败的一次解决" aria-label="下一篇: hexo部署突然失败的一次解决">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -323,7 +330,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -332,7 +339,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -340,7 +347,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -348,7 +355,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -356,7 +371,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/&amp;title=快速开发scrapy爬虫(二)" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -372,14 +387,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -414,18 +429,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在Hexo博客中插入图片" aria-label="Prev: 如何便捷的在Hexo博客中插入图片">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/如何便捷的在博客中插入图片/" data-tooltip="如何便捷的在Hexo博客中插入图片" aria-label="上一篇: 如何便捷的在Hexo博客中插入图片">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/hexo部署突然失败的一次解决/" data-tooltip="hexo部署突然失败的一次解决" aria-label="Next: hexo部署突然失败的一次解决">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/25/hexo部署突然失败的一次解决/" data-tooltip="hexo部署突然失败的一次解决" aria-label="下一篇: hexo部署突然失败的一次解决">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -433,7 +448,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -442,7 +457,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -450,7 +465,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -458,7 +473,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -466,7 +489,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/&amp;title=快速开发scrapy爬虫(二)" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -482,14 +505,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -499,88 +522,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/&amp;title=快速开发scrapy爬虫(二)">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/&amp;title=快速开发scrapy爬虫(二)">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -588,9 +615,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -600,7 +627,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/25/快速开发scrapy爬虫-二/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -609,7 +636,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;

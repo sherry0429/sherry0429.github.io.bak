@@ -10,11 +10,12 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175176177178179180181182183184185186187188189190191192193194195196197198199200201202203204205206207208209210211212213214215216217218219220221222223224225226227228229230231232233234235236237238239240241242243244245246247248249250251252253254255256257258259260261262263264265266267268269270271272273274275276277278279280281282283284285286287288289290291292293294295296297298299300301302303304305306#include \"stdio.h\"#include \"stdlib.h\"#include \"malloc.h\"#define Element int//to adjust Element's type#define turn int//to adjust which point to choice printup or printdown//if change \"int\",The scanf's number in it must be change too;typedef struct Single&#123;\tElement D;\tSingle *next;//to back&#125;list;//single list typetypedef struct Double&#123;\tElement D;\tDouble *front;\tDouble *next;&#125;list_double; //double list type//单链表例程void init_single(list *&amp;L);void creatlist_single(list *&amp;L,Element n);void printlist_single(list *&amp;L);void insertlist_single(list *&amp;L,Element n);//插入例程list *findlist_single(list *&amp;L,Element n);//用于发现一个节点的前驱元.n为要发现的节点void delelist_single(list *&amp;L,Element n);//删除为n的void delelist_all(list *&amp;L,Element n);//删除所有为n的void init_single(list *&amp;L)//has been done&#123;\tL=(list*)malloc(sizeof(list));\tL-&gt;next=NULL;&#125;void creatlist_single(list *&amp;L,int n)//has been done&#123;\tlist *s,*r;\tinit_single(L);\tr=L;\twhile(n!=0)\t&#123;\t\ts=(list*)malloc(sizeof(list));\t\tscanf(\"%d\",&amp;s-&gt;D);\t\tr-&gt;next=s;\t\tr=r-&gt;next;//use plus to position to position\t\tn--;\t&#125;\tr-&gt;next=NULL;&#125;void printlist_single(list *&amp;L)//has been done&#123;\tlist *p;\tp=L-&gt;next;\twhile(p!=NULL)\t&#123;\t\tprintf(\"%d\",p-&gt;D);\t\tp=p-&gt;next;\t&#125;\tprintf(\"\\n\");&#125;list* findlist_single(list *&amp;L,Element n)//find plus preious&#123;\tlist *p;\tp=L;\twhile(p-&gt;next!=NULL &amp;&amp; p-&gt;next-&gt;D!=n)\t\tp=p-&gt;next;\treturn p;&#125;void delelist_single(list *&amp;L,Element n)//has been done&#123;\tlist *p,*temp;\tp=findlist_single(L,n);\tif(p!=NULL)\t&#123;\t\ttemp=p-&gt;next;\t\tp-&gt;next=temp-&gt;next;\t\tfree(temp);\t&#125;&#125; void delelist_all(list *&amp;L,Element n)//has been done!!!&#123;\tlist *p,*tmp;\tp=L;\tlist *r;\twhile(1)\t&#123;\t\tr=findlist_single(L,n);\t\tif(r-&gt;next==NULL)\t\t\tbreak;\t\ttmp=r-&gt;next;\t\tr-&gt;next=tmp-&gt;next;\t\tfree(tmp);\t&#125;&#125;void insertlist_single(list *&amp;L,Element n)//has been done!!!&#123;\tlist *newcell=NULL;\tlist *p;\tElement m;\tp=L;\tprintf(\"请输入要插入的数:\\n\");\tscanf(\"%d\",&amp;m);\twhile(p-&gt;next!=NULL)\t&#123;\t\tif(p-&gt;D==n)\t\t&#123;\t\t\tnewcell=(list*)malloc(sizeof(list));\t\t\tnewcell-&gt;D=m;\t\t\tnewcell-&gt;next=p-&gt;next;\t\t\tp-&gt;next=newcell;\t\t&#125;\t\tp=p-&gt;next;\t&#125;\tif(p-&gt;D==n &amp;&amp; p-&gt;next==NULL)\t&#123;\t\tnewcell=(list*)malloc(sizeof(list));\t\tnewcell-&gt;D=m;\t\tp-&gt;next=newcell;\t\tnewcell-&gt;next=NULL;\t&#125;&#125;//双链表例程void init_double(list_double *&amp;head,list_double *&amp;rear);//different from init_singlevoid creatlist_double(list_double *&amp;head,list_double *&amp;rear,Element n);//it use \"front plus\"void prints(list_double *&amp;head,list_double *&amp;rear,turn tag);void insertlist_double(list_double *&amp;head,Element n);void delelist_double(list_double *&amp;head,Element n);void init_double(list_double *&amp;head,list_double *&amp;rear)//has been done;&#123;\thead=(list_double*)malloc(sizeof(list_double));\thead-&gt;next=NULL;\thead-&gt;front=NULL;\trear=(list_double*)malloc(sizeof(list_double));\trear-&gt;next=NULL;\trear-&gt;front=NULL;&#125;void creatlist_double(list_double *&amp;head,list_double *&amp;rear,Element n)//has been done&#123;\tinit_double(head,rear);\tlist_double *s,*r,*temp=NULL;\tr=head;\twhile(n--)\t&#123;\t\ts=(list_double*)malloc(sizeof(list_double));\t\tscanf(\"%d\",&amp;s-&gt;D);\t\tr-&gt;next=s;\t\ttemp=r;\t\tr=r-&gt;next;\t\tr-&gt;front=temp;\t&#125;\tr-&gt;next=NULL;\trear=r;&#125;void prints(list_double *&amp;head,list_double *&amp;rear,turn tag)//if tag=1 upprint,else downprint&#123;\tlist_double *p;\tif(tag==1)\t&#123;       p=head-&gt;next;\t\twhile(p!=NULL)\t\t&#123;\t\t\tprintf(\"%d\",p-&gt;D);\t\t\tp=p-&gt;next;\t\t&#125;\t&#125;\telse if(tag==0)\t&#123;\t\tp=rear;\t\twhile(p-&gt;front!=NULL)\t\t&#123;\t\t\tprintf(\"%d\",p-&gt;D);\t\t\tp=p-&gt;front;\t\t&#125;\t&#125;\tprintf(\"\\n\");&#125;void insertlist_double(list_double *&amp;head,Element n)//insert back after n.  has been done&#123;\tlist_double *p1,*p3=NULL;\tp1=head;\tElement m;\tprintf(\"请输入要插入的数:\\n\");\tscanf(\"%d\",&amp;m);\twhile(p1-&gt;next!=NULL)\t&#123;\t\tif(p1-&gt;D==n)\t\t&#123;\t\t\tp3=(list_double*)malloc(sizeof(list_double));\t\t\tif(p3==NULL)\t\t\t&#123;\t\t\t\tprintf(\"there is no space!\\n\");\t\t\t\tbreak;\t\t\t&#125;\t\t\tp3-&gt;D=m;\t\t\tp3-&gt;front=p1-&gt;front;\t\t\tp3-&gt;next=p1-&gt;next;\t\t\tp1-&gt;next=p3;\t\t\tp1-&gt;front=p3;\t\t&#125;\t\tp1=p1-&gt;next;\t&#125;\tif(p1-&gt;D==n &amp;&amp; p1-&gt;next==NULL)//LAST POINT \t&#123;\t\tp3=(list_double*)malloc(sizeof(list_double));\t\tp3-&gt;D=m;\t\tp1-&gt;next=p3;\t\tp1-&gt;front=p3;\t\tp3-&gt;next=NULL;\t\tp3-&gt;front=NULL;\t&#125;&#125;void delelist_double(list_double *&amp;head,Element n)//has been done&#123;\tlist_double *p1,*p2;\tp1=head;\twhile(p1-&gt;next!=NULL)\t&#123;\t\tp2=p1-&gt;next;\t\tif(p2-&gt;D==n)\t\t&#123;\t\t\tif(p2-&gt;next!=NULL)//not last point\t\t\t&#123;\t\t\t\tp2-&gt;front-&gt;next=p2-&gt;next;\t\t\t    p2-&gt;next-&gt;front=p2-&gt;front;\t\t\t    free(p2);\t\t\t&#125;\t\t\telse//last point\t\t\t&#123;\t\t\t\tp2-&gt;front-&gt;next=NULL;\t\t\t\tfree(p2);\t\t\t&#125;\t\t&#125;\t\telse\t\t\tp1=p1-&gt;next;\t&#125;&#125;int main()&#123;\tElement n,m;\tElement a,b;\tturn tag;//tag=1 up tag=0 down\tlist *L;//相当于head指针\tlist_double *head;\tlist_double *rear;\tscanf(\"%d\",&amp;n);//确定链表长度\t/*Single list creat test*/\t//creatlist_single(L,n);\t//printlist_single(L);\t/*Single delete list creat test*/\t//scanf(\"%d\",&amp;m);//要删除的数\t//delelist_single(L,m);\t//delelist_all(L,m);\t//printlist_single(L);\t/*Single insert*/\t//insertlist_single(L,a);//在所有a后插入一个数\t//printlist_single(L);\t/*Double list creat test*/\tcreatlist_double(head,rear,n);\tprints(head,rear,1);\t/*Double delete list creat test*/\t//delelist_double(head,m);\t//prints(head,rear,1);\t/*Double insert list creat test*/\tprintf(\"请输入要在什么数后插入:\\n\");\tscanf(\"%d\",&amp;a);\t/*Double insert*/\tinsertlist_double(head,a);\tprints(head,rear,1);\treturn 0;&#125;","dateCreated":"2018-02-11T13:55:30+08:00","dateModified":"2018-02-12T11:51:10+08:00","datePublished":"2018-02-11T13:55:30+08:00","description":"CSDN 博客搬家","headline":"单双链表的例程","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/单双链表的例程/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/单双链表的例程/","keywords":"c, list","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,list">
 <meta property="og:type" content="blog">
@@ -32,8 +33,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -41,7 +40,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -53,6 +52,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -60,11 +61,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -73,23 +72,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -99,24 +83,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -125,11 +109,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -138,11 +122,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -151,11 +148,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -165,19 +162,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -193,7 +199,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -217,18 +223,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             单双链表的例程
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T13:55:30+08:00">
+    <time datetime="2018-02-11T13:55:30+08:00">
 	
 		    2月 11, 2018
     	
@@ -244,8 +250,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdio.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stdlib.h"</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"malloc.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> Element int</span></span><br><span class="line"><span class="comment">//to adjust Element's type</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> turn int</span></span><br><span class="line"><span class="comment">//to adjust which point to choice printup or printdown</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//if change "int",The scanf's number in it must be change too;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Single</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	Element D;</span><br><span class="line">	Single *next;<span class="comment">//to back</span></span><br><span class="line">&#125;<span class="built_in">list</span>;</span><br><span class="line"><span class="comment">//single list type</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">Double</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	Element D;</span><br><span class="line">	Double *front;</span><br><span class="line">	Double *next;</span><br><span class="line">&#125;list_double; </span><br><span class="line"><span class="comment">//double list type</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//单链表例程</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_single</span><span class="params">(<span class="built_in">list</span> *&amp;L)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creatlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span></span>;<span class="comment">//插入例程</span></span><br><span class="line"><span class="function"><span class="built_in">list</span> *<span class="title">findlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span></span>;<span class="comment">//用于发现一个节点的前驱元.n为要发现的节点</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delelist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span></span>;<span class="comment">//删除为n的</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delelist_all</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span></span>;<span class="comment">//删除所有为n的</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_single</span><span class="params">(<span class="built_in">list</span> *&amp;L)</span><span class="comment">//has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	L=(<span class="built_in">list</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="built_in">list</span>));</span><br><span class="line">	L-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creatlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,<span class="keyword">int</span> n)</span><span class="comment">//has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span> *s,*r;</span><br><span class="line">	init_single(L);</span><br><span class="line">	r=L;</span><br><span class="line">	<span class="keyword">while</span>(n!=<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		s=(<span class="built_in">list</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="built_in">list</span>));</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;s-&gt;D);</span><br><span class="line">		r-&gt;next=s;</span><br><span class="line">		r=r-&gt;next;<span class="comment">//use plus to position to position</span></span><br><span class="line">		n--;</span><br><span class="line">	&#125;</span><br><span class="line">	r-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L)</span><span class="comment">//has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span> *p;</span><br><span class="line">	p=L-&gt;next;</span><br><span class="line">	<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"%d"</span>,p-&gt;D);</span><br><span class="line">		p=p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="built_in">list</span>* <span class="title">findlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span><span class="comment">//find plus preious</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span> *p;</span><br><span class="line">	p=L;</span><br><span class="line">	<span class="keyword">while</span>(p-&gt;next!=<span class="literal">NULL</span> &amp;&amp; p-&gt;next-&gt;D!=n)</span><br><span class="line">		p=p-&gt;next;</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delelist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span><span class="comment">//has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span> *p,*temp;</span><br><span class="line">	p=findlist_single(L,n);</span><br><span class="line">	<span class="keyword">if</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		temp=p-&gt;next;</span><br><span class="line">		p-&gt;next=temp-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(temp);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delelist_all</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span><span class="comment">//has been done!!!</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span> *p,*tmp;</span><br><span class="line">	p=L;</span><br><span class="line">	<span class="built_in">list</span> *r;</span><br><span class="line">	<span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		r=findlist_single(L,n);</span><br><span class="line">		<span class="keyword">if</span>(r-&gt;next==<span class="literal">NULL</span>)</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		tmp=r-&gt;next;</span><br><span class="line">		r-&gt;next=tmp-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(tmp);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertlist_single</span><span class="params">(<span class="built_in">list</span> *&amp;L,Element n)</span><span class="comment">//has been done!!!</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">list</span> *newcell=<span class="literal">NULL</span>;</span><br><span class="line">	<span class="built_in">list</span> *p;</span><br><span class="line">	Element m;</span><br><span class="line">	p=L;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"请输入要插入的数:\n"</span>);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;m);</span><br><span class="line">	<span class="keyword">while</span>(p-&gt;next!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(p-&gt;D==n)</span><br><span class="line">		&#123;</span><br><span class="line">			newcell=(<span class="built_in">list</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="built_in">list</span>));</span><br><span class="line">			newcell-&gt;D=m;</span><br><span class="line">			newcell-&gt;next=p-&gt;next;</span><br><span class="line">			p-&gt;next=newcell;</span><br><span class="line">		&#125;</span><br><span class="line">		p=p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(p-&gt;D==n &amp;&amp; p-&gt;next==<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		newcell=(<span class="built_in">list</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="built_in">list</span>));</span><br><span class="line">		newcell-&gt;D=m;</span><br><span class="line">		p-&gt;next=newcell;</span><br><span class="line">		newcell-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//双链表例程</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_double</span><span class="params">(list_double *&amp;head,list_double *&amp;rear)</span></span>;<span class="comment">//different from init_single</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creatlist_double</span><span class="params">(list_double *&amp;head,list_double *&amp;rear,Element n)</span></span>;<span class="comment">//it use "front plus"</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">prints</span><span class="params">(list_double *&amp;head,list_double *&amp;rear,turn tag)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertlist_double</span><span class="params">(list_double *&amp;head,Element n)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delelist_double</span><span class="params">(list_double *&amp;head,Element n)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">init_double</span><span class="params">(list_double *&amp;head,list_double *&amp;rear)</span><span class="comment">//has been done;</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	head=(list_double*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(list_double));</span><br><span class="line">	head-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	head-&gt;front=<span class="literal">NULL</span>;</span><br><span class="line">	rear=(list_double*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(list_double));</span><br><span class="line">	rear-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	rear-&gt;front=<span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">creatlist_double</span><span class="params">(list_double *&amp;head,list_double *&amp;rear,Element n)</span><span class="comment">//has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	init_double(head,rear);</span><br><span class="line">	list_double *s,*r,*temp=<span class="literal">NULL</span>;</span><br><span class="line">	r=head;</span><br><span class="line">	<span class="keyword">while</span>(n--)</span><br><span class="line">	&#123;</span><br><span class="line">		s=(list_double*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(list_double));</span><br><span class="line">		<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;s-&gt;D);</span><br><span class="line">		r-&gt;next=s;</span><br><span class="line">		temp=r;</span><br><span class="line">		r=r-&gt;next;</span><br><span class="line">		r-&gt;front=temp;</span><br><span class="line">	&#125;</span><br><span class="line">	r-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">	rear=r;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">prints</span><span class="params">(list_double *&amp;head,list_double *&amp;rear,turn tag)</span><span class="comment">//if tag=1 upprint,else downprint</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list_double *p;</span><br><span class="line">	<span class="keyword">if</span>(tag==<span class="number">1</span>)</span><br><span class="line">	&#123;       p=head-&gt;next;</span><br><span class="line">		<span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%d"</span>,p-&gt;D);</span><br><span class="line">			p=p-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(tag==<span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		p=rear;</span><br><span class="line">		<span class="keyword">while</span>(p-&gt;front!=<span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"%d"</span>,p-&gt;D);</span><br><span class="line">			p=p-&gt;front;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"\n"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insertlist_double</span><span class="params">(list_double *&amp;head,Element n)</span><span class="comment">//insert back after n.  has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list_double *p1,*p3=<span class="literal">NULL</span>;</span><br><span class="line">	p1=head;</span><br><span class="line">	Element m;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"请输入要插入的数:\n"</span>);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;m);</span><br><span class="line">	<span class="keyword">while</span>(p1-&gt;next!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span>(p1-&gt;D==n)</span><br><span class="line">		&#123;</span><br><span class="line">			p3=(list_double*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(list_double));</span><br><span class="line">			<span class="keyword">if</span>(p3==<span class="literal">NULL</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="built_in">printf</span>(<span class="string">"there is no space!\n"</span>);</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			p3-&gt;D=m;</span><br><span class="line">			p3-&gt;front=p1-&gt;front;</span><br><span class="line">			p3-&gt;next=p1-&gt;next;</span><br><span class="line">			p1-&gt;next=p3;</span><br><span class="line">			p1-&gt;front=p3;</span><br><span class="line">		&#125;</span><br><span class="line">		p1=p1-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(p1-&gt;D==n &amp;&amp; p1-&gt;next==<span class="literal">NULL</span>)<span class="comment">//LAST POINT </span></span><br><span class="line">	&#123;</span><br><span class="line">		p3=(list_double*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(list_double));</span><br><span class="line">		p3-&gt;D=m;</span><br><span class="line">		p1-&gt;next=p3;</span><br><span class="line">		p1-&gt;front=p3;</span><br><span class="line">		p3-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">		p3-&gt;front=<span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">delelist_double</span><span class="params">(list_double *&amp;head,Element n)</span><span class="comment">//has been done</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	list_double *p1,*p2;</span><br><span class="line">	p1=head;</span><br><span class="line">	<span class="keyword">while</span>(p1-&gt;next!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		p2=p1-&gt;next;</span><br><span class="line">		<span class="keyword">if</span>(p2-&gt;D==n)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(p2-&gt;next!=<span class="literal">NULL</span>)<span class="comment">//not last point</span></span><br><span class="line">			&#123;</span><br><span class="line">				p2-&gt;front-&gt;next=p2-&gt;next;</span><br><span class="line">			    p2-&gt;next-&gt;front=p2-&gt;front;</span><br><span class="line">			    <span class="built_in">free</span>(p2);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span><span class="comment">//last point</span></span><br><span class="line">			&#123;</span><br><span class="line">				p2-&gt;front-&gt;next=<span class="literal">NULL</span>;</span><br><span class="line">				<span class="built_in">free</span>(p2);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">			p1=p1-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Element n,m;</span><br><span class="line">	Element a,b;</span><br><span class="line">	turn tag;<span class="comment">//tag=1 up tag=0 down</span></span><br><span class="line">	<span class="built_in">list</span> *L;<span class="comment">//相当于head指针</span></span><br><span class="line">	list_double *head;</span><br><span class="line">	list_double *rear;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;n);<span class="comment">//确定链表长度</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Single list creat test*/</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//creatlist_single(L,n);</span></span><br><span class="line">	<span class="comment">//printlist_single(L);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Single delete list creat test*/</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//scanf("%d",&amp;m);//要删除的数</span></span><br><span class="line">	<span class="comment">//delelist_single(L,m);</span></span><br><span class="line">	<span class="comment">//delelist_all(L,m);</span></span><br><span class="line">	<span class="comment">//printlist_single(L);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Single insert*/</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//insertlist_single(L,a);//在所有a后插入一个数</span></span><br><span class="line">	<span class="comment">//printlist_single(L);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Double list creat test*/</span></span><br><span class="line"></span><br><span class="line">	creatlist_double(head,rear,n);</span><br><span class="line">	prints(head,rear,<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Double delete list creat test*/</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//delelist_double(head,m);</span></span><br><span class="line">	<span class="comment">//prints(head,rear,1);</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Double insert list creat test*/</span></span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"请输入要在什么数后插入:\n"</span>);</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">"%d"</span>,&amp;a);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*Double insert*/</span></span><br><span class="line">	insertlist_double(head,a);</span><br><span class="line">	prints(head,rear,<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -269,18 +276,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="Prev: 栈例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="上一篇: 栈例程">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/Welcome/" data-tooltip="Welcome" aria-label="Next: Welcome">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/Welcome/" data-tooltip="Welcome" aria-label="下一篇: Welcome">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -288,7 +295,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -297,7 +304,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -305,7 +312,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -313,7 +320,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -321,7 +336,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/单双链表的例程/&amp;title=单双链表的例程" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -337,14 +352,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -379,18 +394,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="Prev: 栈例程">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/栈例程/" data-tooltip="栈例程" aria-label="上一篇: 栈例程">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/Welcome/" data-tooltip="Welcome" aria-label="Next: Welcome">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/Welcome/" data-tooltip="Welcome" aria-label="下一篇: Welcome">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -398,7 +413,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -407,7 +422,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -415,7 +430,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -423,7 +438,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/单双链表的例程/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -431,7 +454,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/单双链表的例程/&amp;title=单双链表的例程" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -447,14 +470,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -464,88 +487,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/单双链表的例程/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/单双链表的例程/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/单双链表的例程/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/单双链表的例程/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/单双链表的例程/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/单双链表的例程/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/单双链表的例程/&amp;title=单双链表的例程">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/单双链表的例程/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/单双链表的例程/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/单双链表的例程/&amp;title=单双链表的例程">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/单双链表的例程/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -553,9 +580,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -565,7 +592,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/11/单双链表的例程/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -574,7 +601,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;

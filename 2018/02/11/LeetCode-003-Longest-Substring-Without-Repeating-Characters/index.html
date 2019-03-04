@@ -10,11 +10,12 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n#003 Longest Substring Without Repeating Characters\n\nGiven a string, find the length of the longest substring without repeating characters. For example, the longest substring without repeating letters for “abcabcbb” is “abc”, which the length is 3. For “bbbbb” the longest substring is “b”, with the length of 1.\nInput: abcabccbbOutput: 3题意：找到一个字符串中，没有重复字符的最长子串，返回它的长度\n#####思路：\n\n做一个一维数组HashTable，下标为字符的ASCII码，值为这个字符在字符串中的位置，初始化为-1\n设置一个变量LastPosition表示不重复最长串的第一个元素的下标\n遍历字符串，依次检测该字符是否存在HashTable中，例：HashTable[&#39;a&#39;]=-1表示该字符第一次出现。HashTable[&#39;a&#39;]=2表示该字符上一次出现的位置在str[2].\n如果第一次出现该字符a，HashTable[‘a’]=字符’a’在字符串中的位置.\n如果已经出现过字符’a’，如果上一次’a’在目前检测串中，则置LastPosition为a的下标（即上一次LastPostion）。否则置LastPosition为当前检测字符的下标（HashTable[temp]）。该下标一定为：LastPosition=std::max(LastPosition,HashTable[temp]);\nMax为HashTable[temp]-LastPostion所能得到的最大值| a | b | c | d | a || – |\n\n\n\n\n\n0\n1\n2\n3\n5\n\n\n\n\n\n\n\n\n#####代码：123456789101112131415161718class Solution &#123;public:    int lengthOfLongestSubstring(string s) &#123;        int Max=0;        int LastPosition=0;        int HashTable[255]=&#123;-1&#125;;        int i=0;        for(i=0;i&lt;s.size();i++)&#123;            int temp=(int)s[i];            if(HashTable[temp]&gt;0)&#123;                LastPosition=std::max(LastPosition,HashTable[temp]);            &#125;            HashTable[temp]=i+1;            Max=std::max(Max,HashTable[temp]-LastPosition);        &#125;        return Max;    &#125;&#125;;\n#####知识点\n\n字符串中寻找最长符合要求的子串\n难点：当检测到重复字符时，应该从何处继续检测\n还有一种DP解法如下，其实上面的代码也是DP，DP指通过状态转移来解决问题的一种思路，每一种状态的决定总是与上一次状态有联系，以下代码中，Flag数组就是一种记录状态，而Longest每次依赖于上一次Longest还有Flag数组中的状态，因此说这种解决思路是一种DP思路。这个代码由LeetCode上的prime_tang所写，此处为引用。我询问后，他对DP思路的描述原文如下：\nIn my understanding, the dynamic programming is: every decision depends on the current status, and immediately cause the transfer of status. In this problem, flag is the status, and we can get the longest every time depends on the previous longest and the flag, so I think it also can be seen as DP solution, even though not obvious compared to the Maximum Subarray problem.\n123456789101112131415class Solution &#123;public:    int lengthOfLongestSubstring(std::string s) &#123;        std::vector&lt;int&gt; flag(256, -1);        int start = 0, longest = 0, len = s.size();        for (int i = 0; i != len; ++i) &#123;            if (flag[s[i]] &gt;= start) &#123;                longest = std::max(longest, i - start);                start = flag[s[i]] + 1;            &#125;            flag[s[i]] = i;        &#125;        return std::max(longest, len - start);    &#125;&#125;;\n\n\n","dateCreated":"2018-02-11T14:58:00+08:00","dateModified":"2018-02-12T11:48:32+08:00","datePublished":"2018-02-11T14:58:00+08:00","description":"CSDN 博客搬家","headline":"LeetCode #003 Longest Substring Without Repeating Characters","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/","keywords":"c, leetcode","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,leetcode">
 <meta property="og:type" content="blog">
@@ -32,8 +33,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -41,7 +40,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -53,6 +52,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -60,11 +61,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -73,23 +72,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -99,24 +83,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -125,11 +109,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -138,11 +122,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -151,11 +148,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -165,19 +162,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -193,7 +199,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -217,18 +223,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             LeetCode #003 Longest Substring Without Repeating Characters
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:58:00+08:00">
+    <time datetime="2018-02-11T14:58:00+08:00">
 	
 		    2月 11, 2018
     	
@@ -244,8 +250,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <p>#003 Longest Substring Without Repeating Characters</p>
@@ -309,18 +316,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/KMP/" data-tooltip="KMP" aria-label="Prev: KMP">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/KMP/" data-tooltip="KMP" aria-label="上一篇: KMP">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/LeetCode-002-Add-Two-Numbers/" data-tooltip="LeetCode #002 Add Two Numbers" aria-label="Next: LeetCode #002 Add Two Numbers">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/LeetCode-002-Add-Two-Numbers/" data-tooltip="LeetCode #002 Add Two Numbers" aria-label="下一篇: LeetCode #002 Add Two Numbers">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -328,7 +335,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -337,7 +344,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -345,7 +352,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -353,7 +360,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -361,7 +376,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/&amp;title=LeetCode #003 Longest Substring Without Repeating Characters" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -377,14 +392,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -419,18 +434,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/KMP/" data-tooltip="KMP" aria-label="Prev: KMP">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/KMP/" data-tooltip="KMP" aria-label="上一篇: KMP">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/LeetCode-002-Add-Two-Numbers/" data-tooltip="LeetCode #002 Add Two Numbers" aria-label="Next: LeetCode #002 Add Two Numbers">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/LeetCode-002-Add-Two-Numbers/" data-tooltip="LeetCode #002 Add Two Numbers" aria-label="下一篇: LeetCode #002 Add Two Numbers">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -438,7 +453,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -447,7 +462,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -455,7 +470,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -463,7 +478,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -471,7 +494,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/&amp;title=LeetCode #003 Longest Substring Without Repeating Characters" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -487,14 +510,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -504,88 +527,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/&amp;title=LeetCode #003 Longest Substring Without Repeating Characters">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/&amp;title=LeetCode #003 Longest Substring Without Repeating Characters">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -593,9 +620,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -605,7 +632,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/11/LeetCode-003-Longest-Substring-Without-Repeating-Characters/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -614,7 +641,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;

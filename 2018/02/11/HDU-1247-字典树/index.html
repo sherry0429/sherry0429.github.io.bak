@@ -10,13 +10,14 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114#include &lt;iostream&gt;#include &lt;string.h&gt;#include &lt;queue&gt;using namespace std;#define MAX 26struct node;typedef struct node *NumTree;struct node&#123;    int tag;    NumTree ans[MAX];&#125;;NumTree init(NumTree T)&#123;    int i;    T=new struct node;    for(i=0;i&lt;MAX;i++)    &#123;        T-&gt;tag=0;        T-&gt;ans[i]=NULL;    &#125;    return T;&#125;void insert(NumTree T,char str[])&#123;    NumTree Q=T,S=NULL;    int len=strlen(str);    int i,id;    for(i=0;i&lt;len;i++)    &#123;        id=str[i]-'a';        if(Q-&gt;ans[id]==NULL)        &#123;            S=new struct node;            int j;            for(j=0;j&lt;MAX;j++)            &#123;                S-&gt;ans[j]=NULL;                S-&gt;tag=0;            &#125;            Q-&gt;ans[id]=S;            Q=Q-&gt;ans[id];        &#125;        else        &#123;            Q=Q-&gt;ans[id];        &#125;    &#125;    Q-&gt;tag=1;&#125;int find(NumTree T,char str[])&#123;    NumTree Q=T;    int len=strlen(str);    int i,id;    queue&lt;int&gt;Stack;    for(i=0;i&lt;len;i++)    &#123;        id=str[i]-'a';        if(Q-&gt;ans[id]!=NULL)        &#123;            Q=Q-&gt;ans[id];        &#125;        if(Q-&gt;tag &amp;&amp; i&lt;len)//find sepraste point        &#123;            Stack.push(i);        &#125;    &#125;    while(!Stack.empty())    &#123;        int now=Stack.front();        now++;        bool OK=true;        Stack.pop();        Q=T;        while(str[now])        &#123;            id=str[now++]-'a';            if(Q-&gt;ans[id]==NULL)            &#123;                OK=false;                break;            &#125;            Q=Q-&gt;ans[id];        &#125;        if(OK &amp;&amp; Q-&gt;tag)            return 1;    &#125;    return 0;&#125;int main()&#123;    char str[50011][20];    NumTree T=NULL;    int x=0;    T=init(T);    while(gets(str[x]) &amp;&amp; str[x][0]!='\\0')    &#123;        insert(T,str[x]);        x++;    &#125;    int u;    for(u=0;u&lt;x;u++)    &#123;        if(find(T,str[u])==1)            cout&lt;&lt;str[u]&lt;&lt;endl;    &#125;    return 0;&#125;\n搞了一下午····\n不得不说还是有一些收获，RE的次数最多，\n这里要说一下，RE分两种，一种越界，一种是栈溢出，\n这里在定义str的时候，\n如果定义str[50001][100],就会栈溢出，可见字典树对字符长度的要求很高，不能太长。\n整个代码的思路就是在insert同时的时候标记，一个字符如果是一个字符串的结尾字符，那么标记，\n在find的时候，如果找到了一个标记，找到了A个标记，说明这个字符串里含有A个字符串，但无法确定这A个字符串是否是紧邻的，这里需要用STACK或者QUEUE，最好还是用STACK，依次记录有标记的下标，然后从后往前开始查询，\n这里还有一个小细节，在查询的时候now++,因为top回来的now是一个字符的结尾，重新遍历的时候应该是从找到标记的字符的后一个字符开始。\n然后如果有两个以上标记是怎么回事呢？\n如果\nabcdefg\n1001001\n有三个标记，这时候从最后一个1开始找，然后从倒数第二个1找，而这里的1代表，至少字典里有a,abcd,abcdefg三个字符串（也可能有defg,bcd等等），也就是说我从标记的下一个字符开始找起，标记的前半部分已经肯定在字符串里了（也就是组成该字符串的前半段），只需要证明从标记开始的字符串也在字典树里，那么就满足该字符串由两个字符串构成，输出即可。\n这题还有一个思路，就是把每一个字符串在不同位置“砍一刀”，变成两个字符串，然后find(str1)find(str2),如果都能找到，那么就说明它（这个字符串）有两个字符串构成，这个代码我也实现了，但是不知道为什么一直RE，可能是迭代或者递归的层数太多了（find要递归，如果字符串很长的话，也要砍很多刀）。暂时我还没有想到比较好的优化方案。砍刀也许可以用二分查找实现，但那仍然依赖输入。对效率提升不一定十分明显。\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113#include &lt;iostream&gt;#include &lt;string.h&gt;using namespace std;#define MAX 26struct node;typedef struct node *NumTree;struct node&#123;    NumTree ans[MAX];&#125;;NumTree init(NumTree T)&#123;    int i;    T=new struct node;    for(i=0;i&lt;MAX;i++)        T-&gt;ans[i]=NULL;    return T;&#125;void insert(NumTree T,char str[])&#123;    NumTree Q=T,S=NULL;    int len=strlen(str);    int i,id;    for(i=0;i&lt;len;i++)    &#123;        id=str[i]-'a';        if(Q-&gt;ans[id]==NULL)        &#123;            S=new struct node;            int j;            for(j=0;j&lt;MAX;j++)                S-&gt;ans[j]=NULL;            Q-&gt;ans[id]=S;            Q=Q-&gt;ans[id];        &#125;        else        &#123;            Q=Q-&gt;ans[id];        &#125;    &#125;&#125;int find(NumTree T,char str[])&#123;    NumTree Q=T;    int len=strlen(str);    int i,id;    int tag=1;    for(i=0;i&lt;len;i++)    &#123;        id=str[i]-'a';        if(Q-&gt;ans[id]!=NULL)            Q=Q-&gt;ans[id];        else        &#123;            tag=0;            break;        &#125;    &#125;    return tag;&#125;void FreeTree(NumTree T)&#123;    int i;    for(i=0;i&lt;MAX;i++)    &#123;        if(T-&gt;ans[i]!=NULL)            FreeTree(T-&gt;ans[i]);    &#125;    free(T);&#125;int main()&#123;    char str[50011][100];    NumTree T=NULL;    int x=0;    T=init(T);    while(gets(str[x]) &amp;&amp; str[x][0]!='\\0')    &#123;        insert(T,str[x]);        x++;    &#125;    int u;    for(u=0;u&lt;x;u++)    &#123;        int i,j,k=1;        int len=strlen(str[u]);        char str1[100],str2[100];        while(k&lt;len)        &#123;            for(i=0;i&lt;k;i++)                str1[i]=str[u][i];            str1[i]='\\0';            for(j=0;i&lt;len;i++,j++)                str2[j]=str[u][i];            str2[j]='\\0';            if(find(T,str1) &amp;&amp; find(T,str2))            &#123;                printf(\"%s\\n\",str[u]);                break;            &#125;            k++;        &#125;    &#125;    //FreeTree(T);    return 0;&#125;","dateCreated":"2018-02-11T14:51:50+08:00","dateModified":"2018-02-12T11:19:50+08:00","datePublished":"2018-02-11T14:51:50+08:00","description":"CSDN 博客搬家","headline":"HDU 1247 字典树","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/HDU-1247-字典树/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/HDU-1247-字典树/","keywords":"c, acm, hdu","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
-<meta name="keywords" content="acm,c,hdu">
+<meta name="keywords" content="c,acm,hdu">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="HDU 1247 字典树">
 <meta property="og:url" content="sherry0429.github.io/2018/02/11/HDU-1247-字典树/index.html">
@@ -32,8 +33,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -41,7 +40,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -53,6 +52,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -60,11 +61,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -73,23 +72,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -99,24 +83,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -125,11 +109,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -138,11 +122,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -151,11 +148,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -165,19 +162,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -193,7 +199,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -217,18 +223,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             HDU 1247 字典树
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:51:50+08:00">
+    <time datetime="2018-02-11T14:51:50+08:00">
 	
 		    2月 11, 2018
     	
@@ -244,8 +250,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX 26</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span>;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">NumTree</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="keyword">int</span> tag;</span><br><span class="line">    NumTree ans[MAX];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function">NumTree <span class="title">init</span><span class="params">(NumTree T)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i;</span><br><span class="line">    T=<span class="keyword">new</span> struct node;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;MAX;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        T-&gt;tag=<span class="number">0</span>;</span><br><span class="line">        T-&gt;ans[i]=<span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> T;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">insert</span><span class="params">(NumTree T,<span class="keyword">char</span> str[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    NumTree Q=T,S=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> len=<span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">int</span> i,id;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        id=str[i]-<span class="string">'a'</span>;</span><br><span class="line">        <span class="keyword">if</span>(Q-&gt;ans[id]==<span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            S=<span class="keyword">new</span> struct node;</span><br><span class="line">            <span class="keyword">int</span> j;</span><br><span class="line">            <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;MAX;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                S-&gt;ans[j]=<span class="literal">NULL</span>;</span><br><span class="line">                S-&gt;tag=<span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            Q-&gt;ans[id]=S;</span><br><span class="line">            Q=Q-&gt;ans[id];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            Q=Q-&gt;ans[id];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    Q-&gt;tag=<span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">find</span><span class="params">(NumTree T,<span class="keyword">char</span> str[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    NumTree Q=T;</span><br><span class="line">    <span class="keyword">int</span> len=<span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">int</span> i,id;</span><br><span class="line">    <span class="built_in">queue</span>&lt;<span class="keyword">int</span>&gt;Stack;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        id=str[i]-<span class="string">'a'</span>;</span><br><span class="line">        <span class="keyword">if</span>(Q-&gt;ans[id]!=<span class="literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            Q=Q-&gt;ans[id];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(Q-&gt;tag &amp;&amp; i&lt;len)<span class="comment">//find sepraste point</span></span><br><span class="line">        &#123;</span><br><span class="line">            Stack.push(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(!Stack.empty())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">int</span> now=Stack.front();</span><br><span class="line">        now++;</span><br><span class="line">        <span class="keyword">bool</span> OK=<span class="literal">true</span>;</span><br><span class="line">        Stack.pop();</span><br><span class="line">        Q=T;</span><br><span class="line">        <span class="keyword">while</span>(str[now])</span><br><span class="line">        &#123;</span><br><span class="line">            id=str[now++]-<span class="string">'a'</span>;</span><br><span class="line">            <span class="keyword">if</span>(Q-&gt;ans[id]==<span class="literal">NULL</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                OK=<span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            Q=Q-&gt;ans[id];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(OK &amp;&amp; Q-&gt;tag)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> str[<span class="number">50011</span>][<span class="number">20</span>];</span><br><span class="line">    NumTree T=<span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">int</span> x=<span class="number">0</span>;</span><br><span class="line">    T=init(T);</span><br><span class="line">    <span class="keyword">while</span>(gets(str[x]) &amp;&amp; str[x][<span class="number">0</span>]!=<span class="string">'\0'</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        insert(T,str[x]);</span><br><span class="line">        x++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">int</span> u;</span><br><span class="line">    <span class="keyword">for</span>(u=<span class="number">0</span>;u&lt;x;u++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(find(T,str[u])==<span class="number">1</span>)</span><br><span class="line">            <span class="built_in">cout</span>&lt;&lt;str[u]&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -284,18 +291,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/OpenCV-随笔记录/" data-tooltip="OpenCV 随笔记录" aria-label="Prev: OpenCV 随笔记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/OpenCV-随笔记录/" data-tooltip="OpenCV 随笔记录" aria-label="上一篇: OpenCV 随笔记录">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-3790-双权最短路/" data-tooltip="HDU 3790 双权最短路" aria-label="Next: HDU 3790 双权最短路">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-3790-双权最短路/" data-tooltip="HDU 3790 双权最短路" aria-label="下一篇: HDU 3790 双权最短路">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -303,7 +310,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -312,7 +319,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -320,7 +327,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -328,7 +335,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -336,7 +351,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/&amp;title=HDU 1247 字典树" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -352,14 +367,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -394,18 +409,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/OpenCV-随笔记录/" data-tooltip="OpenCV 随笔记录" aria-label="Prev: OpenCV 随笔记录">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/OpenCV-随笔记录/" data-tooltip="OpenCV 随笔记录" aria-label="上一篇: OpenCV 随笔记录">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-3790-双权最短路/" data-tooltip="HDU 3790 双权最短路" aria-label="Next: HDU 3790 双权最短路">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-3790-双权最短路/" data-tooltip="HDU 3790 双权最短路" aria-label="下一篇: HDU 3790 双权最短路">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -413,7 +428,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -422,7 +437,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -430,7 +445,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -438,7 +453,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/HDU-1247-字典树/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -446,7 +469,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/&amp;title=HDU 1247 字典树" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -462,14 +485,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -479,88 +502,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/&amp;title=HDU 1247 字典树">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/&amp;title=HDU 1247 字典树">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/HDU-1247-字典树/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -568,9 +595,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -580,7 +607,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/11/HDU-1247-字典树/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -589,7 +616,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;

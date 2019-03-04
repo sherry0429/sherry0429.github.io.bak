@@ -10,11 +10,12 @@
     <meta name="author" content="Tianyou Pan">
     
     
-        <link rel="icon" href="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/favicon.jpg">
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
     
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n在实验室里听一点记一点，到时候再总结整理吧。先记下来再说。\n一定要记住的page：http://wiki.opencv.org.cn/index.php/%E9%A6%96%E9%A1%B5\n123456789101112131415#include &lt;highgui.h&gt;int main()&#123;     IplImage * test=NULL;     test = cvLoadImage (&quot;D:\\\\demo.jpg&quot;);     cvNamedWindow(&quot;test_demo&quot;,1);\t cvMoveWindow(&quot;test_demo&quot;,800,10);     cvShowImage(&quot;test_demo&quot;,test);     cvWaitKey(0);     cvDestroyWindow(&quot;test_demo&quot;);     cvReleaseImage(&amp;test);     return 0;&#125;\n已知函数:\n11.IplImage *p=NULL;定义图像指针\nIplImage是一个类，它包含以下结构：\n123456789101112131415161718192021222324252627282930typedef struct _IplImage    &#123;        int  nSize;         /* IplImage大小，=sizeof(IplImage)*/        int  ID;            /* 版本 (=0)*/        int  nChannels;     /* 大多数OPENCV函数支持1,2,3 或 4 个通道 */        int  alphaChannel;  /* 被OpenCV忽略 */        int  depth;         /* 像素的位深度: IPL_DEPTH_8U, IPL_DEPTH_8S, IPL_DEPTH_16U,                               IPL_DEPTH_16S, IPL_DEPTH_32S, IPL_DEPTH_32F and IPL_DEPTH_64F 可支持 */        char colorModel[4]; /* 被OpenCV忽略 */        char channelSeq[4]; /* 被OpenCV忽略 */        int  dataOrder;     /* 0 - 交叉存取颜色通道，对三通道RGB图像，像素存储顺序为BGR BGR BGR ... BGR；                                     1 - 分开的颜色通道，对三通道RGB图像，像素存储顺序为RRR...R GGG...G BBB...B。                                  cvCreateImage只能创建交叉存取图像 */        int  origin;        /* 0 - 顶—左结构,                               1 - 底—左结构 (Windows bitmaps 风格) */        int  align;         /* 图像行排列 (4 or 8). OpenCV 忽略它，使用 widthStep 代替 */        int  width;         /* 图像宽像素数 */        int  height;        /* 图像高像素数*/        struct _IplROI *roi;/* 图像感兴趣区域. 当该值非空只对该区域进行处理 */        struct _IplImage *maskROI; /* 在 OpenCV中必须置NULL */        void  *imageId;     /* 同上*/        struct _IplTileInfo *tileInfo; /*同上*/        int  imageSize;     /* 图像数据大小(在交叉存取格式下imageSize=image-&gt;height*image-&gt;widthStep），单位字节*/        char *imageData;  /* 指向排列的图像数据 */        int  widthStep;   /* 排列的图像行大小，以字节为单位 */        int  BorderMode[4]; /* 边际结束模式, 被OpenCV忽略 */        int  BorderConst[4]; /* 同上 */        char *imageDataOrigin; /* 指针指向一个不同的图像数据结构（不是必须排列的），是为了纠正图像内存分配准备的 */    &#125;    IplImage;\n每定义一个IplImage指针，就定义了一个矩形，矩形的每一行依次为nsize,ID……等等。如图：\n\n12.cvLoadImage()\ncvLoadImage( filename, -1 ); 默认读取图像的原通道数，filename为图像路径\ncvLoadImage( filename, 0 ); 强制转化读取图像为灰度图\ncvLoadImage( filename, 1 ); 读取彩色图\n13.cvNameWindow(&quot;Image&quot;,1);命名图像空间\nint cvNamedWindow( const char* name, int flags=CV_WINDOW_AUTOSIZE );\n函数cvNamedWindow创建一个可以放置图像的窗口.\n被创建的窗口可以通过它们的名字被引用.\n如果已经存在这个名字的窗口，这个函数将不做任何事情.\n若为0表示以固定尺寸显示,此时可以用cvResizeWindow控制窗口大小，这时图像根据窗口大小进行调整，且全铺在窗口上。可以用鼠标拉伸。\n若为1，窗口以图像大小进行调整（即使先前设置过窗口大小），也会根据图像大小进行调整，且不可拉伸。\n*使用了这个函数后，即使没有图像指针，在编译完成后也会生成一个窗口（灰色）。\n关于cvResizeWindow(需要注意，这个函数是用来改变窗口大小的，而非改变图像大小。之所以看似图像大小也改变了，实际上是因为在NamedWindow参数里，设置为图像根据窗口进行调整。换句话说，它的原理是通过改变窗口大小——让图像跟着窗口变化——进而改变图像大小，而非直接改变图像大小。）\n1void cvResizeWindow( const char* name, int width, int height );\n\nname \n将被设置窗口的名字。\n\nwidth \n新的窗口宽度。\n\nheight \n新的窗口高度。\n\n\n函数cvResizeWindow改变窗口的大小。\n如果想要直接改变图像大小，需要resize函数或者图像金字塔pyrDown,pyrUp(不改变长宽比，一次面积放大4倍或者缩小4分之一）\n以下为转载：\n\nOpenCV改变图像大小的操作有两类：resize与图像金字塔，但是这两类操作差别还是比较大的。\n一、resize\n函数原型\nvoid resize(InputArray src, OutputArray dst, Size dsize, double fx=0, double fy=0, int interpolation=INTER_LINEAR )\n各个参数的意义比较直观，但是需要注意的是dsize与fx和fy必须不能同时为零，也就是说要么dsize不为零而fx与fy同时可以为0，要么dsize为0而fx与fy不同时为0；resize函数的目标大小可以是任意的大小，可以不保持长宽比率，删除的像素或者新增的像素值通过interpolation（内插）控制；\n二、图像金字塔\npyrDown与pyrUp分别表示向下降采样与向上升采样，但是二者并不是互为逆操作；\nvoid pyrDown(InputArray src, OutputArray dst, const Size&amp; dstsize=Size(), int border-\nType=BORDER_DEFAULT )\nvoid pyrUp(InputArray src, OutputArray dst, const Size&amp; dstsize=Size(), int border-\nType=BORDER_DEFAULT )\n这两个操作实现图像金字塔的经典操作，他们仅仅是分别代表一次采样操作，也就是说，向下(或者向上)进行相邻层次的金字塔采样，调用一次pyrDown函数只能降低到原图像尺寸的1/2;反之，调用pyrUp目标图像则为原图像尺寸的2倍。因为它们内部都给定了一次采样尺寸的约束。也就是说采样之后，长宽比基本是不变的。\n12345678910111213void ResizeDemo()&#123;         Mat img1=imread(&quot;person_org.jpg&quot;);         Mat img2;//将原图像变为32*32，长宽比被改变了         resize(img1,img2,Size(32,32),0,0,CV_INTER_LINEAR);         namedWindow(&quot;WindowOrg&quot;);         namedWindow(&quot;WindowNew&quot;);         imshow(&quot;WindowOrg&quot;,img1);         imshow(&quot;WindowNew&quot;,img2);          waitKey(10000);&#125;\n123456789101112131415161718192021222324252627282930313233#include &lt;stdafx.h&gt;#include &lt;highgui.h&gt;#include &lt;cv.h&gt;int main()&#123;\tIplImage *Image;\tIplImage *NewImage;\tImage = cvLoadImage(&quot;D:\\\\1234.jpg&quot;,1);\tCvSize sz;\tsz = cvGetSize(Image);\tsz.height /= 2;\tsz.width /= 2;\t//if pyrup,\t//sz.height*=2;\t//sz.width*=2;\t//setting height and width.\tNewImage = cvCreateImage(sz,IPL_DEPTH_8U, 3);\t//Create Image\tcvPyrDown(Image, NewImage, 7);\t//cvPryup(Image,NewImage,7);\t//若使用这个函数，需要事先建立好一个尺寸为原图一半的图并用IplImage指针指向它.7相当于CV_GAUSSIAN_5x5.\tcvNamedWindow(&quot;graph1&quot;, 1);\tcvNamedWindow(&quot;graph2&quot;, 1);\tcvShowImage(&quot;graph1&quot;, Image);\tcvShowImage(&quot;graph2&quot;, NewImage);\tcvWaitKey(0);\tcvDestroyAllWindows();\treturn 0;\n1&#125;\n总结：resize可以一次性将原图像变为任意不为0的尺寸，适合用来做归一化图像操作；而pyrDown与pyrUp适合做长宽比率不变得操作，且调用一次只能长和宽只能变为原来的1/2或者2倍，也即是说面积变为原来的1/4或者4倍。\n转载自http://blog.sina.com.cn/s/blog_4b0020f30101cgok.html\n\n14.void cvShowImage( const char* name, const CvArr* image );\nExample:\ncvShowImage(“Image”,p);\n函数cvShowImage 在指定窗口中显示图像.如果窗口创建的时候被设定标志CV_WINDOW_AUTOSIZE,\n那么图像将以原始尺寸显示；否则，图像将被伸缩以适合窗口大小.\n一条语句只显示一次图像，若后面的语句没有cvWaitKey(0)的话，图像一闪而过。\n15.cvWaitKey(delay)\nExample:\ncvWaitKey(0);\n函数的功能是不断刷新图像，频率时间为delay，单位为ms。\ndelay为&lt;=0时，无限制等待按键。按键后（在显示出的图片里进行按键），才执行WaitKey之后的语句。另外注意WaitKey单位为毫秒！它的功能可以理解为延时X毫秒后，执行接下来的语句。\n函数cvWaitKey无限制的等待按键事件（delay&lt;=0时）；或者延迟”delay”毫秒。返回值为被按键的值，如果超过指定时间则返回-1。\n16.void cvDestroyWindow( const char* name );\nExample;\ncvDestroyWindow(“Image”);\n销毁指定窗口\n17.cvReleaseImage(&amp;p);//销毁指针\ncvReleaseImage函数只是将IplImage*型的变量值赋为NULL，而这个变量本身还是存在的并且在内存中的存储位置不变\n18.void cvMoveWindow( const char* name, int x, int y );\n设定窗口的位置。\nname 将被设置的窗口的名字。\nx 窗口左上角的x坐标。\ny 窗口左上角的y坐标。\n函数cvMoveWindow改变窗口的位置。\ncvActionTargetMod()\nExample:\n cv\nGet\n2D\n cv\nCreate\nImage\n cv\nName\nWindow\nCV_bitdepth()\nS=符号整型\nU=无符号整型\nF=浮点型\nCV_8（位数）U（类型）G（矩阵）1（通道） 一个8位无符号整形单通道矩阵\nCV_32FG2 32位浮点型双通道矩阵\n图像数据类型：\nIPLDEPTH(S|U|F)\nIPL_DEPTH_8U 8位无符号整型\n头文件：\n\n\n\n\n\n\n\n\n\n\n基础结构：\n\n1 CvPoint\n2 CvPoint2D32f\n3 CvPoint3D32f\n4 CvSize\n5 CvSize2D32f\n6 CvRect\n7 CvScalar\n8 CvTermCriteria\n9 CvMat\n10 CvMatND\n11 CvSparseMat\n12 IplImage\n13 CvArr\n\n其中，CvPoint为二维坐标点整型，2D32F为2维浮点型，以此类推。\nCyScalar是一个颜色结构体类，有四个数组元素，分别代表R,G,B,第四个元素通常用来表示透明色.\n12345typedef struct CvScalar &#123;  double val[4] &#125; CvScalar;\n扩展——\n其中Cvpoint\n12inline CvPoint cvPoint( int x, int y );inline CvPoint cvPointFrom32f( CvPoint2D32f point )\n分别作用为：返回一个cvPoint值，\n将一个2D32f值转换为cvPoint值并返回。\n函数原型：\n1void cvLine( CvArr* img, CvPoint pt1, CvPoint pt2, CvScalar color, int thickness=1, int line_type=8, int shift=0 );\n功能：绘制连接两个点的线段\n\nimg 图像。\n\npt1 线段的第一个端点。\n\npt2 线段的第二个端点。\n\ncolor 线段的颜色。\n\nthickness 线段的粗细程度。\n\nline_type 线段的类型。\n8 (or 0) - 8-connected line（8邻接)连接 线。\n4 - 4-connected line(4邻接)连接线。\nCV_AA - antialiased 线条。\n\n\nshift 坐标点的小数点位数。\n函数cvLine 在图像中的点1和点2之间画一条线段。线段被图像或感兴趣的矩形(ROI rectangle)所裁剪。对于具有整数坐标的non-antialiasing 线条，使用8-连接或者4-连接Bresenham 算法。画粗线条时结尾是圆形的。画 antialiased 线条使用高斯滤波。要指定线段颜色，用户可以使用使用宏CV_RGB( r, g, b )。\n而且指定线条颜色的时候用到的宏CV_RGB(r，g，b)定义为#define CV_RGB( r, g, b ) cvScalar( (b), (g), (r), 0 )，由此可见，实际上起作用的颜色是看cvScalar中的b，g，r顺序，线段颜色就不言而喻了\n利用CvScalar，CvLine画线:\n12345678910111213141516171819202122232425262728293031323334353637// qwsds.cpp : Defines the entry point for the console application.//#include &quot;stdafx.h&quot;#include &quot;highgui.h&quot;#include &quot;stdio.h&quot;int main()&#123;\tCvPoint pt1;\tpt1=cvPoint(100,200);\tprintf(&quot;x:%d,y:%d\\n&quot;,pt1.x,pt1.y);\tCvPoint pt2;\tpt2=cvPoint(200,320);\tprintf(&quot;x:%d,y:%d\\n&quot;,pt2.x,pt2.y);\tCvScalar color;\tcolor=cvScalar(100,0,200);//蓝 绿 红。RGB\tprintf(&quot;v1:%f v2:%f v3:%f\\n&quot;,color.val[0],color.val[1],color.val[2]);\tIplImage *img=0;\timg=cvLoadImage(&quot;D:\\\\Blue hills.jpg&quot;);\tcvLine(img,pt1,pt2,color,2);\tcvNamedWindow(&quot;draw&quot;);\tcvShowImage(&quot;draw&quot;,img);\tcvWaitKey();\treturn 0;&#125;\n1&lt;/pre&gt;&lt;pre code_snippet_id=&quot;421021&quot; snippet_file_name=&quot;blog_20140707_14_8402014&quot; name=&quot;code&quot; class=&quot;cpp&quot;&gt;&lt;strong&gt;&lt;span style=&quot;color:#ff0000;&quot;&gt;CvLine&lt;/span&gt;&lt;/strong&gt;\n12void cvLine( CvArr* img, CvPoint pt1, CvPoint pt2, CvScalar color,             int thickness=1, int line_type=8, int shift=0 );\n\nimg\n图像。\n\npt1\n线段的第一个端点。\n\npt2\n线段的第二个端点。\n\ncolor\n线段的颜色。\n\nthickness\n线段的粗细程度。\n\nline_type\n线段的类型。8 (or 0) - 8-connected line（8邻接)连接 线。4 - 4-connected line(4邻接)连接线。CV_AA - antialiased 线条。\n\n\n\nshift\n坐标点的小数点位数。\n\n\n函数cvLine 在图像中的点1和点2之间画一条线段。线段被图像或感兴趣的矩形(ROI rectangle)所裁剪。对于具有整数坐标的non-antialiasing 线条，使用8-连接或者4-连接Bresenham 算法。画粗线条时结尾是圆形的。画 antialiased 线条使用高斯滤波。要指定线段颜色，用户可以使用使用宏CV_RGB( r, g, b )。\nCvSize sz;\n设置一个矩形。\n123CvSize sz;sz=cvSize(640,480);printf(&quot;width:%d,height:%d\\n&quot;,sz.width,sz.height);\n12345IplImage *p;p=cvCreateImage(sz,IPL_DEPTH_8U,3);//sz矩形的宽，高（将结构体传进去）,深度,颜色通道数）cvNamedWindow(&quot;Image&quot;);cvShowImage(&quot;Image&quot;,p);cvWaitKey(0);\n其中cvCreateImage创建了一个矩形！\nCvRect矩阵框的偏移量\n12345678typedef struct CvRect &#123;  int x; /* 方形的最左角的x-坐标  */  int y; /* 方形的最上或者最下角的y-坐标 */  int width; /* 宽 */  int height; /* 高 */ &#125; CvRect;\n应用：（利用了CvRectangle）\nCvRectangle：\n12void cvRectangle( CvArr* img, CvPoint pt1, CvPoint pt2, CvScalar color,                  int thickness=1, int line_type=8, int shift=0 );\n\nimg\n图像.\n\npt1\n矩形的一个顶点。\n\npt2\n矩形对角线上的另一个顶点\n\ncolor\n线条颜色 (RGB) 或亮度（灰度图像 ）(grayscale image）。\n\nthickness\n组成矩形的线条的粗细程度。取负值时（如 CV_FILLED）函数绘制填充了色彩的矩形。\n\nline_type\n线条的类型。见cvLine的描述\n\nshift\n坐标点的小数点位数。\n\n\n函数 cvRectangle 通过对角线上的两个顶点绘制矩形。\n123456789101112131415161718192021#include &quot;highgui.h&quot;#include &quot;stdio.h&quot;int main(int argc, char* argv[])&#123;\tCvSize sz;//CvSize 数据类型 C大写,定义。\tsz=cvSize(640,480);//给sz赋值。\tprintf(&quot;width:%d,height:%d\\n&quot;,sz.width,sz.height);\tIplImage *img=0;\timg=cvCreateImage(sz,IPL_DEPTH_8U,3);//创建而不是载入。\tCvRect rect;\trect=cvRect(50,30,100,150);//左上坐标，长度，宽度。\tCvPoint pt1=cvPoint(rect.x,rect.y);\tCvPoint pt2=cvPoint(rect.x+rect.width,rect.y+rect.height);\tcvRectangle(img,pt1,pt2,cvScalar(0,0,255),2);\tcvNamedWindow(&quot;create&quot;);\tcvShowImage(&quot;create&quot;,img);\tcvWaitKey();\treturn 0;&#125;\n其中cvRectangle利用apt1,apt2两个点，和颜色方案cvScalar，以及粗细程度2，将绘制的矩形传递给指针p2,然后在建立的图案区域AAA内显示矩形。\n复制图像：\n1IplImage *mp1=cvCloneImage(img);//把图像img复制给mp1.\n123456&lt;/pre&gt;&lt;/div&gt;&lt;div class=&quot;para&quot; style=&quot;margin:15px 0px 5px; text-indent:2em; line-height:24px; font-family:arial,宋体,sans-serif; font-size:14px&quot;&gt;&lt;pre code_snippet_id=&quot;421021&quot; snippet_file_name=&quot;blog_20140707_20_810661&quot; name=&quot;code&quot; class=&quot;cpp&quot; style=&quot;color: rgb(51, 51, 51);&quot;&gt;\tcvNamedWindow(&quot;create&quot;);\tcvShowImage(&quot;create&quot;,img);//img需要事先指向图像\tIplImage *p2=cvCloneImage(img);\tcvNamedWindow(&quot;clone&quot;);\tcvShowImage(&quot;clone&quot;,p2);\tcvWaitKey();\n​      保存图像到文件\n1int cvSaveImage( const char* filename, const CvArr* image );\n\nfilename \n文件名，如果对应的文件已经存在，则将被复盖。\n\nimage \n要保存的图像。\n\n\n函数cvSaveImage保存图像到指定文件。图像格式的的选择依赖于filename的扩展名，请参考cvLoadImage。只有8位单通道或者3通道（通道顺序为’BGR’ ）可以使用这个函数保存。如果格式，深度或者通道不符合要求，请先用cvCvtScale 和cvCvtColor转换；或者使用通用的cvSave保存图像为XML或者YAML格式。\n12345678910111213141516#include &lt;highgui.h&gt;int main()&#123;     IplImage * test=NULL;     test = cvLoadImage (&quot;D:\\\\demo.jpg&quot;);     cvNamedWindow(&quot;test_demo&quot;,1);\t cvMoveWindow(&quot;test_demo&quot;,800,10);     cvShowImage(&quot;test_demo&quot;,test);\t cvSaveImage(&quot;D:\\\\123.jpg&quot;,test);     cvWaitKey(0);     cvDestroyWindow(&quot;test_demo&quot;);     cvReleaseImage(&amp;test);     return 0;&#125;\n总结：OpenCV里有两个单词，Image，Window，它们各自代表的是载入的图像(用IplImage指针表示)，放置图像的窗口。1.在存在Window的前提下,即cvNamedWindow(“窗口名”,是否根据Image进行调整的指标.)，2.让IplImage指针指向Image,即cvLoadImage(“Image”,指针名).除去载入的方法外,也可以创建:(1).定义一个CvSize类型的矩形sz.(2).赋予其宽,高.sz=CvSize(640,480)(3).p=cvCreateImage(sz,IPL_DEPTH_8U,3).第二个参数为深度,例为8位无符号整型,3通道.3.再将Image导入Window，才能让Image显示出来,即cvShowImage(Window,image的指针).\n另外，除了必要的知识外，大部分函数在使用的时候可以直接在博客开头的Page手册里查阅使用方案，系统全面的文档提供了很高的支持。感觉和Linux查阅技术文档来进行操作有些相同之处。\n1234567891011121314#iclude&lt;stdio.h&gt;main()&#123;\tFILE *fp;                  /*定义一个文件指针*/\tint i;\tfp=fopen(&quot;CLIB&quot;, &quot;rb&quot;);    /*打开当前目录名为CLIB的文件只读*/ \tif(fp==NULL)               /*判断文件是否打开成功*/\t\tputs(&quot;File open error&quot;);/*提示打开不成功*/\ti=fclose(fp);              /*关闭打开的文件*/\tif(i==0)                   /*判断文件是否关闭成功*/\t\tprintf(&quot;O.K&quot;);           /*提示关闭成功*/\telse                \t\tputs(&quot;File close error&quot;);/*提示关闭不成功*/&#125;\n int fprintf(FILE stream, char format, );​        int fputs(char string, FILE steam);int fputc(intch, FILE *steam);fprintf() 函数的返回值为实际写入文件中的字符个数(字节数)。如果写错误, 则返回一个负数； fputs()函数返回0时表明将string指针所指的字符串写入文件中的操作成功, 返回非0时,表明写操作失败。  fputc()函数返回一个向文件所写字符的值, 此时写操作成功,否则返回EOF(文件结束结束其值为-1, 在stdio.h中定义)表示写操作错误。   fprintf( ) 函数中格式化的规定与printf( ) 函数相同,所不同的只是fprintf()函数是向文件中写入。而printf()是向屏幕输出。4.文件的顺序读操作函数​        fscanf()、fgets()和fgetc()函数函数fscanf()、fgets()和fgetc()均为文件的顺序读操作函数, 其调用格式 如下:\nint fscanf(FILE stream, char format, );​        char fgets(char string, int n, FILE steam);​        int fgetc(FILE *steam);fscanf()函数的用法与scanf()函数相似,只是它是从文件中读到信息。 fscanf()函数的返回值为EOF(即-1), 表明读错误, 否则读数据成功。  fgets()函数从文件中读取至多n-1个字符(n用来指定字符数), 并把它们放入string指向的字符串中, 在读入之后自动向字符串未尾加一个空字符, 读成功返回string指针,  失败返回一个空指针。  fgetc()函数返回文件当前位置的一个字符,读错误时返回EOF。 \n\n123void cvSmooth( const CvArr* src, CvArr* dst,               int smoothtype=CV_GAUSSIAN,               int param1=3, int param2=0, double param3=0, double param4=0 );\n\nsrc\n输入图像.\n\ndst\n输出图像.\n\nsmoothtype\n平滑方法:CV_BLUR_NO_SCALE (简单不带尺度变换的模糊) - 对每个象素的 param1×param2 领域求和。如果邻域大小是变化的，可以事先利用函数 cvIntegral 计算积分图像。CV_BLUR (simple blur) - 对每个象素param1×param2邻域 求和并做尺度变换 1/(param1•param2).CV_GAUSSIAN (gaussian blur) - 对图像进行核大小为 param1×param2 的高斯卷积CV_MEDIAN (median blur) - 对图像进行核大小为param1×param1 的中值滤波 (i.e. 邻域是方的).CV_BILATERAL (双向滤波) - 应用双向 3x3 滤波，彩色 sigma=param1，空间 sigma=param2. 关于双向滤波，可参考http://www.dai.ed.ac.uk/CVonline/LOCAL_COPIES/MANDUCHI1/Bilateral_Filtering.html\n\n\n\nparam1\n平滑操作的第一个参数.\n\nparam2\n平滑操作的第二个参数. 对于简单/非尺度变换的高斯模糊的情况，如果param2的值 为零，则表示其被设定为param1。\n\nparam3\n对应高斯参数的 Gaussian sigma (标准差). 如果为零，则标准差由下面的核尺寸计算：\n\n\n12sigma = (n/2 - 1)*0.3 + 0.8, 其中 n=param1 对应水平核,                                 n=param2 对应垂直核.\n对小的卷积核 (3×3 to 7×7) 使用如上公式所示的标准 sigma 速度会快。如果 param3 不为零，而 param1 和 param2 为零，则核大小有 sigma 计算 (以保证足够精确的操作).\n函数 cvSmooth 可使用上面任何一种方法平滑图像。每一种方法都有自己的特点以及局限。\n没有缩放的图像平滑仅支持单通道图像，并且支持8位到16位的转换(与cvSobel和cvaplace相似)和32位浮点数到32位浮点数的变换格式。\n简单模糊和高斯模糊支持 1- 或 3-通道, 8-比特 和 32-比特 浮点图像。这两种方法可以（in-place）方式处理图像。\n中值和双向滤波工作于 1- 或 3-通道， 8-位图像，但是不能以 in-place 方式处理图像.\n\n中值滤波\n中值滤波法是一种非线性平滑技术，它将每一象素点的灰度值设置为该点某邻域窗口内的所有象素点灰度值的中值。实现方法：\n\n\n\n通过从图像中的某个采样窗口取出奇数个数据进行排序\n用排序后的中值取代要处理的数据即可\n\n中值滤波法对消除椒盐噪音非常有效，在光学测量条纹图象的相位分析处理方法中有特殊作用，但在条纹中心分析方法中作用不大。中值滤波在图像处理中,常用于用来保护边缘信息,是经典的平滑噪声的方法\n\n中值滤波原理\n\n中值滤波是基于排序统计理论的一种能有效抑制噪声的非线性信号处理技术，中值滤波的基本原理是把数字图像或数字序列中一点的值用该点的一个拎域中各点值的中值代替，让周围的像素值接近的值，从而消除孤立的噪声点。方法是去某种结构的二维滑动模板，将板内像素按照像素值的大小进行排序，生成单调上升（或下降）的为二维数据序列。二维中值滤波输出为g（x,y）=med{f(x-k,y-l),(k,l∈W)} ，其中,f(x,y)，g(x,y)分别为原始图像和处理后图像。W为二维模板，通常为22，33区域，也可以是不同的的形状，如线状，圆形，十字形，圆环形等。\n\n高斯滤波\n\n高斯滤波实质上是一种信号的滤波器，其用途是信号的平滑处理，我们知道数字图像用于后期应用，其噪声是最大的问题，由于误差会累计传递等原因，很多图像处理教材会在很早的时候介绍Gauss滤波器，用于得到信噪比SNR较高的图像（反应真实信号）。于此相关的有Gauss-Lapplace变换，其实就是为了得到较好的图像边缘，先对图像做Gauss平滑滤波，剔除噪声，然后求二阶导矢，用二阶导的过零点确定边缘，在计算时也是频域乘积=&gt;空域卷积。\n滤波器就是建立的一个数学模型，通过这个模型来将图像数据进行能量转化，能量低的就排除掉，噪声就是属于低能量部分\n其实编程运算的话就是一个模板运算，拿图像的八连通区域来说，中间点的像素值就等于八连通区的像素值的均值，这样达到平滑的效果\n若使用理想滤波器，会在图像中产生振铃现象。采用高斯滤波器的话，系统函数是平滑的，避免了振铃现象。\n1例程序：\n12345678910111213141516171819202122232425262728293031323334353637#include &lt;stdafx.h&gt;#include &lt;highgui.h&gt;#include &lt;cv.h&gt;int main()&#123;\tIplImage *p = cvLoadImage(&quot;D:\\\\1234.jpg&quot;, 1);\tIplImage *out = cvCreateImage(cvGetSize(p), IPL_DEPTH_8U, 3);\tcvNamedWindow(&quot;cv_in&quot;, 1);\tcvNamedWindow(&quot;cv_out&quot;, 1);\t\tcvShowImage(&quot;cv_in&quot;, p);\tcvWaitKey(1024);\t\tcvSmooth(p, out, CV_GAUSSIAN, 3, 3);//from head file &lt;cv.h&gt;.\tcvShowImage(&quot;cv_out&quot;, out);\tcvWaitKey(1024);\t//cvReleaseImage(&amp;p);\tcvReleaseImage(&amp;out);\t//加上上述两行就会报错，原因：\t/*\t在写相关程序的时候，在程序的结尾处释放前段自定义的变量。使用函数cvReleaseImage(&amp;pFrame);时程序在调试结束后报错，\t指明是在释放内存时出错。经过看前辈们遇到的相同的问题。先总结如下：    cvReleaseImage()和cvCreateImage()相对应的。在程序中如果没有“创建”就不能“释放”。\t所以，如果我们使用的指针不是用cvCreateImage()创建的。\t如果使用cvReleaseImage()就会出现错误。如果大家担心指针不释放会引发内存的错误。\t可以使用pFrame = NULL;来释放内存。\t因为cvReleaseImage()的作用就是将作为参数的那个指针设置为NULL;\t如修改后，只ReleaseOUT就不会出错.\t*/\tcvDestroyAllWindows();\treturn 0;&#125;\n1CvCapture 视频获取结构\ncvCreateFileCapture1CvCapture* cvCreateFileCapture( const char* filename );\n\nfilename \n视频文件名。\n\n\n函数cvCreateFileCapture给指定文件中的视频流分配和初始化CvCapture结构。\n当分配的结构不再使用的时候，它应该使用cvReleaseCapture函数释放掉。\ncvReleaseCapture1void cvReleaseCapture( CvCapture** capture );\n\ncapture \n视频获取结构指针。\n\n\n函数cvReleaseCapture释放由函数cvCreateFileCapture或者cvCreateCameraCapture分配的CvCapture结构。\n注:若从capture中使用cvQueryFrame获取图像指针，在releaseCapture的时候同时函数释放图像指针，用户不用再自己释放。\n12345678910111213141516171819202122232425#include &lt;stdafx.h&gt;#include &lt;highgui.h&gt;int main()&#123;\tIplImage *p; \tCvCapture *capture = cvCreateFileCapture(&quot;D:\\\\123.avi&quot;);\tcvNamedWindow(&quot;Image&quot;, 1);\twhile (1)\t&#123;\t\tp = cvQueryFrame(capture);\t\tif (!p)\t\t\tbreak;//if can&apos;t load image,p is NULL,and break.\t\tcvShowImage(&quot;Image&quot;, p);\t\tchar c = cvWaitKey(1024);\t\tif (c == 27)\t\t\tbreak;//if you press Esc,c will get 27.\t&#125;\tcvReleaseCapture(&amp;capture);\tcvReleaseImage(&amp;p);\tcvDestroyWindow(Image);\treturn 0;\t&#125;&#125;\n1图像像素的获取：\n1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556// 访问图像像素.cpp : 定义控制台应用程序的入口点。//way://IplImage *Img = cvCreateImage(cvSize(640, 580), IPL_DEPTH_8U, 3);//1.间接访问:get*D,set*D...//2.直接访问:((*uchar)ImageData+i*Image-&gt;width)[j]=111;/*单通道：IplImage*img=cvCreateImage(cvSize(640,480),IPL_DEPTH_8U,1);int height     =img-&gt;height; int width=img-&gt;width;  int step       =img-&gt;widthStep/sizeof(uchar); uchar* data    =(uchar*)img-&gt;imageData; data[i*step+j]=111;多通道：IplImage*img=cvCreateImage(cvSize(640,480),IPL_DEPTH_8U,3);  int height     =img-&gt;height; int width      =img-&gt;width;  int step       =img-&gt;widthStep/sizeof(uchar); int channels   =img-&gt;nChannels;  uchar* data    =(uchar*)img-&gt;imageData; data[i*step+j*channels+k]=111;如果为浮点型矩阵，而非字节型，那就把uchar改为float.*///3.利用宏:CV_IMAGE_ELEM//单通道:CV_IMAGE_ELEM(img,uchar,i,j)=111; img为IplImage指针//多通道:CV_IMAGE_ELEM(srcimg,uchar,i,j*3+0)=111;#include &quot;stdafx.h&quot;#include &lt;highgui.h&gt;#include &lt;cv.h&gt;int main()&#123;\tIplImage *Image = cvCreateImage(cvSize(640,480), IPL_DEPTH_8U, 3);\tCvScalar color;\tint i, j;\tfor (i = 0; i &lt; 50; i++)//循环使i*j区域内的点全部变为黑色.\t&#123;\t\tfor (j = 50; j &lt; 100; j++)\t\t&#123;\t\t\tcolor = cvGet2D(Image, i, j);//get(x,y)&apos;s color.cal[0],color.cal[1].\t\t\t//printf(&quot;cal0:%d\\ncal1:%d\\ncal2:%d\\n&quot;, color.val[0], color.val[1], color.val[2]);\t\t\t//若为单通道图像，只修改color.val[0]即可.\t\t\tcolor.val[0] = 0;\t\t\tcolor.val[1] = 0;\t\t\tcolor.val[2] = 0;\t\t\tcvSet2D(Image, i, j, color);\t\t&#125;\t&#125;\tcvNamedWindow(&quot;ImageA&quot;, 1);\tcvShowImage(&quot;ImageA&quot;, Image);\tcvWaitKey(0);\tcvDestroyAllWindows();\treturn 0;&#125;\n1而cvSetXD中，固定参数为IplImage指针，X个Int类型的参数表示图上的坐标，以及可以将每个坐标的颜色分配修改的Scalar类。\n1图像的边缘检测（根据像素梯度）\n123456789101112131415161718192021#include &lt;stdafx.h&gt;#include &lt;highgui.h&gt;#include &lt;cv.h&gt;int main()&#123;\tIplImage *Image;\tIplImage *out;\tImage = cvLoadImage(&quot;D:\\\\1234.jpg&quot;, 0);\tout = cvCreateImage(cvGetSize(Image), IPL_DEPTH_8U, 1);\tcvNamedWindow(&quot;ImageA&quot;, 1);\tcvNamedWindow(&quot;ImageB&quot;, 1);\tcvCanny(Image, out, 50, 75, 3);\t//cvCanny的第一个第二个参数均为指向单通道图片的IplImage.\t//第三,第四个参数为阀值，一个大一个小，应当根据图像的梯度设定.\t//第五个参数为canny算子3.\tcvShowImage(&quot;ImageB&quot;, out);\tcvWaitKey(0);\tcvDestroyAllWindows();\treturn 0;&#125;\ncanny算子实质：如果一个像素的梯度大与上限值，则被认为是边缘像素，如果小于下限阈值，则被抛弃，那么如果该点的梯度位于两者之间，则当其与高于上限值的像素点连接时我们才保留，否则删除。另：当两个阀值等比例同时增大时（比如从50，150增加到100，300，比例并未改变），则图像上的杂点变少（边缘更加清晰）。\n1关于梯度的计算：\n1引用自：http://www.cnblogs.com/justany/archive/2012/11/23/2782660.html\n1图像的边缘图像的边缘从数学上是如何表示的呢？图像的边缘上，邻近的像素值应当显著地改变了。而在数学上，导数是表示改变快慢的一种方法。梯度值的大变预示着图像中内容的显著变化了。用更加形象的图像来解释,假设我们有一张一维图形。下图中灰度值的“跃升”表示边缘的存在：　　　　使用一阶微分求导我们可以更加清晰的看到边缘“跃升”的存在(这里显示为高峰值)：　　　　由此我们可以得出：边缘可以通过定位梯度值大于邻域的相素的方法找到。 卷积卷积可以近似地表示求导运算。那么卷积是什么呢？卷积是在每一个图像块与某个算子（核）之间进行的运算。核？！核就是一个固定大小的数值数组。该数组带有一个锚点 ，一般位于数组中央。 可是这怎么运算啊？假如你想得到图像的某个特定位置的卷积值，可用下列方法计算：将核的锚点放在该特定位置的像素上，同时，核内的其他值与该像素邻域的各像素重合；将核内各值与相应像素值相乘，并将乘积相加；将所得结果放到与锚点对应的像素上；对图像所有像素重复上述过程。用公式表示上述过程如下：　　　　在图像边缘的卷积怎么办呢？计算卷积前，OpenCV通过复制源图像的边界创建虚拟像素，这样边缘的地方也有足够像素计算卷积了。 近似梯度比如内核为3时。首先对x方向计算近似导数：然后对y方向计算近似导数：然后计算梯度：当然你也可以写成：求梯度的例程序：\n12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849&lt;span style=&quot;font-size:18px;&quot;&gt;#include &quot;opencv2/imgproc/imgproc.hpp&quot;#include &quot;opencv2/highgui/highgui.hpp&quot;#include &lt;stdlib.h&gt;#include &lt;stdio.h&gt;using namespace cv;int main( int argc, char** argv )&#123;    Mat src, src_gray;    Mat grad;    char* window_name = &quot;求解梯度&quot;;    int scale = 1;    int delta = 0;    int ddepth = CV_16S;    int c;    src = imread( argv[1] );    if( !src.data )&#123;         return -1;     &#125;    //高斯模糊    GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );    //转成灰度图    cvtColor( src, src_gray, CV_RGB2GRAY );    namedWindow( window_name, CV_WINDOW_AUTOSIZE );    Mat grad_x, grad_y;    Mat abs_grad_x, abs_grad_y;    Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );    convertScaleAbs( grad_x, abs_grad_x );    Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );    convertScaleAbs( grad_y, abs_grad_y );    addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );    imshow( window_name, grad );    waitKey(0);    return 0;&#125;&lt;/span&gt;\nSobel函数\n\n索贝尔算子（Sobel operator）计算。\n\nC++:void Sobel(InputArray src, OutputArray dst, int ddepth, int dx, int dy, int ksize=3, double scale=1, double delta=0, intborderType=BORDER_DEFAULT )\n\n\n代码注释：\n12345//在x方向求图像近似导数Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );//在y方向求图像近似导数Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );\n如果我们打印上面两个输出矩阵，可以看到grad_x和grad_y中的元素有正有负。\n当然，正方向递增就是正的，正方向递减则是负值。\n这很重要，我们可以用来判断梯度方向。\nconvertScaleAbs函数\n\n线性变换转换输入数组元素成8位无符号整型。\n\nC++:void convertScaleAbs(InputArray src, OutputArray dst, double alpha=1, double beta=0)\n\n对于每个输入数组的元素函数convertScaleAbs 进行三次操作依次是：缩放，得到一个绝对值，转换成无符号8位类型。\n\n对于多通道矩阵，该函数对各通道独立处理。如果输出不是8位，将调用Mat::convertTo方法并计算结果的绝对值，例如：\n123456&gt; Mat_&lt;float&gt; A(30,30);&gt; randu(A, Scalar(-100), Scalar(100));&gt; Mat_&lt;float&gt; B = A*5 + 3;&gt; B = abs(B);&gt;&gt;\n\n为了能够用图像显示，提供一个直观的图形，我们利用该方法，将-256 — 255的导数值，转成0 — 255的无符号8位类型。\naddWeighted函数\n\n计算两个矩阵的加权和。\n\nC++:void addWeighted(InputArray src1, double alpha, InputArray src2, double beta, double gamma, OutputArray dst, intdtype=-1)\n\n函数addWeighted 两个数组的加权和公式如下：\n　　　　\n在多通道情况下，每个通道是独立处理的，该函数可以被替换成一个函数表达式：\n　　　　dst = src1alpha + src2beta + gamma;\n\n利用convertScaleAbs和addWeighted，我们可以对梯度进行一个可以用图像显示的近似表达。\n这样我们就可以得到下面的效果：\n\n梯度方向\n但有时候边界还不够，我们希望得到图片色块之间的关系，或者研究样本的梯度特征来对机器训练识别物体时候，我们还需要梯度的方向。\n二维平面的梯度定义为：\n　　　　\n这很好理解，其表明颜色增长的方向与x轴的夹角。\n但Sobel算子对于沿x轴和y轴的排列表示的较好，但是对于其他角度表示却不够精确。这时候我们可以使用Scharr滤波器。\nScharr滤波器的内核为：\n　　　　\n这样能提供更好的角度信息，现在我们修改原程序，改为使用Scharr滤波器进行计算：\n1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950&lt;span style=&quot;font-size:18px;&quot;&gt;#include &quot;opencv2/imgproc/imgproc.hpp&quot;#include &quot;opencv2/highgui/highgui.hpp&quot;#include &lt;stdlib.h&gt;#include &lt;stdio.h&gt;using namespace cv;int main( int argc, char** argv )&#123;    Mat src, src_gray;    Mat grad;    char* window_name = &quot;梯度计算&quot;;    int scale = 1;    int delta = 0;    int ddepth = CV_16S;    int c;    src = imread( argv[1] );    if( !src.data )&#123;         return -1;     &#125;    GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );    cvtColor( src, src_gray, CV_RGB2GRAY );    namedWindow( window_name, CV_WINDOW_AUTOSIZE );    Mat grad_x, grad_y;    Mat abs_grad_x, abs_grad_y;    //改为Scharr滤波器计算x轴导数    Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );    convertScaleAbs( grad_x, abs_grad_x );    //改为Scharr滤波器计算y轴导数    Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );    convertScaleAbs( grad_y, abs_grad_y );    addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );    imshow( window_name, grad );    waitKey(0);    return 0;&#125;&lt;/span&gt;&lt;strong style=&quot;font-size:24px;&quot;&gt;&lt;/strong&gt;\nScharr函数接受参数与Sobel函数相似，这里就不叙述了。\n下面我们通过divide函数就能得到一个x/y的矩阵。\n\n对两个输入数组的每个元素执行除操作。\n\nC++:void divide(InputArray src1, InputArray src2, OutputArray dst, double scale=1, int dtype=-1)\n\n\nC++:void divide(double scale, InputArray src2, OutputArray dst, int dtype=-1)\n\n该函数对两个数组进行除法：\n　　\n或则只是缩放系数除以一个数组：\n　　\n这种情况如果src2是0，那么dst也是0。不同的通道是独立处理的。\n\n","dateCreated":"2018-02-11T14:52:18+08:00","dateModified":"2018-02-12T11:48:42+08:00","datePublished":"2018-02-11T14:52:18+08:00","description":"CSDN 博客搬家","headline":"OpenCV 随笔记录","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/OpenCV-随笔记录/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/OpenCV-随笔记录/","keywords":"opencv","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="opencv">
 <meta property="og:type" content="blog">
@@ -41,8 +42,6 @@
         
     
     
-        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg"/>
-    
     
     
         <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
@@ -50,7 +49,7 @@
     
     
     <!--STYLES-->
-    <link rel="stylesheet" href="/assets/css/style-pz4cc6y13wt2trzqa8l3n9v0yykr0sstdaheem7qj628nhjmhp9pfawvqawz.min.css">
+    <link rel="stylesheet" href="/assets/css/style-hzc6ygkji7tqeezobnfvwqxs19zzkxclsuhwm7v6tcij3ca5ktb1gv1ieyr3.min.css">
     <!--STYLES END-->
     
 
@@ -62,6 +61,8 @@
             <!-- Define author's picture -->
 
 
+    
+
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
@@ -69,11 +70,9 @@
     </div>
     
         
-            <a  class="header-right-icon "
+            <a  class="header-right-picture "
                 href="#about">
         
-        
-            <i class="fa fa-lg fa-question"></i>
         
         </a>
     
@@ -82,23 +81,8 @@
             <!-- Define author's picture -->
 
 
-
-        
-    
-
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
-        
-            <div class="sidebar-profile">
-                <a href="/#about">
-                    <img class="sidebar-profile-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
-                </a>
-                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
-                
-                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
-</h5>
-                
-            </div>
         
         
             <ul class="sidebar-buttons">
@@ -108,24 +92,24 @@
                         <a  class="sidebar-button-link "
                              href="/ "
                             
-                            title="Home"
+                            title="首页"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Home</span>
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
                         <a  class="sidebar-button-link "
-                             href="/all-categories/"
+                             href="/all-categories"
                             
-                            title="Categories"
+                            title="分类"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Categories</span>
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
                     </a>
             </li>
             
@@ -134,11 +118,11 @@
                         <a  class="sidebar-button-link "
                              href="/all-tags"
                             
-                            title="Tags"
+                            title="标签"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Tags</span>
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
                     </a>
             </li>
             
@@ -147,11 +131,24 @@
                         <a  class="sidebar-button-link "
                              href="/all-archives"
                             
-                            title="Archives"
+                            title="归档"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Archives</span>
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link open-algolia-search"
+                             href="#search"
+                            
+                            title="搜索"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -160,11 +157,11 @@
                         <a  class="sidebar-button-link "
                              href="#about"
                             
-                            title="About"
+                            title="关于"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">About</span>
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
                     </a>
             </li>
             
@@ -174,19 +171,28 @@
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="Github">
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">Github</span>
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
                     </a>
             </li>
             
                 <li class="sidebar-button">
                     
-                        <a  class="sidebar-button-link " href="https://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-stack-overflow" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
                     </a>
             </li>
             
@@ -202,7 +208,7 @@
                             title="RSS"
                         >
                     
-                        <i class="sidebar-button-icon fa fa-lg fa-rss" aria-hidden="true"></i>
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">RSS</span>
                     </a>
             </li>
@@ -226,18 +232,18 @@
                         hasCoverMetaOut
                         ">
                 
-<article class="post" itemscope itemType="http://schema.org/BlogPosting">
+<article class="post">
     
     
         <div class="post-header main-content-wrap text-left">
     
-        <h1 class="post-title" itemprop="headline">
+        <h1 class="post-title">
             OpenCV 随笔记录
         </h1>
     
     
         <div class="post-meta">
-    <time itemprop="datePublished" datetime="2018-02-11T14:52:18+08:00">
+    <time datetime="2018-02-11T14:52:18+08:00">
 	
 		    2月 11, 2018
     	
@@ -253,8 +259,9 @@
 
     
 </div>
+
     
-    <div class="post-content markdown" itemprop="articleBody">
+    <div class="post-content markdown">
         <div class="main-content-wrap">
             <!-- excerpt -->
 <p>在实验室里听一点记一点，到时候再总结整理吧。先记下来再说。</p>
@@ -667,18 +674,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/npm install过程中的gyp error/" data-tooltip="NPM INSTALL过程中的gyp error" aria-label="Prev: NPM INSTALL过程中的gyp error">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/npm install过程中的gyp error/" data-tooltip="NPM INSTALL过程中的gyp error" aria-label="上一篇: NPM INSTALL过程中的gyp error">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-1247-字典树/" data-tooltip="HDU 1247 字典树" aria-label="Next: HDU 1247 字典树">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-1247-字典树/" data-tooltip="HDU 1247 字典树" aria-label="下一篇: HDU 1247 字典树">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -686,7 +693,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -695,7 +702,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -703,7 +710,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -711,7 +718,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -719,7 +734,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/&amp;title=OpenCV 随笔记录" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -735,14 +750,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -777,18 +792,18 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/npm install过程中的gyp error/" data-tooltip="NPM INSTALL过程中的gyp error" aria-label="Prev: NPM INSTALL过程中的gyp error">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/npm install过程中的gyp error/" data-tooltip="NPM INSTALL过程中的gyp error" aria-label="上一篇: NPM INSTALL过程中的gyp error">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
-                    <span class="hide-xs hide-sm text-small icon-ml">Prev</span>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
                 </a>
             </li>
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-1247-字典树/" data-tooltip="HDU 1247 字典树" aria-label="Next: HDU 1247 字典树">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/11/HDU-1247-字典树/" data-tooltip="HDU 1247 字典树" aria-label="下一篇: HDU 1247 字典树">
                 
-                    <span class="hide-xs hide-sm text-small icon-mr">Next</span>
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
                 </a>
             </li>
@@ -796,7 +811,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -805,7 +820,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Facebook">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -813,7 +828,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Twitter">
-                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -821,7 +836,15 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Google+">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -829,7 +852,7 @@
             
             <li class="post-action hide-xs">
                 <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/&amp;title=OpenCV 随笔记录" title="分享到 QQ">
-                    <i class="fa fa-qq" aria-hidden="true"></i>
+                    <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
         
@@ -845,14 +868,14 @@
             
                 <li class="post-action">
                     <a class="post-action-btn btn btn--default" href="#gitment">
-                         <i class="fa fa-comment-o"></i>
+                         <i class="fa fa-comment"></i>
                     </a>
                 </li>
             
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -862,88 +885,92 @@
 
 
                 </div>
-                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-    <i id="btn-close-shareoptions" class="fa fa-close"></i>
-    <ul class="share-options">
-        
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
-                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
-                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
             
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/&amp;title=OpenCV 随笔记录">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
             
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
-                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
-                </a>
-            </li>
-        
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
             
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/&amp;title=OpenCV 随笔记录">
-                    <i class="fa fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
-                </a>
-            </li>
-        
-            
-            
-            <li class="share-option">
-                <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2018/02/11/OpenCV-随笔记录/">
-                    <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
-                </a>
-            </li>
-        
-    </ul>
-</div>
+        </ul>
+    </div>
+
 
             
         </div>
         
 
-
-    
-        
-    
 
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
+            <i class="fa fa-times"></i>
         </div>
-        
-            <img id="about-card-picture" src="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/handface.jpg" alt="author‘s picture"/>
         
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+            <div id="about-card-bio"><p>author.bio</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>Python Developer</p>
+                <p>author.job</p>
 
             </div>
         
         
             <div id="about-card-location">
-                <i class="fa fa-map-marker"></i>
+                <i class="fa fa-map-marker-alt"></i>
                 <br/>
-                China.SiChuan
+                China SiChuan
             </div>
         
     </div>
@@ -951,9 +978,9 @@
 
         
         
-<div id="cover" style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/zongsi.png');"></div>
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
         <!--SCRIPTS-->
-<script src="/assets/js/script-peofhqjkzcghmndknakluequy1y6owxdwpaqyju9ntl9zxnk7rdolb3rjjoj.min.js"></script>
+<script src="/assets/js/script-wtqp53w3rxwvrxcbfov6hrrqcasyygfju0qrl308crlysyetfldvldw2u4tq.min.js"></script>
 <!--SCRIPTS END-->
 
     
@@ -963,7 +990,7 @@
                     new Gitment({
                         id: 'sherry0429.github.io/2018/02/11/OpenCV-随笔记录/',
                         owner: 'sherry0429',
-                        repo: 'gitment-comments',
+                        repo: 'https://github.com/sherry0429/gitment-comments',
                         oauth: {
                             client_id: '8682c4503f3fef4dd481',
                             client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
@@ -972,7 +999,7 @@
                 }
                 var gc = document.createElement('script');
                 gc.type = 'text/javascript';
-                gc.src = '//pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.src = '//imsun.github.io/gitment/dist/gitment.browser.js';
                 gc.charset = 'UTF-8';
                 gc.onload = render;
                 gc.async = true;
