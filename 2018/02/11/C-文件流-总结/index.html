@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\nPrepare首先，需要加头文件。（即file stream），在包含这个头文件后，可使用三种类：\n\nofstream  写文件  （Output File Stream）  \n使用方法: 文件名&lt;&lt;内容&lt;&lt;endl;\n\n\nifstream   读文件 （Input File Stream）  \n使用方法:文件名&gt;&gt;内容;\n\n\nfstream  打开文件供读写  （File Stream） \n利用各种参数达到控制文件读写的目的\n\n\n\nSame每个类都有相同的两种函数功能：\n\nX.open(“String”);   \n//String为路径，也可以string str；X.open(str);(用string类，没有引号，但是string本身内容里最后4个单位应为.txt）\n如果用fstream创建文件 必须加Ios::out.\n\n\nX.close();\n\n同一时间，同一文件只能由一种类进行操作。若需要换，必须先将此类指针关闭，再用需要的类的指针Open目标文件。\nfstreamfstream的open函数的参数定义了文件的打开模式。总共有如下模式：\n\nios::in 读\nios::out 写\nios::app 从文件末尾开始写\nios::binary       二进制模式\nios::nocreate 打开一个文件时，如果文件不存在，不创建文件。\nios::noreplace  打开一个文件时，如果文件不存在，创建该文件\nios::trunc 打开一个文件，然后清空内容\nios::ate 打开一个文件时，将位置移动到文件尾\n\n使用方式为：\n1file.open(\"file.ext\",iso::in|ios::out)\n\n默认模式是文本\n默认如果文件不存在，那么创建一个新的\n多种模式可以混合，用|(按位或)\n文件的byte索引从0开始。（就像数组一样）\n\nFunctions\ngood()\n如果文件打开成功\n\n\nbad() \n打开文件时发生错误\n\n\neof() \n到达文件尾\n\n\n\nPointers\nseekg() \ntellg()\nseekp()          \ntellq()\n\n以g结尾的，处理get指针（ifstream），以p结尾的，处理put指针（ofstream）\n1seekg/p(X,INF);\nX为一个数，可为正可为负，INF为一个参数，该参数可为以下：\n\nios::beg  文件头\nios::end  文件尾\nios::cur  当前位置\n\n整个函数表示将指针从INF处，移动X个单位。\n例：\n1seekg(-1,ios::end);//把指针从文件尾向前移动一个字节\ntellg, tellp : 返回一个数，表示此时指针所在的位置。","dateCreated":"2018-02-11T14:54:35+08:00","dateModified":"2018-02-12T11:18:52+08:00","datePublished":"2018-02-11T14:54:35+08:00","description":"CSDN 博客搬家","headline":"C++文件流 总结","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/C-文件流-总结/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/C-文件流-总结/","keywords":"c++, file","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\nPrepare首先，需要加头文件。（即file stream），在包含这个头文件后，可使用三种类：\n\nofstream  写文件  （Output File Stream）  \n使用方法: 文件名&lt;&lt;内容&lt;&lt;endl;\n\n\nifstream   读文件 （Input File Stream）  \n使用方法:文件名&gt;&gt;内容;\n\n\nfstream  打开文件供读写  （File Stream） \n利用各种参数达到控制文件读写的目的\n\n\n\nSame每个类都有相同的两种函数功能：\n\nX.open(“String”);   \n//String为路径，也可以string str；X.open(str);(用string类，没有引号，但是string本身内容里最后4个单位应为.txt）\n如果用fstream创建文件 必须加Ios::out.\n\n\nX.close();\n\n同一时间，同一文件只能由一种类进行操作。若需要换，必须先将此类指针关闭，再用需要的类的指针Open目标文件。\nfstreamfstream的open函数的参数定义了文件的打开模式。总共有如下模式：\n\nios::in 读\nios::out 写\nios::app 从文件末尾开始写\nios::binary       二进制模式\nios::nocreate 打开一个文件时，如果文件不存在，不创建文件。\nios::noreplace  打开一个文件时，如果文件不存在，创建该文件\nios::trunc 打开一个文件，然后清空内容\nios::ate 打开一个文件时，将位置移动到文件尾\n\n使用方式为：\n1file.open(\"file.ext\",iso::in|ios::out)\n\n默认模式是文本\n默认如果文件不存在，那么创建一个新的\n多种模式可以混合，用|(按位或)\n文件的byte索引从0开始。（就像数组一样）\n\nFunctions\ngood()\n如果文件打开成功\n\n\nbad() \n打开文件时发生错误\n\n\neof() \n到达文件尾\n\n\n\nPointers\nseekg() \ntellg()\nseekp()          \ntellq()\n\n以g结尾的，处理get指针（ifstream），以p结尾的，处理put指针（ofstream）\n1seekg/p(X,INF);\nX为一个数，可为正可为负，INF为一个参数，该参数可为以下：\n\nios::beg  文件头\nios::end  文件尾\nios::cur  当前位置\n\n整个函数表示将指针从INF处，移动X个单位。\n例：\n1seekg(-1,ios::end);//把指针从文件尾向前移动一个字节\ntellg, tellp : 返回一个数，表示此时指针所在的位置。","dateCreated":"2018-02-11T14:54:35+08:00","dateModified":"2018-02-12T11:18:52+08:00","datePublished":"2018-02-11T14:54:35+08:00","description":"CSDN 博客搬家","headline":"C++文件流 总结","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/C-文件流-总结/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/11/C-文件流-总结/","keywords":"c++, file","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c++,file">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -370,7 +380,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -434,7 +444,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -488,7 +498,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -552,7 +562,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -624,22 +634,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

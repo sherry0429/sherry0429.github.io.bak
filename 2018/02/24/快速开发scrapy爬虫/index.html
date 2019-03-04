@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n前言首先介绍一下项目来源：\nhttps://github.com/geekan/scrapy-examples\n这个项目的开发者和维护者不是我，这里感谢该项目的contributors，因为需求，现在需要开发一个具体的书籍内容爬取爬虫，但迫于时间关系，想直接通过快速修改来获取自己能使用的爬虫，在github上找到了这个轮子。\n源代码分析代码中除了各个网站的实例外，有一个misc的module，在这个module里可以看到底层CommonSpider的实现。\n在CommonSpider类中，可以看到下面这个函数：\n1234567891011def dfs(self, sel, rules, item_class, force_1_item):    if sel is None:        return []    items = []    if item_class != dict:        self.traversal(sel, rules, item_class, None, items)    else:        self.traversal_dict(sel, rules, item_class, None, items, force_1_item)    return items\nDFS即深度优先搜索，再联系该类的css_ruls注释：\n1234567891011121314151617181920212223242526272829303132''' # css rule example:all_css_rules = &#123;    '.zm-profile-header': &#123;        '.zm-profile-header-main': &#123;            '__use':'dump',            'name':'.title-section .name::text',            'sign':'.title-section .bio::text',            'location':'.location.item::text',            'business':'.business.item::text',            'employment':'.employment.item::text',            'position':'.position.item::text',            'education':'.education.item::text',            'education_extra':'.education-extra.item::text',        &#125;, '.zm-profile-header-operation': &#123;            '__use':'dump',            'agree':'.zm-profile-header-user-agree strong::text',            'thanks':'.zm-profile-header-user-thanks strong::text',        &#125;, '.profile-navbar': &#123;            '__use':'dump',            'asks':'a[href*=asks] .num::text',            'answers':'a[href*=answers] .num::text',            'posts':'a[href*=posts] .num::text',            'collections':'a[href*=collections] .num::text',            'logs':'a[href*=logs] .num::text',        &#125;,    &#125;, '.zm-profile-side-following': &#123;        '__use':'dump',        'followees':'a.item[href*=followees] strong::text',        'followers':'a.item[href*=followers] strong::text',    &#125;&#125;'''\n我想大家都会有一个推测，即通过dfs来搜索css_rules，根据css selector来定位到某个元素，然后爬取指定位置的数据。\n以往scrapy直接使用的话，需要parse到html后，自己依次用正则，或者Xpath等技术把想要的数据抽取下来，交给下个部分。是一系列顺序代码。这里通过使用dfs，将数据抽取的部分模板化了。\n那么弄明白了核心逻辑，接下来我们就可以尝试修改这个代码，我现在修改的是amazon_book这个module。\n架构分析scrapy具体的架构就不再细说，从项目结构上看，\n\nitems.py定义了爬取下来存储的数据的基本结构\npipelines将数据持久化到了redis中\nsettings定义了scrapy的设置\nspider.py则调用了misc中CommonSpider的具体函数\n\n因此，我们如果需要快速模板化一个网站去爬取，那么只需要修改amazon_book中spider.py中的css_rules就可以了\n如果我们需要修改爬取的具体行为，或者中间件，代理代理设置等，则需要去misc这个module中去寻找。\n开始动手那么现在直接从对这个爬虫的具体修改讲起。\n首先说需求，我需要爬取amazon中某个具体book详情页的：\n\n名称\nisbn号\n价格\n概述\n试读\n热门/畅销榜单\n\n那么这里直接打开一个amazon的书籍页面开始分析，我们以数据结构与算法分析:C语言描述(原书第2版)这本经典的书开始。\n具体细节也不再详细说明，只说一下大概步骤：\n\n找出需求中属于静态网页数据（即查看网页源码就能获取的内容）\n找出需求中属于动态加载的数据（通过Chrome开发者工具的NetWork面板）\n判断爬虫实现难度（主要在动态加载部分上，如果动态加载部分的请求URL过于难拼，考虑放弃该字段，没办法放弃就硬啃吧，做好心理准备和工期规划）\n构造静态网页数据的爬取规则\n构造动态加载数据的请求URL\n实现爬虫\n\n这里我直接给出前五步的结果，然后开始实现爬虫。\n通过分析页面可知：\n123456789101112131415161718192021allowed_domains = [&quot;amazon.cn&quot;, &quot;www.amazon.cn&quot;]start_urls = [    &quot;https://www.amazon.cn/dp/B002WC7NGS&quot;,]rules = [    Rule(sle(allow=(&quot;/dp/B002WC7NGS&quot;)), callback=&apos;parse_0&apos;, follow=True),]css_rules = &#123;    &quot;#title&quot;: &#123;        &quot;title&quot;: &quot;#productTitle::text&quot;    &#125;,    &quot;#byline&quot;: &#123;        &quot;author&quot;: &quot;.a-link-normal::text&quot;    &#125;,    &quot;.bucket&gt;.content&quot;: &#123;        &quot;base_info_title&quot;: &quot;li&gt;b::text&quot;,        &quot;base_info_content&quot;: &quot;li::text&quot;,        &quot;average_star&quot;: &quot;.a-icon-alt::text&quot;,        &quot;sum_comments&quot;: &quot;.a-link-normal::text&quot;    &#125;&#125;\n关于css规则如何写可以看：css_selector\n值得注意的是，这个爬虫的实现中，调用parse_0返回的是一个list格式的数据，我们把它修改为：\n123456789def parse_0(self, response):    info('Parse 0 '+response.url)    item = self.parse_with_rules(response, self.css_rules, dict)    if isinstance(item, dict):        yield item    else:        data_dict = dict()        data_dict['data'] = item        yield data_dict\n注意三个地方：\n\nparse_with_rules的第三个参数是dict，表明我们希望爬取的数据以dict类型存储，但如果有多条，则会是list类型的dict\n使用yield而不是return，否则爬取到数据会立刻结束爬虫，无法执行pipelines的逻辑\n先判断返回的item是dict还是list\n\n修改好以上部分后，就可以执行代码了，我们在amazonbook目录下打开shell输入：\n1scrapy crawl amazonbook\n结果接下来可以看到shell下输出一堆信息，默认的情况下，会使用自带的JsonPipeline，可以看到amazonbook下出现了一个data_utf8.json的文件，以下为我爬取的样例：\n12345678910111213&#123;\"data\": [&#123;  \"#title\": [&#123;    \"title\": [\"数据结构与算法分析:C语言描述(原书第2版)\"]&#125;],   \"#byline\": [&#123;\"author\": [\"维斯\", \"冯舜玺\"]&#125;],   \".bucket&gt;.content\": [    &#123;    \"base_info_title\": [\"出版社:\", \"丛书名:\", \"平装:\", \"语种：\", \"开本:\", \"ISBN:\", \"条形码:\", \" 商品尺寸: \", \" 商品重量: \", \"品牌:\", \"ASIN: \", \"用户评分:\", \"亚马逊热销商品排名:\"],     \"average_star\": [\"平均 4.2 星\"],     \"base_info_content\": [\" 机械工业出版社; 第1版 (2004年1月1日)\", \" \", \" 391页\", \" 简体中文\", \" 16\", \" 711112748X, 9787111127482\", \" 9787111127482\", \" 25.7 x 18.3 x 1.8 cm \", \" 621 g \", \" 机械工业出版社\", \"B002WC7NGS\", \" 图书商品里排第2,331名 (\", \") \"],     \"sum_comments\": [\" 236 条商品评论 \"]    &#125;  ]&#125;]&#125;\n写在最后这里只是将了静态数据的爬取，下一节写动态数据的爬取。\n爬虫本身难点并不在爬取上，难点还是在数据清洗，整理，断点续爬等，这里只讲如何应付一些小需求，快速实现。\n同样，在这个轮子上进行修改，修改CommonSpider，也可以达到自己想要达到的功能。比如，不熟悉css的话，可以hack掉CommonSpider，把其中的sel.css改成sel.xpath，再进行适当的调整后，就可以用xpath来进行写解析规则了。\n试了一趟个人感觉，XPath可以定位到某个具体的属性，css目前定位到的是元素，对元素中的属性，似乎无法精确的定位到，查了查没有找见，如果有高手了解，希望不吝赐教。\n本项目的源代码在动态数据的爬取一章结束后会带在章节末尾。","dateCreated":"2018-02-24T10:22:53+08:00","dateModified":"2018-02-25T15:03:02+08:00","datePublished":"2018-02-24T10:22:53+08:00","description":"适合有一定爬虫经验和前端/后端开发经验的人，快速通过github上的scrapy-example，改造出适合自己的爬虫。\n需要的基础知识点为python, scrapy, css selector。","headline":"快速开发scrapy爬虫","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/24/快速开发scrapy爬虫/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/24/快速开发scrapy爬虫/","keywords":"python, spider, scrapy","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n前言首先介绍一下项目来源：\nhttps://github.com/geekan/scrapy-examples\n这个项目的开发者和维护者不是我，这里感谢该项目的contributors，因为需求，现在需要开发一个具体的书籍内容爬取爬虫，但迫于时间关系，想直接通过快速修改来获取自己能使用的爬虫，在github上找到了这个轮子。\n源代码分析代码中除了各个网站的实例外，有一个misc的module，在这个module里可以看到底层CommonSpider的实现。\n在CommonSpider类中，可以看到下面这个函数：\n1234567891011def dfs(self, sel, rules, item_class, force_1_item):    if sel is None:        return []    items = []    if item_class != dict:        self.traversal(sel, rules, item_class, None, items)    else:        self.traversal_dict(sel, rules, item_class, None, items, force_1_item)    return items\nDFS即深度优先搜索，再联系该类的css_ruls注释：\n1234567891011121314151617181920212223242526272829303132''' # css rule example:all_css_rules = &#123;    '.zm-profile-header': &#123;        '.zm-profile-header-main': &#123;            '__use':'dump',            'name':'.title-section .name::text',            'sign':'.title-section .bio::text',            'location':'.location.item::text',            'business':'.business.item::text',            'employment':'.employment.item::text',            'position':'.position.item::text',            'education':'.education.item::text',            'education_extra':'.education-extra.item::text',        &#125;, '.zm-profile-header-operation': &#123;            '__use':'dump',            'agree':'.zm-profile-header-user-agree strong::text',            'thanks':'.zm-profile-header-user-thanks strong::text',        &#125;, '.profile-navbar': &#123;            '__use':'dump',            'asks':'a[href*=asks] .num::text',            'answers':'a[href*=answers] .num::text',            'posts':'a[href*=posts] .num::text',            'collections':'a[href*=collections] .num::text',            'logs':'a[href*=logs] .num::text',        &#125;,    &#125;, '.zm-profile-side-following': &#123;        '__use':'dump',        'followees':'a.item[href*=followees] strong::text',        'followers':'a.item[href*=followers] strong::text',    &#125;&#125;'''\n我想大家都会有一个推测，即通过dfs来搜索css_rules，根据css selector来定位到某个元素，然后爬取指定位置的数据。\n以往scrapy直接使用的话，需要parse到html后，自己依次用正则，或者Xpath等技术把想要的数据抽取下来，交给下个部分。是一系列顺序代码。这里通过使用dfs，将数据抽取的部分模板化了。\n那么弄明白了核心逻辑，接下来我们就可以尝试修改这个代码，我现在修改的是amazon_book这个module。\n架构分析scrapy具体的架构就不再细说，从项目结构上看，\n\nitems.py定义了爬取下来存储的数据的基本结构\npipelines将数据持久化到了redis中\nsettings定义了scrapy的设置\nspider.py则调用了misc中CommonSpider的具体函数\n\n因此，我们如果需要快速模板化一个网站去爬取，那么只需要修改amazon_book中spider.py中的css_rules就可以了\n如果我们需要修改爬取的具体行为，或者中间件，代理代理设置等，则需要去misc这个module中去寻找。\n开始动手那么现在直接从对这个爬虫的具体修改讲起。\n首先说需求，我需要爬取amazon中某个具体book详情页的：\n\n名称\nisbn号\n价格\n概述\n试读\n热门/畅销榜单\n\n那么这里直接打开一个amazon的书籍页面开始分析，我们以数据结构与算法分析:C语言描述(原书第2版)这本经典的书开始。\n具体细节也不再详细说明，只说一下大概步骤：\n\n找出需求中属于静态网页数据（即查看网页源码就能获取的内容）\n找出需求中属于动态加载的数据（通过Chrome开发者工具的NetWork面板）\n判断爬虫实现难度（主要在动态加载部分上，如果动态加载部分的请求URL过于难拼，考虑放弃该字段，没办法放弃就硬啃吧，做好心理准备和工期规划）\n构造静态网页数据的爬取规则\n构造动态加载数据的请求URL\n实现爬虫\n\n这里我直接给出前五步的结果，然后开始实现爬虫。\n通过分析页面可知：\n123456789101112131415161718192021allowed_domains = [&quot;amazon.cn&quot;, &quot;www.amazon.cn&quot;]start_urls = [    &quot;https://www.amazon.cn/dp/B002WC7NGS&quot;,]rules = [    Rule(sle(allow=(&quot;/dp/B002WC7NGS&quot;)), callback=&apos;parse_0&apos;, follow=True),]css_rules = &#123;    &quot;#title&quot;: &#123;        &quot;title&quot;: &quot;#productTitle::text&quot;    &#125;,    &quot;#byline&quot;: &#123;        &quot;author&quot;: &quot;.a-link-normal::text&quot;    &#125;,    &quot;.bucket&gt;.content&quot;: &#123;        &quot;base_info_title&quot;: &quot;li&gt;b::text&quot;,        &quot;base_info_content&quot;: &quot;li::text&quot;,        &quot;average_star&quot;: &quot;.a-icon-alt::text&quot;,        &quot;sum_comments&quot;: &quot;.a-link-normal::text&quot;    &#125;&#125;\n关于css规则如何写可以看：css_selector\n值得注意的是，这个爬虫的实现中，调用parse_0返回的是一个list格式的数据，我们把它修改为：\n123456789def parse_0(self, response):    info('Parse 0 '+response.url)    item = self.parse_with_rules(response, self.css_rules, dict)    if isinstance(item, dict):        yield item    else:        data_dict = dict()        data_dict['data'] = item        yield data_dict\n注意三个地方：\n\nparse_with_rules的第三个参数是dict，表明我们希望爬取的数据以dict类型存储，但如果有多条，则会是list类型的dict\n使用yield而不是return，否则爬取到数据会立刻结束爬虫，无法执行pipelines的逻辑\n先判断返回的item是dict还是list\n\n修改好以上部分后，就可以执行代码了，我们在amazonbook目录下打开shell输入：\n1scrapy crawl amazonbook\n结果接下来可以看到shell下输出一堆信息，默认的情况下，会使用自带的JsonPipeline，可以看到amazonbook下出现了一个data_utf8.json的文件，以下为我爬取的样例：\n12345678910111213&#123;\"data\": [&#123;  \"#title\": [&#123;    \"title\": [\"数据结构与算法分析:C语言描述(原书第2版)\"]&#125;],   \"#byline\": [&#123;\"author\": [\"维斯\", \"冯舜玺\"]&#125;],   \".bucket&gt;.content\": [    &#123;    \"base_info_title\": [\"出版社:\", \"丛书名:\", \"平装:\", \"语种：\", \"开本:\", \"ISBN:\", \"条形码:\", \" 商品尺寸: \", \" 商品重量: \", \"品牌:\", \"ASIN: \", \"用户评分:\", \"亚马逊热销商品排名:\"],     \"average_star\": [\"平均 4.2 星\"],     \"base_info_content\": [\" 机械工业出版社; 第1版 (2004年1月1日)\", \" \", \" 391页\", \" 简体中文\", \" 16\", \" 711112748X, 9787111127482\", \" 9787111127482\", \" 25.7 x 18.3 x 1.8 cm \", \" 621 g \", \" 机械工业出版社\", \"B002WC7NGS\", \" 图书商品里排第2,331名 (\", \") \"],     \"sum_comments\": [\" 236 条商品评论 \"]    &#125;  ]&#125;]&#125;\n写在最后这里只是将了静态数据的爬取，下一节写动态数据的爬取。\n爬虫本身难点并不在爬取上，难点还是在数据清洗，整理，断点续爬等，这里只讲如何应付一些小需求，快速实现。\n同样，在这个轮子上进行修改，修改CommonSpider，也可以达到自己想要达到的功能。比如，不熟悉css的话，可以hack掉CommonSpider，把其中的sel.css改成sel.xpath，再进行适当的调整后，就可以用xpath来进行写解析规则了。\n试了一趟个人感觉，XPath可以定位到某个具体的属性，css目前定位到的是元素，对元素中的属性，似乎无法精确的定位到，查了查没有找见，如果有高手了解，希望不吝赐教。\n本项目的源代码在动态数据的爬取一章结束后会带在章节末尾。","dateCreated":"2018-02-24T10:22:53+08:00","dateModified":"2018-02-25T15:03:02+08:00","datePublished":"2018-02-24T10:22:53+08:00","description":"适合有一定爬虫经验和前端/后端开发经验的人，快速通过github上的scrapy-example，改造出适合自己的爬虫。\n需要的基础知识点为python, scrapy, css selector。","headline":"快速开发scrapy爬虫","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/24/快速开发scrapy爬虫/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/24/快速开发scrapy爬虫/","keywords":"python, spider, scrapy","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="适合有一定爬虫经验和前端/后端开发经验的人，快速通过github上的scrapy-example，改造出适合自己的爬虫。 需要的基础知识点为python, scrapy, css selector。">
 <meta name="keywords" content="python,spider,scrapy">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -355,7 +365,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -419,7 +429,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -473,7 +483,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -537,7 +547,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -609,22 +619,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

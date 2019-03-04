@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175176177178179180181182183184185186187188189190191192193194195196197198199200201202203204205206207208209210211212213214215216217218219220221222223224225226227228229230231232233234235236237238239240241242243244245246247248249250251252253254255256257258259260261262263264265266267268269270271272273274275276277278279280281282283284285286287288289290291292293294295296297298299300301302303304305306#include \"stdio.h\"#include \"stdlib.h\"#include \"malloc.h\"#define Element int//to adjust Element's type#define turn int//to adjust which point to choice printup or printdown//if change \"int\",The scanf's number in it must be change too;typedef struct Single&#123;\tElement D;\tSingle *next;//to back&#125;list;//single list typetypedef struct Double&#123;\tElement D;\tDouble *front;\tDouble *next;&#125;list_double; //double list type//单链表例程void init_single(list *&amp;L);void creatlist_single(list *&amp;L,Element n);void printlist_single(list *&amp;L);void insertlist_single(list *&amp;L,Element n);//插入例程list *findlist_single(list *&amp;L,Element n);//用于发现一个节点的前驱元.n为要发现的节点void delelist_single(list *&amp;L,Element n);//删除为n的void delelist_all(list *&amp;L,Element n);//删除所有为n的void init_single(list *&amp;L)//has been done&#123;\tL=(list*)malloc(sizeof(list));\tL-&gt;next=NULL;&#125;void creatlist_single(list *&amp;L,int n)//has been done&#123;\tlist *s,*r;\tinit_single(L);\tr=L;\twhile(n!=0)\t&#123;\t\ts=(list*)malloc(sizeof(list));\t\tscanf(\"%d\",&amp;s-&gt;D);\t\tr-&gt;next=s;\t\tr=r-&gt;next;//use plus to position to position\t\tn--;\t&#125;\tr-&gt;next=NULL;&#125;void printlist_single(list *&amp;L)//has been done&#123;\tlist *p;\tp=L-&gt;next;\twhile(p!=NULL)\t&#123;\t\tprintf(\"%d\",p-&gt;D);\t\tp=p-&gt;next;\t&#125;\tprintf(\"\\n\");&#125;list* findlist_single(list *&amp;L,Element n)//find plus preious&#123;\tlist *p;\tp=L;\twhile(p-&gt;next!=NULL &amp;&amp; p-&gt;next-&gt;D!=n)\t\tp=p-&gt;next;\treturn p;&#125;void delelist_single(list *&amp;L,Element n)//has been done&#123;\tlist *p,*temp;\tp=findlist_single(L,n);\tif(p!=NULL)\t&#123;\t\ttemp=p-&gt;next;\t\tp-&gt;next=temp-&gt;next;\t\tfree(temp);\t&#125;&#125; void delelist_all(list *&amp;L,Element n)//has been done!!!&#123;\tlist *p,*tmp;\tp=L;\tlist *r;\twhile(1)\t&#123;\t\tr=findlist_single(L,n);\t\tif(r-&gt;next==NULL)\t\t\tbreak;\t\ttmp=r-&gt;next;\t\tr-&gt;next=tmp-&gt;next;\t\tfree(tmp);\t&#125;&#125;void insertlist_single(list *&amp;L,Element n)//has been done!!!&#123;\tlist *newcell=NULL;\tlist *p;\tElement m;\tp=L;\tprintf(\"请输入要插入的数:\\n\");\tscanf(\"%d\",&amp;m);\twhile(p-&gt;next!=NULL)\t&#123;\t\tif(p-&gt;D==n)\t\t&#123;\t\t\tnewcell=(list*)malloc(sizeof(list));\t\t\tnewcell-&gt;D=m;\t\t\tnewcell-&gt;next=p-&gt;next;\t\t\tp-&gt;next=newcell;\t\t&#125;\t\tp=p-&gt;next;\t&#125;\tif(p-&gt;D==n &amp;&amp; p-&gt;next==NULL)\t&#123;\t\tnewcell=(list*)malloc(sizeof(list));\t\tnewcell-&gt;D=m;\t\tp-&gt;next=newcell;\t\tnewcell-&gt;next=NULL;\t&#125;&#125;//双链表例程void init_double(list_double *&amp;head,list_double *&amp;rear);//different from init_singlevoid creatlist_double(list_double *&amp;head,list_double *&amp;rear,Element n);//it use \"front plus\"void prints(list_double *&amp;head,list_double *&amp;rear,turn tag);void insertlist_double(list_double *&amp;head,Element n);void delelist_double(list_double *&amp;head,Element n);void init_double(list_double *&amp;head,list_double *&amp;rear)//has been done;&#123;\thead=(list_double*)malloc(sizeof(list_double));\thead-&gt;next=NULL;\thead-&gt;front=NULL;\trear=(list_double*)malloc(sizeof(list_double));\trear-&gt;next=NULL;\trear-&gt;front=NULL;&#125;void creatlist_double(list_double *&amp;head,list_double *&amp;rear,Element n)//has been done&#123;\tinit_double(head,rear);\tlist_double *s,*r,*temp=NULL;\tr=head;\twhile(n--)\t&#123;\t\ts=(list_double*)malloc(sizeof(list_double));\t\tscanf(\"%d\",&amp;s-&gt;D);\t\tr-&gt;next=s;\t\ttemp=r;\t\tr=r-&gt;next;\t\tr-&gt;front=temp;\t&#125;\tr-&gt;next=NULL;\trear=r;&#125;void prints(list_double *&amp;head,list_double *&amp;rear,turn tag)//if tag=1 upprint,else downprint&#123;\tlist_double *p;\tif(tag==1)\t&#123;       p=head-&gt;next;\t\twhile(p!=NULL)\t\t&#123;\t\t\tprintf(\"%d\",p-&gt;D);\t\t\tp=p-&gt;next;\t\t&#125;\t&#125;\telse if(tag==0)\t&#123;\t\tp=rear;\t\twhile(p-&gt;front!=NULL)\t\t&#123;\t\t\tprintf(\"%d\",p-&gt;D);\t\t\tp=p-&gt;front;\t\t&#125;\t&#125;\tprintf(\"\\n\");&#125;void insertlist_double(list_double *&amp;head,Element n)//insert back after n.  has been done&#123;\tlist_double *p1,*p3=NULL;\tp1=head;\tElement m;\tprintf(\"请输入要插入的数:\\n\");\tscanf(\"%d\",&amp;m);\twhile(p1-&gt;next!=NULL)\t&#123;\t\tif(p1-&gt;D==n)\t\t&#123;\t\t\tp3=(list_double*)malloc(sizeof(list_double));\t\t\tif(p3==NULL)\t\t\t&#123;\t\t\t\tprintf(\"there is no space!\\n\");\t\t\t\tbreak;\t\t\t&#125;\t\t\tp3-&gt;D=m;\t\t\tp3-&gt;front=p1-&gt;front;\t\t\tp3-&gt;next=p1-&gt;next;\t\t\tp1-&gt;next=p3;\t\t\tp1-&gt;front=p3;\t\t&#125;\t\tp1=p1-&gt;next;\t&#125;\tif(p1-&gt;D==n &amp;&amp; p1-&gt;next==NULL)//LAST POINT \t&#123;\t\tp3=(list_double*)malloc(sizeof(list_double));\t\tp3-&gt;D=m;\t\tp1-&gt;next=p3;\t\tp1-&gt;front=p3;\t\tp3-&gt;next=NULL;\t\tp3-&gt;front=NULL;\t&#125;&#125;void delelist_double(list_double *&amp;head,Element n)//has been done&#123;\tlist_double *p1,*p2;\tp1=head;\twhile(p1-&gt;next!=NULL)\t&#123;\t\tp2=p1-&gt;next;\t\tif(p2-&gt;D==n)\t\t&#123;\t\t\tif(p2-&gt;next!=NULL)//not last point\t\t\t&#123;\t\t\t\tp2-&gt;front-&gt;next=p2-&gt;next;\t\t\t    p2-&gt;next-&gt;front=p2-&gt;front;\t\t\t    free(p2);\t\t\t&#125;\t\t\telse//last point\t\t\t&#123;\t\t\t\tp2-&gt;front-&gt;next=NULL;\t\t\t\tfree(p2);\t\t\t&#125;\t\t&#125;\t\telse\t\t\tp1=p1-&gt;next;\t&#125;&#125;int main()&#123;\tElement n,m;\tElement a,b;\tturn tag;//tag=1 up tag=0 down\tlist *L;//相当于head指针\tlist_double *head;\tlist_double *rear;\tscanf(\"%d\",&amp;n);//确定链表长度\t/*Single list creat test*/\t//creatlist_single(L,n);\t//printlist_single(L);\t/*Single delete list creat test*/\t//scanf(\"%d\",&amp;m);//要删除的数\t//delelist_single(L,m);\t//delelist_all(L,m);\t//printlist_single(L);\t/*Single insert*/\t//insertlist_single(L,a);//在所有a后插入一个数\t//printlist_single(L);\t/*Double list creat test*/\tcreatlist_double(head,rear,n);\tprints(head,rear,1);\t/*Double delete list creat test*/\t//delelist_double(head,m);\t//prints(head,rear,1);\t/*Double insert list creat test*/\tprintf(\"请输入要在什么数后插入:\\n\");\tscanf(\"%d\",&amp;a);\t/*Double insert*/\tinsertlist_double(head,a);\tprints(head,rear,1);\treturn 0;&#125;","dateCreated":"2018-02-11T13:55:30+08:00","dateModified":"2018-02-12T11:51:10+08:00","datePublished":"2018-02-11T13:55:30+08:00","description":"CSDN 博客搬家","headline":"单双链表的例程","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/单双链表的例程/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/单双链表的例程/","keywords":"c, list","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124125126127128129130131132133134135136137138139140141142143144145146147148149150151152153154155156157158159160161162163164165166167168169170171172173174175176177178179180181182183184185186187188189190191192193194195196197198199200201202203204205206207208209210211212213214215216217218219220221222223224225226227228229230231232233234235236237238239240241242243244245246247248249250251252253254255256257258259260261262263264265266267268269270271272273274275276277278279280281282283284285286287288289290291292293294295296297298299300301302303304305306#include \"stdio.h\"#include \"stdlib.h\"#include \"malloc.h\"#define Element int//to adjust Element's type#define turn int//to adjust which point to choice printup or printdown//if change \"int\",The scanf's number in it must be change too;typedef struct Single&#123;\tElement D;\tSingle *next;//to back&#125;list;//single list typetypedef struct Double&#123;\tElement D;\tDouble *front;\tDouble *next;&#125;list_double; //double list type//单链表例程void init_single(list *&amp;L);void creatlist_single(list *&amp;L,Element n);void printlist_single(list *&amp;L);void insertlist_single(list *&amp;L,Element n);//插入例程list *findlist_single(list *&amp;L,Element n);//用于发现一个节点的前驱元.n为要发现的节点void delelist_single(list *&amp;L,Element n);//删除为n的void delelist_all(list *&amp;L,Element n);//删除所有为n的void init_single(list *&amp;L)//has been done&#123;\tL=(list*)malloc(sizeof(list));\tL-&gt;next=NULL;&#125;void creatlist_single(list *&amp;L,int n)//has been done&#123;\tlist *s,*r;\tinit_single(L);\tr=L;\twhile(n!=0)\t&#123;\t\ts=(list*)malloc(sizeof(list));\t\tscanf(\"%d\",&amp;s-&gt;D);\t\tr-&gt;next=s;\t\tr=r-&gt;next;//use plus to position to position\t\tn--;\t&#125;\tr-&gt;next=NULL;&#125;void printlist_single(list *&amp;L)//has been done&#123;\tlist *p;\tp=L-&gt;next;\twhile(p!=NULL)\t&#123;\t\tprintf(\"%d\",p-&gt;D);\t\tp=p-&gt;next;\t&#125;\tprintf(\"\\n\");&#125;list* findlist_single(list *&amp;L,Element n)//find plus preious&#123;\tlist *p;\tp=L;\twhile(p-&gt;next!=NULL &amp;&amp; p-&gt;next-&gt;D!=n)\t\tp=p-&gt;next;\treturn p;&#125;void delelist_single(list *&amp;L,Element n)//has been done&#123;\tlist *p,*temp;\tp=findlist_single(L,n);\tif(p!=NULL)\t&#123;\t\ttemp=p-&gt;next;\t\tp-&gt;next=temp-&gt;next;\t\tfree(temp);\t&#125;&#125; void delelist_all(list *&amp;L,Element n)//has been done!!!&#123;\tlist *p,*tmp;\tp=L;\tlist *r;\twhile(1)\t&#123;\t\tr=findlist_single(L,n);\t\tif(r-&gt;next==NULL)\t\t\tbreak;\t\ttmp=r-&gt;next;\t\tr-&gt;next=tmp-&gt;next;\t\tfree(tmp);\t&#125;&#125;void insertlist_single(list *&amp;L,Element n)//has been done!!!&#123;\tlist *newcell=NULL;\tlist *p;\tElement m;\tp=L;\tprintf(\"请输入要插入的数:\\n\");\tscanf(\"%d\",&amp;m);\twhile(p-&gt;next!=NULL)\t&#123;\t\tif(p-&gt;D==n)\t\t&#123;\t\t\tnewcell=(list*)malloc(sizeof(list));\t\t\tnewcell-&gt;D=m;\t\t\tnewcell-&gt;next=p-&gt;next;\t\t\tp-&gt;next=newcell;\t\t&#125;\t\tp=p-&gt;next;\t&#125;\tif(p-&gt;D==n &amp;&amp; p-&gt;next==NULL)\t&#123;\t\tnewcell=(list*)malloc(sizeof(list));\t\tnewcell-&gt;D=m;\t\tp-&gt;next=newcell;\t\tnewcell-&gt;next=NULL;\t&#125;&#125;//双链表例程void init_double(list_double *&amp;head,list_double *&amp;rear);//different from init_singlevoid creatlist_double(list_double *&amp;head,list_double *&amp;rear,Element n);//it use \"front plus\"void prints(list_double *&amp;head,list_double *&amp;rear,turn tag);void insertlist_double(list_double *&amp;head,Element n);void delelist_double(list_double *&amp;head,Element n);void init_double(list_double *&amp;head,list_double *&amp;rear)//has been done;&#123;\thead=(list_double*)malloc(sizeof(list_double));\thead-&gt;next=NULL;\thead-&gt;front=NULL;\trear=(list_double*)malloc(sizeof(list_double));\trear-&gt;next=NULL;\trear-&gt;front=NULL;&#125;void creatlist_double(list_double *&amp;head,list_double *&amp;rear,Element n)//has been done&#123;\tinit_double(head,rear);\tlist_double *s,*r,*temp=NULL;\tr=head;\twhile(n--)\t&#123;\t\ts=(list_double*)malloc(sizeof(list_double));\t\tscanf(\"%d\",&amp;s-&gt;D);\t\tr-&gt;next=s;\t\ttemp=r;\t\tr=r-&gt;next;\t\tr-&gt;front=temp;\t&#125;\tr-&gt;next=NULL;\trear=r;&#125;void prints(list_double *&amp;head,list_double *&amp;rear,turn tag)//if tag=1 upprint,else downprint&#123;\tlist_double *p;\tif(tag==1)\t&#123;       p=head-&gt;next;\t\twhile(p!=NULL)\t\t&#123;\t\t\tprintf(\"%d\",p-&gt;D);\t\t\tp=p-&gt;next;\t\t&#125;\t&#125;\telse if(tag==0)\t&#123;\t\tp=rear;\t\twhile(p-&gt;front!=NULL)\t\t&#123;\t\t\tprintf(\"%d\",p-&gt;D);\t\t\tp=p-&gt;front;\t\t&#125;\t&#125;\tprintf(\"\\n\");&#125;void insertlist_double(list_double *&amp;head,Element n)//insert back after n.  has been done&#123;\tlist_double *p1,*p3=NULL;\tp1=head;\tElement m;\tprintf(\"请输入要插入的数:\\n\");\tscanf(\"%d\",&amp;m);\twhile(p1-&gt;next!=NULL)\t&#123;\t\tif(p1-&gt;D==n)\t\t&#123;\t\t\tp3=(list_double*)malloc(sizeof(list_double));\t\t\tif(p3==NULL)\t\t\t&#123;\t\t\t\tprintf(\"there is no space!\\n\");\t\t\t\tbreak;\t\t\t&#125;\t\t\tp3-&gt;D=m;\t\t\tp3-&gt;front=p1-&gt;front;\t\t\tp3-&gt;next=p1-&gt;next;\t\t\tp1-&gt;next=p3;\t\t\tp1-&gt;front=p3;\t\t&#125;\t\tp1=p1-&gt;next;\t&#125;\tif(p1-&gt;D==n &amp;&amp; p1-&gt;next==NULL)//LAST POINT \t&#123;\t\tp3=(list_double*)malloc(sizeof(list_double));\t\tp3-&gt;D=m;\t\tp1-&gt;next=p3;\t\tp1-&gt;front=p3;\t\tp3-&gt;next=NULL;\t\tp3-&gt;front=NULL;\t&#125;&#125;void delelist_double(list_double *&amp;head,Element n)//has been done&#123;\tlist_double *p1,*p2;\tp1=head;\twhile(p1-&gt;next!=NULL)\t&#123;\t\tp2=p1-&gt;next;\t\tif(p2-&gt;D==n)\t\t&#123;\t\t\tif(p2-&gt;next!=NULL)//not last point\t\t\t&#123;\t\t\t\tp2-&gt;front-&gt;next=p2-&gt;next;\t\t\t    p2-&gt;next-&gt;front=p2-&gt;front;\t\t\t    free(p2);\t\t\t&#125;\t\t\telse//last point\t\t\t&#123;\t\t\t\tp2-&gt;front-&gt;next=NULL;\t\t\t\tfree(p2);\t\t\t&#125;\t\t&#125;\t\telse\t\t\tp1=p1-&gt;next;\t&#125;&#125;int main()&#123;\tElement n,m;\tElement a,b;\tturn tag;//tag=1 up tag=0 down\tlist *L;//相当于head指针\tlist_double *head;\tlist_double *rear;\tscanf(\"%d\",&amp;n);//确定链表长度\t/*Single list creat test*/\t//creatlist_single(L,n);\t//printlist_single(L);\t/*Single delete list creat test*/\t//scanf(\"%d\",&amp;m);//要删除的数\t//delelist_single(L,m);\t//delelist_all(L,m);\t//printlist_single(L);\t/*Single insert*/\t//insertlist_single(L,a);//在所有a后插入一个数\t//printlist_single(L);\t/*Double list creat test*/\tcreatlist_double(head,rear,n);\tprints(head,rear,1);\t/*Double delete list creat test*/\t//delelist_double(head,m);\t//prints(head,rear,1);\t/*Double insert list creat test*/\tprintf(\"请输入要在什么数后插入:\\n\");\tscanf(\"%d\",&amp;a);\t/*Double insert*/\tinsertlist_double(head,a);\tprints(head,rear,1);\treturn 0;&#125;","dateCreated":"2018-02-11T13:55:30+08:00","dateModified":"2018-02-12T11:51:10+08:00","datePublished":"2018-02-11T13:55:30+08:00","description":"CSDN 博客搬家","headline":"单双链表的例程","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/单双链表的例程/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/11/单双链表的例程/","keywords":"c, list","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,list">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -295,7 +305,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -359,7 +369,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -413,7 +423,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -477,7 +487,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -549,22 +559,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

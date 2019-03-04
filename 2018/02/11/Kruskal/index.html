@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;#define MAX 10000struct edge&#123;\tint u,v;\tint price,vis;&#125;Edge[MAX];int n,m;int ans[MAX];bool cmp(edge x,edge y)&#123;\tif(x.vis!=y.vis)\t\treturn x.vis&lt;y.vis;\telse\t\treturn x.price&lt;y.price;&#125;void init()&#123;\tint i;\tfor(i=1;i&lt;=n;i++)\t&#123;\t\tans[i]=i;\t&#125;&#125;int find(int x)&#123;\tif(x!=ans[x])\t\tans[x]=find(ans[x]);\treturn ans[x];&#125;void Merge(int a,int b)&#123;\tint tx=find(a);\tint ty=find(b);\tif(tx!=ty)\t\tans[tx]=ty;&#125;void Kruskal()&#123;\tsort(Edge+1,Edge+m+1,cmp);\tint i,sum=0;\tfor(i=1;i&lt;=m;i++)\t&#123;\t\tint tx=find(Edge[i].u);\t\tint ty=find(Edge[i].v);\t\tif(tx!=ty &amp;&amp; !Edge[i].vis)\t\t&#123;\t\t\tsum+=Edge[i].price;\t\t\tans[tx]=ty;\t\t&#125;\t&#125;\tcout&lt;&lt;sum&lt;&lt;endl;&#125;int main()&#123;\twhile(scanf(\"%d\",&amp;n) &amp;&amp; n!=0)\t&#123;\t\tm=(n*(n-1))/2;\t\tinit();\t\tint i;\t\tfor(i=1;i&lt;=m;i++)\t\t&#123;\t\t\tscanf(\"%d %d %d %d\",&amp;Edge[i].u,&amp;Edge[i].v,&amp;Edge[i].price,&amp;Edge[i].vis);\t\t\tif(Edge[i].vis==1)\t\t\t\tMerge(Edge[i].u,Edge[i].v);\t\t&#125;\t\tKruskal();\t&#125;\treturn 0;&#125;\n直接上代码，需要注意的有几点：\n\n初始化。\n排序，sort函数的使用。一定要排序，Kruskal关键就是在排序，而prim则是用一个顶点数组lowcast达到类似的排序效果。\n这道题是和并查集连起来用了，因为涉及到“已建”和“未建”两种集合，如果是直接read Graph,初始状态要么就是都没建，要么就是都已建好（找出最短路），那就不需要用并查集，直接用MAP[MAX[[MAX[即可。\n","dateCreated":"2018-02-11T14:50:26+08:00","dateModified":"2018-02-12T11:48:00+08:00","datePublished":"2018-02-11T14:50:26+08:00","description":"CSDN 博客搬家","headline":"Kruskal","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/Kruskal/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/Kruskal/","keywords":"c, acm","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;#define MAX 10000struct edge&#123;\tint u,v;\tint price,vis;&#125;Edge[MAX];int n,m;int ans[MAX];bool cmp(edge x,edge y)&#123;\tif(x.vis!=y.vis)\t\treturn x.vis&lt;y.vis;\telse\t\treturn x.price&lt;y.price;&#125;void init()&#123;\tint i;\tfor(i=1;i&lt;=n;i++)\t&#123;\t\tans[i]=i;\t&#125;&#125;int find(int x)&#123;\tif(x!=ans[x])\t\tans[x]=find(ans[x]);\treturn ans[x];&#125;void Merge(int a,int b)&#123;\tint tx=find(a);\tint ty=find(b);\tif(tx!=ty)\t\tans[tx]=ty;&#125;void Kruskal()&#123;\tsort(Edge+1,Edge+m+1,cmp);\tint i,sum=0;\tfor(i=1;i&lt;=m;i++)\t&#123;\t\tint tx=find(Edge[i].u);\t\tint ty=find(Edge[i].v);\t\tif(tx!=ty &amp;&amp; !Edge[i].vis)\t\t&#123;\t\t\tsum+=Edge[i].price;\t\t\tans[tx]=ty;\t\t&#125;\t&#125;\tcout&lt;&lt;sum&lt;&lt;endl;&#125;int main()&#123;\twhile(scanf(\"%d\",&amp;n) &amp;&amp; n!=0)\t&#123;\t\tm=(n*(n-1))/2;\t\tinit();\t\tint i;\t\tfor(i=1;i&lt;=m;i++)\t\t&#123;\t\t\tscanf(\"%d %d %d %d\",&amp;Edge[i].u,&amp;Edge[i].v,&amp;Edge[i].price,&amp;Edge[i].vis);\t\t\tif(Edge[i].vis==1)\t\t\t\tMerge(Edge[i].u,Edge[i].v);\t\t&#125;\t\tKruskal();\t&#125;\treturn 0;&#125;\n直接上代码，需要注意的有几点：\n\n初始化。\n排序，sort函数的使用。一定要排序，Kruskal关键就是在排序，而prim则是用一个顶点数组lowcast达到类似的排序效果。\n这道题是和并查集连起来用了，因为涉及到“已建”和“未建”两种集合，如果是直接read Graph,初始状态要么就是都没建，要么就是都已建好（找出最短路），那就不需要用并查集，直接用MAP[MAX[[MAX[即可。\n","dateCreated":"2018-02-11T14:50:26+08:00","dateModified":"2018-02-12T11:48:00+08:00","datePublished":"2018-02-11T14:50:26+08:00","description":"CSDN 博客搬家","headline":"Kruskal","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/Kruskal/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/11/Kruskal/","keywords":"c, acm","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,acm">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -301,7 +311,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -365,7 +375,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -419,7 +429,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -483,7 +493,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -555,22 +565,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

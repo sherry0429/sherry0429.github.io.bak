@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n直接上干货，最好的实现当然是：\n\n在blog里贴本地link\nhexo g的时候自动转化为oss的link并上传\nhexo g的时候将blog里的local link转化为oss link\n\n我找了下这方面的插件，因为我用的是腾讯云的OSS，没有找到对应插件，想自己实现，但无奈nodejs太过垃圾。。\n那么是不是就没有办法呢，倒也不是。\n经过我的思考，我决定这样做：\n\n在Typora里直接放入本地图片，观察效果\n开启Typora的“插入图片时使用相对路径功能”\n开启Typora的“插入图片时拷贝到指定文件夹”功能\n写一个python脚本，将指定文件夹的图片全部上传至OSS\n\n实际使用时，则这样：\n\n写博客，插入图片（本地），观察效果\n跑一遍python脚本\n全文替换博客中所有图片的前缀为OSS前缀\n部署\n\n下面两张图，就是用这种方式上传的图片\n\n\n关于python脚本的代码：\n12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455# -*- coding: utf-8 -*-\"\"\"Copyright (C) 2017 tianyou pan &lt;sherry0429 at SOAPython&gt;\"\"\"from qcloud_cos import CosConfigfrom qcloud_cos import CosS3Clientimport redisimport osclass UploadOSSClass(object):    secret_id = ''  # 替换为用户的secret_id    secret_key = ''  # 替换为用户的secret_key    region = ''  # 替换为用户的region    token = ''  # 使用临时秘钥需要传入Token，默认为空,可不填    config = CosConfig(Region=region, Secret_id=secret_id, Secret_key=secret_key, Token=token)  # 获取配置对象    client = CosS3Client(config)    def __init__(self):        self.redis_c = redis.StrictRedis(\"localhost\", 6379, 0)    def upload_img(self, file_name):        with open(file_name, 'rb') as fp:            response = self.client.put_object(                Bucket='',  # Bucket由bucketname-appid组成                Body=fp,                Key=file_name,                StorageClass='STANDARD',                CacheControl='no-cache',                ContentDisposition='download.txt'            )        if response['ETag'] is not None:            print \"upload success : \",            print response['ETag']        else:            print \"upload failed\"    def make_cache(self, img_path):        return self.redis_c.sadd('blog-img', img_path)    def start(self):        for root, dirs, files in os.walk(\".\"):            for name in files:                img_path = os.path.join(root, name)                print (\"upload : \" + img_path)                if self.make_cache(img_path):                    self.upload_img(name)        print \"upload done\"if __name__ == '__main__':    upload_c = UploadOSSClass()    upload_c.start()\n自行添加对应字段。","dateCreated":"2018-02-25T15:37:06+08:00","dateModified":"2018-02-26T10:01:36+08:00","datePublished":"2018-02-25T15:37:06+08:00","description":"Hexo部署，如果使用GitPages，不得不面对上传图片过多时超过github.io库限制的问题，而使用OSS，又需要先上传到OSS，再在blog里引用链接，\n有没有一种办法，写博客时插入图片，所见即所得，部署后，博客也自动采用OSS上的链接呢？\n这里提供一种思路和实现","headline":"如何便捷的在Hexo博客中插入图片","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/","keywords":"hexo, python","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n直接上干货，最好的实现当然是：\n\n在blog里贴本地link\nhexo g的时候自动转化为oss的link并上传\nhexo g的时候将blog里的local link转化为oss link\n\n我找了下这方面的插件，因为我用的是腾讯云的OSS，没有找到对应插件，想自己实现，但无奈nodejs太过垃圾。。\n那么是不是就没有办法呢，倒也不是。\n经过我的思考，我决定这样做：\n\n在Typora里直接放入本地图片，观察效果\n开启Typora的“插入图片时使用相对路径功能”\n开启Typora的“插入图片时拷贝到指定文件夹”功能\n写一个python脚本，将指定文件夹的图片全部上传至OSS\n\n实际使用时，则这样：\n\n写博客，插入图片（本地），观察效果\n跑一遍python脚本\n全文替换博客中所有图片的前缀为OSS前缀\n部署\n\n下面两张图，就是用这种方式上传的图片\n\n\n关于python脚本的代码：\n12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455# -*- coding: utf-8 -*-\"\"\"Copyright (C) 2017 tianyou pan &lt;sherry0429 at SOAPython&gt;\"\"\"from qcloud_cos import CosConfigfrom qcloud_cos import CosS3Clientimport redisimport osclass UploadOSSClass(object):    secret_id = ''  # 替换为用户的secret_id    secret_key = ''  # 替换为用户的secret_key    region = ''  # 替换为用户的region    token = ''  # 使用临时秘钥需要传入Token，默认为空,可不填    config = CosConfig(Region=region, Secret_id=secret_id, Secret_key=secret_key, Token=token)  # 获取配置对象    client = CosS3Client(config)    def __init__(self):        self.redis_c = redis.StrictRedis(\"localhost\", 6379, 0)    def upload_img(self, file_name):        with open(file_name, 'rb') as fp:            response = self.client.put_object(                Bucket='',  # Bucket由bucketname-appid组成                Body=fp,                Key=file_name,                StorageClass='STANDARD',                CacheControl='no-cache',                ContentDisposition='download.txt'            )        if response['ETag'] is not None:            print \"upload success : \",            print response['ETag']        else:            print \"upload failed\"    def make_cache(self, img_path):        return self.redis_c.sadd('blog-img', img_path)    def start(self):        for root, dirs, files in os.walk(\".\"):            for name in files:                img_path = os.path.join(root, name)                print (\"upload : \" + img_path)                if self.make_cache(img_path):                    self.upload_img(name)        print \"upload done\"if __name__ == '__main__':    upload_c = UploadOSSClass()    upload_c.start()\n自行添加对应字段。","dateCreated":"2018-02-25T15:37:06+08:00","dateModified":"2018-02-26T10:01:36+08:00","datePublished":"2018-02-25T15:37:06+08:00","description":"Hexo部署，如果使用GitPages，不得不面对上传图片过多时超过github.io库限制的问题，而使用OSS，又需要先上传到OSS，再在blog里引用链接，\n有没有一种办法，写博客时插入图片，所见即所得，部署后，博客也自动采用OSS上的链接呢？\n这里提供一种思路和实现","headline":"如何便捷的在Hexo博客中插入图片","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/25/如何便捷的在博客中插入图片/","keywords":"hexo, python","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="Hexo部署，如果使用GitPages，不得不面对上传图片过多时超过github.io库限制的问题，而使用OSS，又需要先上传到OSS，再在blog里引用链接， 有没有一种办法，写博客时插入图片，所见即所得，部署后，博客也自动采用OSS上的链接呢？ 这里提供一种思路和实现">
 <meta name="keywords" content="hexo,python">
 <meta property="og:type" content="blog">
@@ -35,6 +35,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -56,6 +58,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -68,6 +74,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -75,8 +83,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -130,19 +153,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -325,7 +335,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -389,7 +399,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -443,7 +453,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -507,7 +517,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -579,22 +589,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

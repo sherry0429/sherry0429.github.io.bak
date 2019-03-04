@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\nnpm出现\n12345678910111213141516171819202122232418 verbose stack TypeError: Cannot read property 'match' of undefined18 verbose stack     at tarballToVersion (C:\\Program Files\\nodejs\\node_modules\\npm\\lib\\install\\inflate-shrinkwrap.js:87:20)18 verbose stack     at inflatableChild (C:\\Program Files\\nodejs\\node_modules\\npm\\lib\\install\\inflate-shrinkwrap.js:99:22)18 verbose stack     at BB.each (C:\\Program Files\\nodejs\\node_modules\\npm\\lib\\install\\inflate-shrinkwrap.js:55:12)18 verbose stack     at tryCatcher (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\util.js:16:23)18 verbose stack     at Object.gotValue (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\reduce.js:155:18)18 verbose stack     at Object.gotAccum (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\reduce.js:144:25)18 verbose stack     at Object.tryCatcher (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\util.js:16:23)18 verbose stack     at Promise._settlePromiseFromHandler (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:512:31)18 verbose stack     at Promise._settlePromise (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:569:18)18 verbose stack     at Promise._settlePromise0 (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:614:10)18 verbose stack     at Promise._settlePromises (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:693:18)18 verbose stack     at Async._drainQueue (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\async.js:133:16)18 verbose stack     at Async._drainQueues (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\async.js:143:10)18 verbose stack     at Immediate.Async.drainQueues [as _onImmediate] (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\async.js:17:14)18 verbose stack     at runCallback (timers.js:696:18)18 verbose stack     at tryOnImmediate (timers.js:667:5)19 verbose cwd C:\\blog\\themes\\tranquilpeak20 verbose Windows_NT 10.0.1776321 verbose argv \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli.js\" \"install\" \"--registry=https://registry.npm.taobao.org\"22 verbose node v10.3.023 verbose npm  v6.1.024 error Cannot read property 'match' of undefined25 verbose exit [ 1, true ]\n如何解决？\n删除package-lock.json和node_modules即可，然后重新npm install\nhttps://npm.community/t/cannot-read-property-match-of-undefined/203/2","dateCreated":"2019-02-12T10:13:30+08:00","dateModified":"2019-02-13T17:03:18+08:00","datePublished":"2019-02-12T10:13:30+08:00","description":"NPM修复Cannot read property ‘match’ of undefined问题。","headline":"NPM修复Cannot read property 'match' of undefined","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2019/02/12/NPM修复Cannot-read-property-matchof-undefined/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2019/02/12/NPM修复Cannot-read-property-matchof-undefined/","keywords":"guide","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\nnpm出现\n12345678910111213141516171819202122232418 verbose stack TypeError: Cannot read property 'match' of undefined18 verbose stack     at tarballToVersion (C:\\Program Files\\nodejs\\node_modules\\npm\\lib\\install\\inflate-shrinkwrap.js:87:20)18 verbose stack     at inflatableChild (C:\\Program Files\\nodejs\\node_modules\\npm\\lib\\install\\inflate-shrinkwrap.js:99:22)18 verbose stack     at BB.each (C:\\Program Files\\nodejs\\node_modules\\npm\\lib\\install\\inflate-shrinkwrap.js:55:12)18 verbose stack     at tryCatcher (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\util.js:16:23)18 verbose stack     at Object.gotValue (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\reduce.js:155:18)18 verbose stack     at Object.gotAccum (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\reduce.js:144:25)18 verbose stack     at Object.tryCatcher (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\util.js:16:23)18 verbose stack     at Promise._settlePromiseFromHandler (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:512:31)18 verbose stack     at Promise._settlePromise (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:569:18)18 verbose stack     at Promise._settlePromise0 (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:614:10)18 verbose stack     at Promise._settlePromises (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\promise.js:693:18)18 verbose stack     at Async._drainQueue (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\async.js:133:16)18 verbose stack     at Async._drainQueues (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\async.js:143:10)18 verbose stack     at Immediate.Async.drainQueues [as _onImmediate] (C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\bluebird\\js\\release\\async.js:17:14)18 verbose stack     at runCallback (timers.js:696:18)18 verbose stack     at tryOnImmediate (timers.js:667:5)19 verbose cwd C:\\blog\\themes\\tranquilpeak20 verbose Windows_NT 10.0.1776321 verbose argv \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" \"C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npm-cli.js\" \"install\" \"--registry=https://registry.npm.taobao.org\"22 verbose node v10.3.023 verbose npm  v6.1.024 error Cannot read property 'match' of undefined25 verbose exit [ 1, true ]\n如何解决？\n删除package-lock.json和node_modules即可，然后重新npm install\nhttps://npm.community/t/cannot-read-property-match-of-undefined/203/2","dateCreated":"2019-02-12T10:13:30+08:00","dateModified":"2019-02-13T17:03:18+08:00","datePublished":"2019-02-12T10:13:30+08:00","description":"NPM修复Cannot read property ‘match’ of undefined问题。","headline":"NPM修复Cannot read property 'match' of undefined","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2019/02/12/NPM修复Cannot-read-property-matchof-undefined/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2019/02/12/NPM修复Cannot-read-property-matchof-undefined/","keywords":"guide","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="NPM修复Cannot read property ‘match’ of undefined问题。">
 <meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -299,7 +309,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -363,7 +373,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -417,7 +427,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -481,7 +491,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -553,22 +563,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

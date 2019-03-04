@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内 \n向网址 https://gh-oauth.imsun.net 发送了验证请求，这个gh-oauth.imsun.net是作者自行搭建的，现在不在维护了。所以出现了问题。\n那么修复过程就是：\n\n自己建立这个服务器\nbrowser.js中引用这个网址的地方，改为自己的网址\n主题中引用的browser.js，不能是原来gitment的js，而要是自己修改过的js\n\n2. 修复步骤2.1. 建立服务器ssh上自己的服务器\n1234561. 安装npm2. 安装nginx3. 安装git4. git clone https://github.com/imsun/gh-oauth-server5. cd gh-oauth-server6. npm install\n修改nginx文件，具体自行百度，即将自己的域名映射到本地3000端口，因为gh-oauth-server是绑定在3000端口上的。\n当然，理论上可以直接用ip + 3000端口的方式访问到这个server，不需要nginx的，但是这样一来你的ip会暴露在browser.js中，十分的不安全。同时也不利于开启https。\n2.2. 测试123cd gh-oauth-servernohup npm start &amp;vi nohup.out\n输出信息\n1234&gt; gh-oauth-server@0.0.1 start /home/pty/gitment-oauth-server/gh-oauth-server&gt; node servergh-oauth-server listening on port 3000\n则表示一切正常\n2.3. 建立自己的gitment.browser.js随便找某个node_modules，只要有gitment就行，最好是最新的。然后修改\n1..\\node_modules\\gitment\\dist\\gitment.browser.js\n将其中的\n1234567891011_utils.http.post('https://gh-oauth.imsun.net', &#123;   code: code,   client_id: client_id,   client_secret: client_secret &#125;, '').then(function (data) &#123;   _this.accessToken = data.access_token;   _this.update(); &#125;).catch(function (e) &#123;   _this.state.user.isLoggingIn = false;   alert(e); &#125;);\n代码里引用的https://gh-oauth.imsun.net服务器地址，修改为刚才2.1步骤我们启动的服务器地址。\n然后将修复后的文件存储在git上，或者oss，或者服务器上，要求能从外部访问。\n3. tranquilpeak的gitment修复这个主题相对于其他主题而言，可以自己修改代码后编译。但是编译过程中需要安装很多东西，步骤比较繁琐。\n这里只指出步骤，在编译过程中出现的问题基本上google都有答案，一般就是MSbuild不对，比如少Net 2.5之类的。\n下面为修复步骤：\n1231. cd tranquilpeak\\layout\\_partial2. vi script.ejs3. 将gc.src = &apos;**&apos;; 一行中的地址，替换为你自己修复过后的gitment.browser.js的地址。\n运行自带的build-tranquilpeak.sh即可。\n运行之后会生成新的tranquilpeak，是一个新文件夹，hexo-theme-tranquilpeak-built-for-production-1.11.0\n在hexo的config.yml中引用这个新文件夹即可。","dateCreated":"2019-02-12T10:13:58+08:00","dateModified":"2019-02-13T17:02:56+08:00","datePublished":"2019-02-12T10:13:58+08:00","description":"现在全网的gitment都出现了一个问题[object ProgressEvent]，见：\nhttps://github.com/imsun/gitment/issues/170\n我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。","headline":"gitment修复[object ProgressEvent]","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2019/02/12/gitment修复/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2019/02/12/gitment修复/","keywords":"guide","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n1. 起因https://imsun.github.io/gitment/dist/gitment.browser.js 内 \n向网址 https://gh-oauth.imsun.net 发送了验证请求，这个gh-oauth.imsun.net是作者自行搭建的，现在不在维护了。所以出现了问题。\n那么修复过程就是：\n\n自己建立这个服务器\nbrowser.js中引用这个网址的地方，改为自己的网址\n主题中引用的browser.js，不能是原来gitment的js，而要是自己修改过的js\n\n2. 修复步骤2.1. 建立服务器ssh上自己的服务器\n1234561. 安装npm2. 安装nginx3. 安装git4. git clone https://github.com/imsun/gh-oauth-server5. cd gh-oauth-server6. npm install\n修改nginx文件，具体自行百度，即将自己的域名映射到本地3000端口，因为gh-oauth-server是绑定在3000端口上的。\n当然，理论上可以直接用ip + 3000端口的方式访问到这个server，不需要nginx的，但是这样一来你的ip会暴露在browser.js中，十分的不安全。同时也不利于开启https。\n2.2. 测试123cd gh-oauth-servernohup npm start &amp;vi nohup.out\n输出信息\n1234&gt; gh-oauth-server@0.0.1 start /home/pty/gitment-oauth-server/gh-oauth-server&gt; node servergh-oauth-server listening on port 3000\n则表示一切正常\n2.3. 建立自己的gitment.browser.js随便找某个node_modules，只要有gitment就行，最好是最新的。然后修改\n1..\\node_modules\\gitment\\dist\\gitment.browser.js\n将其中的\n1234567891011_utils.http.post('https://gh-oauth.imsun.net', &#123;   code: code,   client_id: client_id,   client_secret: client_secret &#125;, '').then(function (data) &#123;   _this.accessToken = data.access_token;   _this.update(); &#125;).catch(function (e) &#123;   _this.state.user.isLoggingIn = false;   alert(e); &#125;);\n代码里引用的https://gh-oauth.imsun.net服务器地址，修改为刚才2.1步骤我们启动的服务器地址。\n然后将修复后的文件存储在git上，或者oss，或者服务器上，要求能从外部访问。\n3. tranquilpeak的gitment修复这个主题相对于其他主题而言，可以自己修改代码后编译。但是编译过程中需要安装很多东西，步骤比较繁琐。\n这里只指出步骤，在编译过程中出现的问题基本上google都有答案，一般就是MSbuild不对，比如少Net 2.5之类的。\n下面为修复步骤：\n1231. cd tranquilpeak\\layout\\_partial2. vi script.ejs3. 将gc.src = &apos;**&apos;; 一行中的地址，替换为你自己修复过后的gitment.browser.js的地址。\n运行自带的build-tranquilpeak.sh即可。\n运行之后会生成新的tranquilpeak，是一个新文件夹，hexo-theme-tranquilpeak-built-for-production-1.11.0\n在hexo的config.yml中引用这个新文件夹即可。","dateCreated":"2019-02-12T10:13:58+08:00","dateModified":"2019-02-13T17:02:56+08:00","datePublished":"2019-02-12T10:13:58+08:00","description":"现在全网的gitment都出现了一个问题[object ProgressEvent]，见：\nhttps://github.com/imsun/gitment/issues/170\n我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。","headline":"gitment修复[object ProgressEvent]","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2019/02/12/gitment修复/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2019/02/12/gitment修复/","keywords":"guide","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="现在全网的gitment都出现了一个问题[object ProgressEvent]，见： https://github.com/imsun/gitment/issues/170 我记录一下我自己的修复过程，这篇博文下的评论已经恢复，遇到问题的可以留言进行交流。">
 <meta name="keywords" content="guide">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -323,7 +333,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -387,7 +397,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -441,7 +451,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -505,7 +515,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -577,22 +587,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

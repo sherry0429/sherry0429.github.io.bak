@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105#include &lt;iostream&gt;using namespace std;#define MAX 1100#define INF 99999int map[MAX][MAX];int cost[MAX][MAX];int n,m;void init()&#123;\tint i,j;\tfor(i=1;i&lt;=MAX;i++)\t&#123;\t\tfor(j=1;j&lt;=MAX;j++)\t\t&#123;\t\t\tif(i==j)\t\t\t&#123;\t\t\t\tmap[i][j]=0;\t\t\t\tcost[i][j]=0;\t\t\t&#125;\t\t\telse\t\t\t&#123;\t\t\t\tmap[i][j]=INF;\t\t\t\tcost[i][j]=INF;\t\t\t&#125;\t\t&#125;\t&#125;&#125;void dijkstra(int start,int end)&#123;\tint i,j;\tint next,minc;\tint dist[MAX],visit[MAX],value[MAX];\tmemset(visit,0,sizeof(visit));\tfor(i=1;i&lt;=n;i++)\t&#123;\t\tdist[i]=map[start][i];\t\tvalue[i]=cost[start][i];\t&#125;\tvisit[start]=1;\tfor(i=1;i&lt;n;i++)\t&#123;\t\tminc=INF;\t\tfor(j=1;j&lt;=n;j++)\t\t&#123;\t\t\tif(!visit[j] &amp;&amp; minc&gt;dist[j])\t\t\t&#123;\t\t\t\tminc=dist[j];\t\t\t\tnext=j;\t\t\t&#125;\t\t&#125;\t\tvisit[next]=1;\t\tfor(j=1;j&lt;=n;j++)\t\t&#123;\t\t\tif(!visit[j] &amp;&amp; map[next][j]&lt;INF)\t\t\t&#123;\t\t\t\tif(dist[j]&gt;dist[next]+map[next][j])\t\t\t\t&#123;\t\t\t\t\tdist[j]=dist[next]+map[next][j];\t\t\t\t\tvalue[j]=value[next]+cost[next][j];\t\t\t\t&#125;\t\t\t\telse if(dist[j]==(dist[next]+map[next][j]))\t\t\t\t&#123;\t\t\t\t\tif(value[j]&gt;value[next]+cost[next][j])\t\t\t\t\t\tvalue[j]=value[next]+cost[next][j];\t\t\t\t&#125;\t\t\t&#125;\t\t&#125;\t&#125;\tprintf(\"%d %d\\n\",dist[end],value[end]);\t//cout&lt;&lt;dist[end]&lt;&lt;' '&lt;&lt;value[end]&lt;&lt;endl;&#125;int main()&#123;\twhile(1)\t&#123;\t\tint start,end;\t\tinit();\t\tint i;\t\tcin&gt;&gt;n&gt;&gt;m;\t\tif(n==0 || m==0)\t\t\tbreak;\t\tfor(i=0;i&lt;m;i++)\t\t&#123;\t\t\tint x,y;\t\t\tint time,cos;\t\t\tcin&gt;&gt;x&gt;&gt;y&gt;&gt;time&gt;&gt;cos;\t\t\tif(map[x][y]&gt;time)\t\t\t&#123;\t\t\t\tmap[x][y]=map[y][x]=time;\t\t\t\tcost[x][y]=cost[y][x]=cos;\t\t\t&#125;\t\t\telse if(map[x][y]==time)\t\t\t&#123;\t\t\t\tif(cost[x][y]&gt;cos)\t\t\t\t\tcost[x][y]=cost[y][x]=cos;\t\t\t&#125;\t\t&#125;\t\tcin&gt;&gt;start&gt;&gt;end;\t\tdijkstra(start,end);\t&#125;\treturn 0;&#125;\n对于这种题需要注意的就两点，特别重要的两点，初始化，和输入的设置（if语句），再就是Dijastra在更新时候的代码语句设置了。\n这道题我在Virtual judge上做的，有一个很奇怪的情况。。。就是如果用cout,那就RE了，但用printf,就AC了（G++提交），然后如果用cin,cout组合，用C++提交，就WA了=，=\n不懂是为什么=，=感觉好神奇","dateCreated":"2018-02-11T14:51:35+08:00","dateModified":"2018-02-12T11:45:42+08:00","datePublished":"2018-02-11T14:51:35+08:00","description":"CSDN 博客搬家","headline":"HDU 3790 双权最短路","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/HDU-3790-双权最短路/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/HDU-3790-双权最短路/","keywords":"c, acm, hdu","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105#include &lt;iostream&gt;using namespace std;#define MAX 1100#define INF 99999int map[MAX][MAX];int cost[MAX][MAX];int n,m;void init()&#123;\tint i,j;\tfor(i=1;i&lt;=MAX;i++)\t&#123;\t\tfor(j=1;j&lt;=MAX;j++)\t\t&#123;\t\t\tif(i==j)\t\t\t&#123;\t\t\t\tmap[i][j]=0;\t\t\t\tcost[i][j]=0;\t\t\t&#125;\t\t\telse\t\t\t&#123;\t\t\t\tmap[i][j]=INF;\t\t\t\tcost[i][j]=INF;\t\t\t&#125;\t\t&#125;\t&#125;&#125;void dijkstra(int start,int end)&#123;\tint i,j;\tint next,minc;\tint dist[MAX],visit[MAX],value[MAX];\tmemset(visit,0,sizeof(visit));\tfor(i=1;i&lt;=n;i++)\t&#123;\t\tdist[i]=map[start][i];\t\tvalue[i]=cost[start][i];\t&#125;\tvisit[start]=1;\tfor(i=1;i&lt;n;i++)\t&#123;\t\tminc=INF;\t\tfor(j=1;j&lt;=n;j++)\t\t&#123;\t\t\tif(!visit[j] &amp;&amp; minc&gt;dist[j])\t\t\t&#123;\t\t\t\tminc=dist[j];\t\t\t\tnext=j;\t\t\t&#125;\t\t&#125;\t\tvisit[next]=1;\t\tfor(j=1;j&lt;=n;j++)\t\t&#123;\t\t\tif(!visit[j] &amp;&amp; map[next][j]&lt;INF)\t\t\t&#123;\t\t\t\tif(dist[j]&gt;dist[next]+map[next][j])\t\t\t\t&#123;\t\t\t\t\tdist[j]=dist[next]+map[next][j];\t\t\t\t\tvalue[j]=value[next]+cost[next][j];\t\t\t\t&#125;\t\t\t\telse if(dist[j]==(dist[next]+map[next][j]))\t\t\t\t&#123;\t\t\t\t\tif(value[j]&gt;value[next]+cost[next][j])\t\t\t\t\t\tvalue[j]=value[next]+cost[next][j];\t\t\t\t&#125;\t\t\t&#125;\t\t&#125;\t&#125;\tprintf(\"%d %d\\n\",dist[end],value[end]);\t//cout&lt;&lt;dist[end]&lt;&lt;' '&lt;&lt;value[end]&lt;&lt;endl;&#125;int main()&#123;\twhile(1)\t&#123;\t\tint start,end;\t\tinit();\t\tint i;\t\tcin&gt;&gt;n&gt;&gt;m;\t\tif(n==0 || m==0)\t\t\tbreak;\t\tfor(i=0;i&lt;m;i++)\t\t&#123;\t\t\tint x,y;\t\t\tint time,cos;\t\t\tcin&gt;&gt;x&gt;&gt;y&gt;&gt;time&gt;&gt;cos;\t\t\tif(map[x][y]&gt;time)\t\t\t&#123;\t\t\t\tmap[x][y]=map[y][x]=time;\t\t\t\tcost[x][y]=cost[y][x]=cos;\t\t\t&#125;\t\t\telse if(map[x][y]==time)\t\t\t&#123;\t\t\t\tif(cost[x][y]&gt;cos)\t\t\t\t\tcost[x][y]=cost[y][x]=cos;\t\t\t&#125;\t\t&#125;\t\tcin&gt;&gt;start&gt;&gt;end;\t\tdijkstra(start,end);\t&#125;\treturn 0;&#125;\n对于这种题需要注意的就两点，特别重要的两点，初始化，和输入的设置（if语句），再就是Dijastra在更新时候的代码语句设置了。\n这道题我在Virtual judge上做的，有一个很奇怪的情况。。。就是如果用cout,那就RE了，但用printf,就AC了（G++提交），然后如果用cin,cout组合，用C++提交，就WA了=，=\n不懂是为什么=，=感觉好神奇","dateCreated":"2018-02-11T14:51:35+08:00","dateModified":"2018-02-12T11:45:42+08:00","datePublished":"2018-02-11T14:51:35+08:00","description":"CSDN 博客搬家","headline":"HDU 3790 双权最短路","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/HDU-3790-双权最短路/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/11/HDU-3790-双权最短路/","keywords":"c, acm, hdu","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,acm,hdu">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -298,7 +308,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -362,7 +372,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -416,7 +426,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -480,7 +490,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -552,22 +562,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

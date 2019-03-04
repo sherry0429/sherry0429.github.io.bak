@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n#002 Add Two Numbers\n\nYou are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.\nInput: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)Output: 7 -&gt; 0 -&gt; 8\n#####思路：\n\n建立一个新的链表List\n依次检测两个链表节点是否为空，不为空则检测值\n如果检测到值，int value = val1 + val2 + remain;\nval1=l1-&gt;val,val2=l2-&gt;val,它们被初始化为0,remain为进位值.\n将value存入List节点里#####代码：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273/** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */class Solution &#123;public:    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) &#123;    int remain = 0;    //new list    ListNode* head = new ListNode(0);//head node,it is empty.    ListNode* p = head;    if(l1==NULL &amp;&amp; l2==NULL)&#123;        return NULL;    &#125;    else if(l1==NULL &amp;&amp; l2!=NULL)&#123;        return l2;    &#125;    else if(l1!=NULL &amp;&amp; l2==NULL)&#123;        return l1;    &#125;    while(l1 != NULL ||  l2 != NULL)//only two list get end,while will be finish.    &#123;        int val1 = 0, val2 = 0;        if(l1 != NULL)        &#123;            val1 = l1-&gt;val;        &#125;        if(l2 != NULL)        &#123;            val2 = l2-&gt;val;        &#125;        int value = val1 + val2 + remain;        remain = 0;        if(value &gt;= 10)        &#123;            value -= 10;//value = value % 10            remain = 1;        &#125;        //build List        ListNode * pos = new ListNode(value);        p-&gt;next = pos;        p = p-&gt;next;        if(l1 != NULL)            l1 = l1-&gt;next;        if(l2 != NULL)            l2 = l2-&gt;next;    &#125;    /*    if ABCDE    if FGHIG    AND IF E+G&gt;10    we need make a new node,it's val is (E+G)%10.    like this:    */    if(remain != 0)    &#123;        ListNode* pos = new ListNode(remain);        p-&gt;next = pos;    &#125;    return head-&gt;next;    //!!!__Don't return head because head is empty,head-&gt;next is first node with val.&#125;&#125;;*/\n\n\n\n#####知识点\n\n如何用尾插法建立链表\n同时遍历两个链表并进行相应处理（均遍历到结尾时处理才结束）\n当遍历A节点时，得到需要处理A-&gt;next的信息，如何在遍历时延后一步处理。\n方案1：用一个Bool量标记是否应当处理，在建表后的语句中加入处理语句\n方案2：类似这种求和，将信息保留在remain中，每次加上remain，无信息则remain=0,否则remain=溢出数.12345678910//方案1bool deal=false;while(true)&#123;....//here you build list\tif(deal)&#123;....//here you deal something\t&#125;&#125;//方案2int value = val1 + val2 + remain;\n\n\n\n","dateCreated":"2018-02-11T14:57:37+08:00","dateModified":"2018-02-12T11:48:24+08:00","datePublished":"2018-02-11T14:57:37+08:00","description":"CSDN 博客搬家","headline":"LeetCode #002 Add Two Numbers","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/LeetCode-002-Add-Two-Numbers/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/LeetCode-002-Add-Two-Numbers/","keywords":"c, leetcode","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n#002 Add Two Numbers\n\nYou are given two linked lists representing two non-negative numbers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.\nInput: (2 -&gt; 4 -&gt; 3) + (5 -&gt; 6 -&gt; 4)Output: 7 -&gt; 0 -&gt; 8\n#####思路：\n\n建立一个新的链表List\n依次检测两个链表节点是否为空，不为空则检测值\n如果检测到值，int value = val1 + val2 + remain;\nval1=l1-&gt;val,val2=l2-&gt;val,它们被初始化为0,remain为进位值.\n将value存入List节点里#####代码：12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273/** * Definition for singly-linked list. * struct ListNode &#123; *     int val; *     ListNode *next; *     ListNode(int x) : val(x), next(NULL) &#123;&#125; * &#125;; */class Solution &#123;public:    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) &#123;    int remain = 0;    //new list    ListNode* head = new ListNode(0);//head node,it is empty.    ListNode* p = head;    if(l1==NULL &amp;&amp; l2==NULL)&#123;        return NULL;    &#125;    else if(l1==NULL &amp;&amp; l2!=NULL)&#123;        return l2;    &#125;    else if(l1!=NULL &amp;&amp; l2==NULL)&#123;        return l1;    &#125;    while(l1 != NULL ||  l2 != NULL)//only two list get end,while will be finish.    &#123;        int val1 = 0, val2 = 0;        if(l1 != NULL)        &#123;            val1 = l1-&gt;val;        &#125;        if(l2 != NULL)        &#123;            val2 = l2-&gt;val;        &#125;        int value = val1 + val2 + remain;        remain = 0;        if(value &gt;= 10)        &#123;            value -= 10;//value = value % 10            remain = 1;        &#125;        //build List        ListNode * pos = new ListNode(value);        p-&gt;next = pos;        p = p-&gt;next;        if(l1 != NULL)            l1 = l1-&gt;next;        if(l2 != NULL)            l2 = l2-&gt;next;    &#125;    /*    if ABCDE    if FGHIG    AND IF E+G&gt;10    we need make a new node,it's val is (E+G)%10.    like this:    */    if(remain != 0)    &#123;        ListNode* pos = new ListNode(remain);        p-&gt;next = pos;    &#125;    return head-&gt;next;    //!!!__Don't return head because head is empty,head-&gt;next is first node with val.&#125;&#125;;*/\n\n\n\n#####知识点\n\n如何用尾插法建立链表\n同时遍历两个链表并进行相应处理（均遍历到结尾时处理才结束）\n当遍历A节点时，得到需要处理A-&gt;next的信息，如何在遍历时延后一步处理。\n方案1：用一个Bool量标记是否应当处理，在建表后的语句中加入处理语句\n方案2：类似这种求和，将信息保留在remain中，每次加上remain，无信息则remain=0,否则remain=溢出数.12345678910//方案1bool deal=false;while(true)&#123;....//here you build list\tif(deal)&#123;....//here you deal something\t&#125;&#125;//方案2int value = val1 + val2 + remain;\n\n\n\n","dateCreated":"2018-02-11T14:57:37+08:00","dateModified":"2018-02-12T11:48:24+08:00","datePublished":"2018-02-11T14:57:37+08:00","description":"CSDN 博客搬家","headline":"LeetCode #002 Add Two Numbers","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/LeetCode-002-Add-Two-Numbers/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/11/LeetCode-002-Add-Two-Numbers/","keywords":"c, leetcode","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,leetcode">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -319,7 +329,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -383,7 +393,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -437,7 +447,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -501,7 +511,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -573,22 +583,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         

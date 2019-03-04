@@ -15,7 +15,7 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124#include \"stdio.h\"#include \"stdlib.h\"#define Element intstruct QueueRecord;typedef struct QueueRecord *Queue;int IsEmpty(Queue Q); int Isfull(Queue Q);Queue creat(int Maxsize);void DisposeQueue(Queue Q);void MakeEmpty(Queue Q);void EnQueue(Element X,Queue Q);//入队void DeQueue(Queue Q);//出队Element ReturnQueue(Queue Q);//返回队首元素#define Minsize (5)struct QueueRecord&#123;\tint capacity;//上限，可由Maxsize输入控制，或利用define.\tint front;//队首\tint rear;//队尾\tint size;\tElement *Array;&#125;;int IsEmpty(Queue Q)&#123;\treturn Q-&gt;size==0;//if Q-&gt;size==0, return it&#125;int IsFull(Queue Q)&#123;\tif(Q-&gt;size==Q-&gt;capacity)\t\treturn 0;\telse\t\treturn 1;&#125;Queue creat(int Maxsize)&#123;\tQueue Q;\tQ=(Queue)malloc(sizeof(struct QueueRecord));\tMakeEmpty(Q);\tQ-&gt;capacity=Maxsize;\tQ-&gt;Array=(Element*)malloc(sizeof(Element)*Maxsize);\treturn Q;&#125;void DisposeQueue(Queue Q)&#123;\tif(!IsEmpty(Q))\t&#123;\t\tfree(Q-&gt;Array);\t\tfree(Q);\t&#125;&#125;void MakeEmpty(Queue Q)&#123;\tQ-&gt;size=0;\tQ-&gt;front=1;\tQ-&gt;rear=0;&#125;int Succ(int Value,Queue Q)&#123;\tif(Value==Q-&gt;capacity)//若队尾过界，重新置为0，进行入队\t\tValue=0;\telse\t\tValue++;\treturn Value;//上一个if条件句&#125;void EnQueue(Element X,Queue Q)&#123;\tif(IsFull(Q)==0)//若队列满(若循环队列，此行需改变)\t\tprintf(\"Queue has been full!\\n\");\telse\t&#123;\t\tQ-&gt;size++;\t\tQ-&gt;rear=Succ(Q-&gt;rear,Q);//并非构建循环队列 只是为了防止rear或front超出数组范围\t\tQ-&gt;Array[Q-&gt;rear]=X;\t&#125;&#125;void DeQueue(Queue Q)&#123;\tif(IsFull(Q)==0)\t\tprintf(\"Queue has been full!\\n\");\telse\t&#123;\t\tQ-&gt;size--;\t\tQ-&gt;front=Succ(Q-&gt;front,Q);\t&#125;&#125;Element ReturnQueue(Queue Q)&#123;\treturn Q-&gt;Array[Q-&gt;front];&#125;int main()&#123;\tQueue Q;\tint n;\tscanf(\"%d\",&amp;n);\tQ=creat(n);\tint x;\tint i;\tint temp;\tEnQueue(3,Q);\tEnQueue(4,Q);\ttemp=ReturnQueue(Q);\tprintf(\"%d\\n\",temp);\tDeQueue(Q);\ttemp=ReturnQueue(Q);\tprintf(\"%d\\n\",temp);\treturn 0;\t&#125;c","dateCreated":"2018-02-11T14:47:36+08:00","dateModified":"2018-02-12T11:51:38+08:00","datePublished":"2018-02-11T14:47:36+08:00","description":"CSDN 博客搬家","headline":"队列例程","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/队列例程/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c","logo":{"@type":"ImageObject","url":"https://www.gravatar.com/avatar/883e56e18ad9139314b5b2167bac8e4c"}},"url":"/sherry0429.github.io/2018/02/11/队列例程/","keywords":"c, queue","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105106107108109110111112113114115116117118119120121122123124#include \"stdio.h\"#include \"stdlib.h\"#define Element intstruct QueueRecord;typedef struct QueueRecord *Queue;int IsEmpty(Queue Q); int Isfull(Queue Q);Queue creat(int Maxsize);void DisposeQueue(Queue Q);void MakeEmpty(Queue Q);void EnQueue(Element X,Queue Q);//入队void DeQueue(Queue Q);//出队Element ReturnQueue(Queue Q);//返回队首元素#define Minsize (5)struct QueueRecord&#123;\tint capacity;//上限，可由Maxsize输入控制，或利用define.\tint front;//队首\tint rear;//队尾\tint size;\tElement *Array;&#125;;int IsEmpty(Queue Q)&#123;\treturn Q-&gt;size==0;//if Q-&gt;size==0, return it&#125;int IsFull(Queue Q)&#123;\tif(Q-&gt;size==Q-&gt;capacity)\t\treturn 0;\telse\t\treturn 1;&#125;Queue creat(int Maxsize)&#123;\tQueue Q;\tQ=(Queue)malloc(sizeof(struct QueueRecord));\tMakeEmpty(Q);\tQ-&gt;capacity=Maxsize;\tQ-&gt;Array=(Element*)malloc(sizeof(Element)*Maxsize);\treturn Q;&#125;void DisposeQueue(Queue Q)&#123;\tif(!IsEmpty(Q))\t&#123;\t\tfree(Q-&gt;Array);\t\tfree(Q);\t&#125;&#125;void MakeEmpty(Queue Q)&#123;\tQ-&gt;size=0;\tQ-&gt;front=1;\tQ-&gt;rear=0;&#125;int Succ(int Value,Queue Q)&#123;\tif(Value==Q-&gt;capacity)//若队尾过界，重新置为0，进行入队\t\tValue=0;\telse\t\tValue++;\treturn Value;//上一个if条件句&#125;void EnQueue(Element X,Queue Q)&#123;\tif(IsFull(Q)==0)//若队列满(若循环队列，此行需改变)\t\tprintf(\"Queue has been full!\\n\");\telse\t&#123;\t\tQ-&gt;size++;\t\tQ-&gt;rear=Succ(Q-&gt;rear,Q);//并非构建循环队列 只是为了防止rear或front超出数组范围\t\tQ-&gt;Array[Q-&gt;rear]=X;\t&#125;&#125;void DeQueue(Queue Q)&#123;\tif(IsFull(Q)==0)\t\tprintf(\"Queue has been full!\\n\");\telse\t&#123;\t\tQ-&gt;size--;\t\tQ-&gt;front=Succ(Q-&gt;front,Q);\t&#125;&#125;Element ReturnQueue(Queue Q)&#123;\treturn Q-&gt;Array[Q-&gt;front];&#125;int main()&#123;\tQueue Q;\tint n;\tscanf(\"%d\",&amp;n);\tQ=creat(n);\tint x;\tint i;\tint temp;\tEnQueue(3,Q);\tEnQueue(4,Q);\ttemp=ReturnQueue(Q);\tprintf(\"%d\\n\",temp);\tDeQueue(Q);\ttemp=ReturnQueue(Q);\tprintf(\"%d\\n\",temp);\treturn 0;\t&#125;c","dateCreated":"2018-02-11T14:47:36+08:00","dateModified":"2018-02-12T11:51:38+08:00","datePublished":"2018-02-11T14:47:36+08:00","description":"CSDN 博客搬家","headline":"队列例程","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2018/02/11/队列例程/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2018/02/11/队列例程/","keywords":"c, queue","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
     <meta name="description" content="CSDN 博客搬家">
 <meta name="keywords" content="c,queue">
 <meta property="og:type" content="blog">
@@ -32,6 +32,8 @@
     
         
     
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
     
     
     
@@ -53,6 +55,10 @@
 
 
     
+        
+            
+        
+    
 
 <header id="header" data-behavior="4">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
@@ -65,6 +71,8 @@
                 href="#about">
         
         
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
         </a>
     
 </header>
@@ -72,8 +80,23 @@
             <!-- Define author's picture -->
 
 
+
+        
+    
+
 <nav id="sidebar" data-behavior="4">
     <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
         
         
             <ul class="sidebar-buttons">
@@ -127,19 +150,6 @@
                     
                         <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
                         <span class="sidebar-button-desc">归档</span>
-                    </a>
-            </li>
-            
-                <li class="sidebar-button">
-                    
-                        <a  class="sidebar-button-link open-algolia-search"
-                             href="#search"
-                            
-                            title="搜索"
-                        >
-                    
-                        <i class="sidebar-button-icon fa fa-search" aria-hidden="true"></i>
-                        <span class="sidebar-button-desc">搜索</span>
                     </a>
             </li>
             
@@ -295,7 +305,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -359,7 +369,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -413,7 +423,7 @@
     </nav>
     <ul class="post-actions post-action-share">
         <li class="post-action hide-lg hide-md hide-sm">
-            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Share this post">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
                 <i class="fa fa-share-alt" aria-hidden="true"></i>
             </a>
         </li>
@@ -477,7 +487,7 @@
         
         <li class="post-action">
             
-                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
             
                 <i class="fa fa-list" aria-hidden="true"></i>
             </a>
@@ -549,22 +559,28 @@
         
 
 
+    
+        
+    
+
 <div id="about">
     <div id="about-card">
         <div id="about-btn-close">
             <i class="fa fa-times"></i>
         </div>
         
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
             <h4 id="about-card-name">Tianyou Pan</h4>
         
-            <div id="about-card-bio"><p>author.bio</p>
+            <div id="about-card-bio"><p>##光阴似箭，日月如梭，###然而，###人可以老，力可以衰，####心却不能死，理想也不能灭…</p>
 </div>
         
         
             <div id="about-card-job">
                 <i class="fa fa-briefcase"></i>
                 <br/>
-                <p>author.job</p>
+                <p>后台开发工程师</p>
 
             </div>
         
