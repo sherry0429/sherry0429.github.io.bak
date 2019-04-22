@@ -1,0 +1,700 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Monster &amp; Flower">
+    <title>大数据架构浅析 - Monster &amp; Flower</title>
+    <meta name="author" content="Tianyou Pan">
+    
+    
+        <link rel="icon" href="sherry0429.github.io/assets/images/icon.png">
+    
+    
+        <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n1. 前言当我第一次听到大数据这个词，之后尝试其涉及的技术时，一头雾水，当时大概和许多入门的人一样，觉得大数据基本上等于Hadoop。恰巧当时学校来了一个教大数据的老师，也是讲Hadoop，Hbase这些。于是乎，认为貌似就是一种技术嘛，就是一个框架。\n后来随着Hive, Pig, Flume, Spark, Flink, Druid这一系列框架雨后春笋的出现，我发现，好像大数据跟以前想的不同了，不是那么一回事了。\n最明显的，现在一个人说入门大数据，让他学什么？看Hadoop？看Spark？然后搞个words count？就可以了嘛？私以为，是远远不够的。\n这里整理一下从刚接触Kafka（没错，这就是我最先接触的大数据的部件之一，那时候Kafka用的人还不多，远没有现在这么火）开始，到现在为止，大数据这块的技术组成，以及分别是用来做什么的。\n因为不是大佬，所以只能从个人角度做一些浅析，一方面是备忘，一方面也相当于给自己列了一个研究路径。\n2. 记录2.1. 大数据的存储 （Hadoop‘s HDFS and HBase / …）大数据之大，首先要存下！\n我们假设数据已经超过10TB，那么一个机器的硬盘已经hold不住了。即使通过加硬盘，也只是饮鸩止渴，即使这个数离真正的“大”还很远。\n于是乎，分布式，多机，就成了解决之道。\n2.1.1. 当遇见流量集中在以往的分布式上，流量一旦集中，网络请求多了，磁盘IO多了，开销多了，性能就会下降。所以在这种情况下，分布式是用负载均衡，服务升降级，机器状态监控，这些技术实现的。分布式，多机解决的更偏向于应用层面的，而非存储层面的问题。\n2.1.2. 当遇见数据集中传统的数据集中，比如数据库数据增长，会用分库，分表来解决问题。\n但当数据量大并且复杂到一个地步时，传统的分库分表成本就很大了，何况分库分表意味着重构，重构意味着时间成本，金钱成本，等等。\n于是，为了解决数据集中的问题，借鉴与流量集中，很明显，把这些数据也分到多台机器上不就好了嘛？但是一旦数据分开，作为使用数据的应用端，代码岂不是也变的很复杂？\n这个请求A机，那个请求B机，这个再把C机和D机的做个Merge给G机，，awsl。。。\n为了解决：\n\n分布式存储\n简易调用\n\n这两个问题，Hadoop诞生了，虽然现在Hadoop有了各种各样的新技术，但是最初，也许就是这个目的吧~没错这时我猜的hhh。\nHadoop官网的文档介绍也说了：\n\n\nThe Apache Hadoop software library is a framework that allows for the distributed processing of large data sets across clusters of computers using simple programming models. \n\n\n2.1.3. 其他的问题并不是分布式就能解决所有问题，有许多复杂性的东西也一并产生了，比如直面单点失败问题，硬件层面的错误handle问题，集群的伸缩问题等等。\n这些问题也是Hadoop在发展的过程中不断解决的。\n2.2. 大数据的提取 （Hive / …）现在我们存下来了数据，那么就像数据库一样，当放进去之后，我们得有类似的SQL或者什么其他的玩意儿能够把它们按照我们的意愿取出来才行。\n与单机不同，现在的情况变复杂了。因为数据存储在多台机器上。\n所以往往有能力实现存储的公司，也会实现提取。\n2.2.1 时效性根据系统的不同，有的数据要求实时性很高，有的则不是。在这个基础上，提取也有着重于实时提取的优化的，也有着重于本身查询性能优化的（不强求实时性）\n2.3. 大数据的流通 （Kafka / … ）数据总是不能一批一批的存起来的，现有的互联网应用往往每天产生大量的数据，包括但不限于聊天数据，语音数据，视频数据等等，这些数据流，必须有规划的分门别类的存储进对应的位置才行。\nKafka支持的Topic，订阅，生产&amp;消费模式就较好的解决了这个问题。\n2.4. 大数据的日志  （Flume / … ）机器一多，日志就多了，于是遇到下面的问题：\n\n这日志哪打出来的？（机器分别）\n这两条日志哪个先打出来的？（时间同步）\nso many fu**ing log in one file !!! （存储分类）\nso many fu**ing log on different machine !!! （日志合并）\n\n于是就出现了专门用于处理大数据框架下日志收集，日志分析的框架。比如Flume。\n2.5. 大数据的计算 （Spark / … )大数据往往不是因为大而产生价值，而是因为使用这些海量数据能够分析出来一些行为，一些模式，而产生价值。如何在大数据集上进行计算，从而得到分析结果，就变成了大数据行业发展需要面对的一个问题。\n在这个方向上又产生了两个子方向，分别是：\n\n流处理\n批处理\n\n后来呢，又有把它们视为一体的框架出现。\n有的呢，认为流处理其实是批处理的特例，有的呢，认为批处理是流处理的特例，这两种思路分别都出现了其代表的框架。\nflink，就是把批处理作为流处理特例的这种思想所产生的框架之一。\n2.6. 大数据的监控 （Superset / … ）计算出来的结果要是能可视化，而不仅仅是一个数字，该多好呢？于是就有一些框架实现这方面的需求，比如superset，不过这类需求其实很好自定义的去实现，所以不是大头︿(￣︶￣)︿\n4. 总结什么是大数据？这样一分门别类其实就可以发现，它并不是某个技术，或者某个技术集合，它代表着一种现代数据处理方式，这种处理方式就是多机处理，只是现有的硬件发展跟不上科技发展的脚步，所以用了种种技术实现在多机下的分布式处理。\n也许未来有一天硬件足够NB，不再需要担心“存不下了”，只需要设计算法去处理，到那时候这些技术也许只会剩下“计算“这一个版块了，不知道量子计算机能不能实现呢？可惜自己level太低~接触不到这些最新科技。\n5. 研究路径首先感谢你看到这里，这里是我自己规划的一个学习路径，如果你对这些繁杂的技术不知道学习优先级的话，也许可以拿来参考：\n\nHadoop，Zookeeper （搞清楚概念）\nHDFS，Kafka （弄点数据存进去）\nHive （取一下试试）\nSpark / Flink （大数据上的计算）\nFlume （日志回收）\n\n当然，学无止境，现在这些部署往往不再是直接硬核部署了，会通过ducker, k8s等，用镜像的方式部署来避免因为机器硬件差异带来的适配成本。\n这些也是需要学习哒！~（李小龙式啊哒！）","dateCreated":"2019-04-22T18:52:54+08:00","dateModified":"2019-04-22T17:50:21+08:00","datePublished":"2019-04-22T18:52:54+08:00","description":"当人们提到大数据，往往各种大，然而它具体包含哪些技术，这些技术又是如何互相影响，如何组合成一个大数据分析系统的呢？","headline":"大数据架构浅析","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2019/04/22/大数据架构浅析/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2019/04/22/大数据架构浅析/","keywords":"大数据","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <meta name="description" content="当人们提到大数据，往往各种大，然而它具体包含哪些技术，这些技术又是如何互相影响，如何组合成一个大数据分析系统的呢？">
+<meta name="keywords" content="大数据">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="大数据架构浅析">
+<meta property="og:url" content="sherry0429.github.io/2019/04/22/大数据架构浅析/index.html">
+<meta property="og:site_name" content="Monster &amp; Flower">
+<meta property="og:description" content="当人们提到大数据，往往各种大，然而它具体包含哪些技术，这些技术又是如何互相影响，如何组合成一个大数据分析系统的呢？">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2019-04-22T09:50:21.761Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="大数据架构浅析">
+<meta name="twitter:description" content="当人们提到大数据，往往各种大，然而它具体包含哪些技术，这些技术又是如何互相影响，如何组合成一个大数据分析系统的呢？">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="sherry0429.github.io/assets/images/icon.png"/>
+    
+    
+    
+        <meta property="og:image" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png" />
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-xgiy9dagwzornjjxtavijtmdvammqxs1kvarjqhd6kg9j2fdprmf2dsayvrb.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Monster &amp; Flower</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Tianyou Pan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/sherry0429" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="http://stackoverflow.com/users/5557569/sherry0429" target="_blank" rel="noopener" title="Stack Overflow">
+                    
+                        <i class="sidebar-button-icon fab fa-stack-overflow" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Stack Overflow</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://www.linkedin.com/in/whysoserioushaha/" target="_blank" rel="noopener" title="LinkedIn">
+                    
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/atom.xml"
+                            
+                            title="RSS"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-rss" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">RSS</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+        <div class="post-header-cover
+                    text-left
+                    post-header-cover--full"
+             style="background-image:url('https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png');"
+             data-behavior="4">
+            
+        </div>
+
+            <div id="main" data-behavior="4"
+                 class="hasCover
+                        hasCoverMetaOut
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            大数据架构浅析
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2019-04-22T18:52:54+08:00">
+	
+		    4月 22, 2019
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/大数据/">大数据</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <!-- excerpt -->
+<h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. 前言</h2><p>当我第一次听到大数据这个词，之后尝试其涉及的技术时，一头雾水，当时大概和许多入门的人一样，觉得大数据基本上等于Hadoop。恰巧当时学校来了一个教大数据的老师，也是讲Hadoop，Hbase这些。于是乎，认为貌似就是一种技术嘛，就是一个框架。</p>
+<p>后来随着Hive, Pig, Flume, Spark, Flink, Druid这一系列框架雨后春笋的出现，我发现，好像大数据跟以前想的不同了，不是那么一回事了。</p>
+<p>最明显的，现在一个人说入门大数据，让他学什么？看Hadoop？看Spark？然后搞个words count？就可以了嘛？私以为，是远远不够的。</p>
+<p>这里整理一下从刚接触Kafka（没错，这就是我最先接触的大数据的部件之一，那时候Kafka用的人还不多，远没有现在这么火）开始，到现在为止，大数据这块的技术组成，以及分别是用来做什么的。</p>
+<p>因为不是大佬，所以只能从个人角度做一些浅析，一方面是备忘，一方面也相当于给自己列了一个研究路径。</p>
+<h2 id="2-记录"><a href="#2-记录" class="headerlink" title="2. 记录"></a>2. 记录</h2><h4 id="2-1-大数据的存储-（Hadoop‘s-HDFS-and-HBase-…）"><a href="#2-1-大数据的存储-（Hadoop‘s-HDFS-and-HBase-…）" class="headerlink" title="2.1. 大数据的存储 （Hadoop‘s HDFS and HBase / …）"></a>2.1. 大数据的存储 （Hadoop‘s HDFS and HBase / …）</h4><p>大数据之大，首先要存下！</p>
+<p>我们假设数据已经超过10TB，那么一个机器的硬盘已经hold不住了。即使通过加硬盘，也只是饮鸩止渴，即使这个数离真正的“大”还很远。</p>
+<p>于是乎，分布式，多机，就成了解决之道。</p>
+<h5 id="2-1-1-当遇见流量集中"><a href="#2-1-1-当遇见流量集中" class="headerlink" title="2.1.1. 当遇见流量集中"></a>2.1.1. 当遇见流量集中</h5><p>在以往的分布式上，流量一旦集中，网络请求多了，磁盘IO多了，开销多了，性能就会下降。所以在这种情况下，分布式是用负载均衡，服务升降级，机器状态监控，这些技术实现的。分布式，多机解决的更偏向于应用层面的，而非存储层面的问题。</p>
+<h5 id="2-1-2-当遇见数据集中"><a href="#2-1-2-当遇见数据集中" class="headerlink" title="2.1.2. 当遇见数据集中"></a>2.1.2. 当遇见数据集中</h5><p>传统的数据集中，比如数据库数据增长，会用分库，分表来解决问题。</p>
+<p>但当数据量大并且复杂到一个地步时，传统的分库分表成本就很大了，何况分库分表意味着重构，重构意味着时间成本，金钱成本，等等。</p>
+<p>于是，为了解决数据集中的问题，借鉴与流量集中，很明显，把这些数据也分到多台机器上不就好了嘛？但是一旦数据分开，作为使用数据的应用端，代码岂不是也变的很复杂？</p>
+<p>这个请求A机，那个请求B机，这个再把C机和D机的做个Merge给G机，，awsl。。。</p>
+<p>为了解决：</p>
+<ul>
+<li>分布式存储</li>
+<li>简易调用</li>
+</ul>
+<p>这两个问题，Hadoop诞生了，虽然现在Hadoop有了各种各样的新技术，但是最初，也许就是这个目的吧~没错这时我猜的hhh。</p>
+<p>Hadoop官网的文档介绍也说了：</p>
+<blockquote>
+<blockquote>
+<p>The Apache Hadoop software library is a framework that allows for the distributed processing of large data sets across clusters of computers using <strong>simple programming models. </strong></p>
+</blockquote>
+</blockquote>
+<h5 id="2-1-3-其他的问题"><a href="#2-1-3-其他的问题" class="headerlink" title="2.1.3. 其他的问题"></a>2.1.3. 其他的问题</h5><p>并不是分布式就能解决所有问题，有许多复杂性的东西也一并产生了，比如直面单点失败问题，硬件层面的错误handle问题，集群的伸缩问题等等。</p>
+<p>这些问题也是Hadoop在发展的过程中不断解决的。</p>
+<h4 id="2-2-大数据的提取-（Hive-…）"><a href="#2-2-大数据的提取-（Hive-…）" class="headerlink" title="2.2. 大数据的提取 （Hive / …）"></a>2.2. 大数据的提取 （Hive / …）</h4><p>现在我们存下来了数据，那么就像数据库一样，当放进去之后，我们得有类似的SQL或者什么其他的玩意儿能够把它们按照我们的意愿取出来才行。</p>
+<p>与单机不同，现在的情况变复杂了。因为数据存储在多台机器上。</p>
+<p>所以往往有能力实现存储的公司，也会实现提取。</p>
+<h5 id="2-2-1-时效性"><a href="#2-2-1-时效性" class="headerlink" title="2.2.1 时效性"></a>2.2.1 时效性</h5><p>根据系统的不同，有的数据要求实时性很高，有的则不是。在这个基础上，提取也有着重于实时提取的优化的，也有着重于本身查询性能优化的（不强求实时性）</p>
+<h4 id="2-3-大数据的流通-（Kafka-…-）"><a href="#2-3-大数据的流通-（Kafka-…-）" class="headerlink" title="2.3. 大数据的流通 （Kafka / … ）"></a>2.3. 大数据的流通 （Kafka / … ）</h4><p>数据总是不能一批一批的存起来的，现有的互联网应用往往每天产生大量的数据，包括但不限于聊天数据，语音数据，视频数据等等，这些数据流，必须有规划的分门别类的存储进对应的位置才行。</p>
+<p>Kafka支持的Topic，订阅，生产&amp;消费模式就较好的解决了这个问题。</p>
+<h4 id="2-4-大数据的日志-（Flume-…-）"><a href="#2-4-大数据的日志-（Flume-…-）" class="headerlink" title="2.4. 大数据的日志  （Flume / … ）"></a>2.4. 大数据的日志  （Flume / … ）</h4><p>机器一多，日志就多了，于是遇到下面的问题：</p>
+<ul>
+<li>这日志哪打出来的？（机器分别）</li>
+<li>这两条日志哪个先打出来的？（时间同步）</li>
+<li>so many fu**ing log in one file !!! （存储分类）</li>
+<li>so many fu**ing log on different machine !!! （日志合并）</li>
+</ul>
+<p>于是就出现了专门用于处理大数据框架下日志收集，日志分析的框架。比如Flume。</p>
+<h4 id="2-5-大数据的计算-（Spark-…"><a href="#2-5-大数据的计算-（Spark-…" class="headerlink" title="2.5. 大数据的计算 （Spark / … )"></a>2.5. 大数据的计算 （Spark / … )</h4><p>大数据往往不是因为大而产生价值，而是因为使用这些海量数据能够分析出来一些行为，一些模式，而产生价值。如何在大数据集上进行计算，从而得到分析结果，就变成了大数据行业发展需要面对的一个问题。</p>
+<p>在这个方向上又产生了两个子方向，分别是：</p>
+<ul>
+<li>流处理</li>
+<li>批处理</li>
+</ul>
+<p>后来呢，又有把它们视为一体的框架出现。</p>
+<p>有的呢，认为流处理其实是批处理的特例，有的呢，认为批处理是流处理的特例，这两种思路分别都出现了其代表的框架。</p>
+<p>flink，就是把批处理作为流处理特例的这种思想所产生的框架之一。</p>
+<h4 id="2-6-大数据的监控-（Superset-…-）"><a href="#2-6-大数据的监控-（Superset-…-）" class="headerlink" title="2.6. 大数据的监控 （Superset / … ）"></a>2.6. 大数据的监控 （Superset / … ）</h4><p>计算出来的结果要是能可视化，而不仅仅是一个数字，该多好呢？于是就有一些框架实现这方面的需求，比如superset，不过这类需求其实很好自定义的去实现，所以不是大头︿(￣︶￣)︿</p>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4. 总结"></a>4. 总结</h2><p>什么是大数据？这样一分门别类其实就可以发现，它并不是某个技术，或者某个技术集合，它代表着一种现代数据处理方式，这种处理方式就是多机处理，只是现有的硬件发展跟不上科技发展的脚步，所以用了种种技术实现在多机下的分布式处理。</p>
+<p>也许未来有一天硬件足够NB，不再需要担心“存不下了”，只需要设计算法去处理，到那时候这些技术也许只会剩下“计算“这一个版块了，不知道量子计算机能不能实现呢？可惜自己level太低~接触不到这些最新科技。</p>
+<h2 id="5-研究路径"><a href="#5-研究路径" class="headerlink" title="5. 研究路径"></a>5. 研究路径</h2><p>首先感谢你看到这里，这里是我自己规划的一个学习路径，如果你对这些繁杂的技术不知道学习优先级的话，也许可以拿来参考：</p>
+<ol>
+<li>Hadoop，Zookeeper （搞清楚概念）</li>
+<li>HDFS，Kafka （弄点数据存进去）</li>
+<li>Hive （取一下试试）</li>
+<li>Spark / Flink （大数据上的计算）</li>
+<li>Flume （日志回收）</li>
+</ol>
+<p>当然，学无止境，现在这些部署往往不再是直接硬核部署了，会通过ducker, k8s等，用镜像的方式部署来避免因为机器硬件差异带来的适配成本。</p>
+<p>这些也是需要学习哒！~（李小龙式啊哒！）</p>
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/大数据/">大数据</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/9999/12/31/Welcome/" data-tooltip="Welcome" aria-label="上一篇: Welcome">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/07/机器学习（一）/" data-tooltip="机器学习（一）" aria-label="下一篇: 机器学习（一）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/04/22/大数据架构浅析/&amp;title=大数据架构浅析" title="分享到 QQ">
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+                <div id="gitment"></div>
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2019 Tianyou Pan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/9999/12/31/Welcome/" data-tooltip="Welcome" aria-label="上一篇: Welcome">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/03/07/机器学习（一）/" data-tooltip="机器学习（一）" aria-label="下一篇: 机器学习（一）">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Facebook">
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Twitter">
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Google+">
+                    <i class="fab fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Weibo">
+                    <i class="fab fa-weibo" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/04/22/大数据架构浅析/&amp;title=大数据架构浅析" title="分享到 QQ">
+                    <i class="fab fa-qq" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/04/22/大数据架构浅析/" title="分享到 Qzone">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+                <li class="post-action">
+                    <a class="post-action-btn btn btn--default" href="#gitment">
+                         <i class="fa fa-comment"></i>
+                    </a>
+                </li>
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/04/22/大数据架构浅析/">
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/04/22/大数据架构浅析/">
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/04/22/大数据架构浅析/">
+                        <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2019/04/22/大数据架构浅析/">
+                        <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/04/22/大数据架构浅析/&amp;title=大数据架构浅析">
+                        <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/04/22/大数据架构浅析/">
+                        <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/icon.png" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Tianyou Pan</h4>
+        
+            <div id="about-card-bio"><p>光阴似箭，日月如梭，然而，人可以老，力可以衰，心却不能死，理想也不能灭…</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>后台开发工程师</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                China SiChuan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/zongsi.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-ojilow2zkk0roq2nb1zz6mycnylcylact3phqfb8tft8hmjczaiju9oxxuh9.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+        <script type="text/javascript">
+            (function() {
+                function render() {
+                    new Gitment({
+                        id: 'sherry0429.github.io/2019/04/22/大数据架构浅析/',
+                        owner: 'sherry0429',
+                        repo: 'gitment-comments',
+                        oauth: {
+                            client_id: '8682c4503f3fef4dd481',
+                            client_secret: '184d8c122cd7cc7253584abe91ea240109a98738',
+                        }
+                    }).render('gitment');
+                }
+                var gc = document.createElement('script');
+                gc.type = 'text/javascript';
+                gc.src = 'https://pty-static.oss-cn-beijing.aliyuncs.com/gitment.browser.js';
+                gc.charset = 'UTF-8';
+                gc.onload = render;
+                gc.async = true;
+                document.querySelector('body').appendChild(gc);
+                var gcs = document.createElement('link');
+                gcs.href = '//imsun.github.io/gitment/style/default.css';
+                gcs.type = 'text/css';
+                gcs.rel = 'stylesheet';
+                gcs.media = 'screen,print';
+                document.querySelector('head').appendChild(gcs);
+            })();
+	    </script>
+    
+
+
+
+    </body>
+</html>
