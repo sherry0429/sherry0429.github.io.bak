@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Monster &amp; Flower">
-    <title>Welcome - Monster &amp; Flower</title>
+    <title>SSL-MITM-ATTACK - Monster &amp; Flower</title>
     <meta name="author" content="Tianyou Pan">
     
     
@@ -15,19 +15,19 @@
     
         <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"Welcome ! \nThis is tianyou pan’s blog,\nThis blog’s theme is developer by LouisBarranqueiro, you can see theme in here:\nhttps://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/user.md\nBlog’s content is modify / edit / publish by myself.\n","dateCreated":"9999-12-31T09:38:05+08:00","dateModified":"2019-03-04T17:16:26+08:00","datePublished":"9999-12-31T09:38:05+08:00","description":"","headline":"Welcome","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/9999/12/31/Welcome/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/9999/12/31/Welcome/","keywords":"guide","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
-    <meta name="description" content="Welcome !  This is tianyou pan’s blog, This blog’s theme is developer by LouisBarranqueiro, you can see theme in here: https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/use">
-<meta name="keywords" content="guide">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png"},"articleBody":"\n概述现在基本网络连接都是https了，用http的非常少了，fiddler有一个很强大的功能，就是decrypt https traffic，一旦打开这个选项，就可以看到https的明文数据，但是需要安装fiddler的证书。\n那么：\n\n怎么解密的？\n为什么要安装证书？\n什么都可以解密吗？\n\n本文将记录下这三个问题，当要从头实现一个类似fiddler这样的代理服务器，并且有https解密功能时，这篇文章可以从原理上，阐述一个实现思路。\n1. SSL handshake首先，就是SSL握手，这是必须要啃下来的一部分，否则即使做到了，也不知道为什么。这就是这件事的“why”。\nSSL握手的过程，网上有大量的文章，这里不再详细的解释，我只记录一下经过我浓缩后的一些细节。\nSSL握手类似于TCP三次握手，也是服务器与客户端之间的来回通讯，不同的是，加入了加密逻辑。\n加密通讯本质都是秘钥 + 明文 = 密文。\n如何产生秘钥？ — &gt;  加密方式\n如何保护秘钥？ — &gt; 秘钥存放，秘钥位数，随机数干扰 ….\nSSL握手最终也是为了生成一个秘钥，只是生成的过程很灵性。具体可以看下面这张表格。\n\n\n\n步骤\n服务端（拥有数据）\nConnection\n客户端（拥有数据）\n\n\n\n\n1\n证书私钥\n&lt;—-  随机数A，可支持的加密方法集\nA\n\n\n2\n证书私钥，A，B\n随机数B，采用的加密方法集 –&gt;\nA, B\n\n\n3\n证书私钥，A，B\n发送证书 —–&gt;\nA，B，证书公钥\n\n\n4\nA，B（证书私钥，Key） — &gt; C\n&lt;—–  发送Key\nA，B，（证书公钥，C）–&gt; Key\n\n\n5\n我有A，B，C啦！\n\n我有A，B，C啦！\n\n\n6\n\n&lt;——-  老铁，以后用密文\n\n\n\n7\nA，B，C，密文\n&lt;——-  试着加密发一条看看\nA，B，C，明文8\n\n\n8\n\n好的老铁，以后用密文———&gt;\n\n\n\n9\nA，B，C，密文\n试着加密发一条看看 —–&gt;\nA，B，C，明文\n\n\n10\n\n开始加密通讯\n\n\n\n整个流程可以描述为，通过一系列骚操作：\n\n让两边都掌握A，B，C这三个随机数\n使用这个随机数计算出来秘钥\n通过这个秘钥进行加密传输\n\n这个安全性体现在哪里呢？\n\nA，B，C都是随机数，暴力破解的可能性低\nC并没有明文传输，C是通过证书做了一个转换来让双方都得到的。\n在3,4步之间，服务端是可以要求客户端上传证书的（防止通过证书进行中间人攻击），这一步是可选的。\n证书本身使用的秘钥算法\n\n2. SSL handshake 基于证书的中间人攻击从刚才的第一节，就可以看出来，如果作为攻击方，如果掌握了A，B，C，那么也可以算出秘钥，这时候就可以解开加密通讯。让其变为明文通讯。\n那么如何掌握A，B，C呢？\n其中A，B，是明文传输的，做一个代理就可以抓到。只有C比较难搞。因为C没有明文传输过，而是通过Key间接传输的。作为代理，可以拿到证书，可以拿到Key，但没有私钥，就无法解出来C。\n基于证书的中间人攻击，正是基于这一点。从第三步起\n\n攻击方伪造证书，客户端信任此证书，使用攻击方（而不是服务端）的证书和随机数C计算出Key。\n攻击方使用自己证书和Key还原出随机数C\n攻击方使用随机数C和服务端证书公钥生成Key并发送给服务端 （重要！）\n\n通过这么三个步骤，就可以让代理服务器也获知A，B，C从而可以计算秘钥，进而监听https的加密信息了。\n问题\nfiddler是怎样解密https的？\n用基于证书的中间人攻击，当安装证书后，fiddler变可以通过中间人攻击监听https传输\n\n\n为什么要安装证书？\n如果不安装证书，fiddler就无法获知随机数C。\n\n\n什么都可以解密吗？\n如果服务端要求客户端上传证书，这种攻击就废了\n如果（证书公钥，C） —  Key，（证书私钥，Key） —&gt; C，这两个步骤的算法，攻击方（代理）无法模拟，也无法实行中间人攻击。\n\n\n","dateCreated":"2019-04-29T17:45:51+08:00","dateModified":"2019-04-29T17:45:52+08:00","datePublished":"2019-04-29T17:45:51+08:00","description":"Windows下网络调试会用到Fiddler，它可以解密https传输的内容，如果自己实现一个基本代理服务器，对https加密是无能为力的，原因在哪？如何解决？","headline":"SSL-MITM-ATTACK","image":[null,"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"/sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/"},"publisher":{"@type":"Organization","name":"Tianyou Pan","sameAs":["https://github.com/sherry0429","http://stackoverflow.com/users/5557569/sherry0429","https://www.linkedin.com/in/whysoserioushaha/"],"image":"icon.png","logo":{"@type":"ImageObject","url":"icon.png"}},"url":"/sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/","keywords":"SSL","thumbnailUrl":"https://blogimage-1253148269.cos.ap-chengdu.myqcloud.com/transport.png"}</script>
+    <meta name="description" content="Windows下网络调试会用到Fiddler，它可以解密https传输的内容，如果自己实现一个基本代理服务器，对https加密是无能为力的，原因在哪？如何解决？">
+<meta name="keywords" content="SSL">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Welcome">
-<meta property="og:url" content="sherry0429.github.io/9999/12/31/Welcome/index.html">
+<meta property="og:title" content="SSL-MITM-ATTACK">
+<meta property="og:url" content="sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/index.html">
 <meta property="og:site_name" content="Monster &amp; Flower">
-<meta property="og:description" content="Welcome !  This is tianyou pan’s blog, This blog’s theme is developer by LouisBarranqueiro, you can see theme in here: https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/use">
+<meta property="og:description" content="Windows下网络调试会用到Fiddler，它可以解密https传输的内容，如果自己实现一个基本代理服务器，对https加密是无能为力的，原因在哪？如何解决？">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2019-03-04T09:16:26.761Z">
+<meta property="og:updated_time" content="2019-04-29T09:45:52.098Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Welcome">
-<meta name="twitter:description" content="Welcome !  This is tianyou pan’s blog, This blog’s theme is developer by LouisBarranqueiro, you can see theme in here: https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/use">
+<meta name="twitter:title" content="SSL-MITM-ATTACK">
+<meta name="twitter:description" content="Windows下网络调试会用到Fiddler，它可以解密https传输的内容，如果自己实现一个基本代理服务器，对https加密是无能为力的，原因在哪？如何解决？">
     
     
         
@@ -239,20 +239,20 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Welcome
+            SSL-MITM-ATTACK
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="9999-12-31T09:38:05+08:00">
+    <time datetime="2019-04-29T17:45:51+08:00">
 	
-		    12月 31, 9999
+		    4月 29, 2019
     	
     </time>
     
         <span>发布在 </span>
         
-    <a class="category-link" href="/categories/other/">other</a>
+    <a class="category-link" href="/categories/knowledge/">knowledge</a>
 
 
     
@@ -264,12 +264,131 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>Welcome ! </p>
-<p>This is tianyou pan’s blog,</p>
-<p>This blog’s theme is developer by LouisBarranqueiro, you can see theme in here:</p>
-<p><a href="https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/user.md" target="_blank" rel="noopener">https://github.com/LouisBarranqueiro/hexo-theme-tranquilpeak/blob/master/docs/user.md</a></p>
-<p>Blog’s content is modify / edit / publish by myself.</p>
-
+            <!-- excerpt -->
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>现在基本网络连接都是https了，用http的非常少了，fiddler有一个很强大的功能，就是decrypt https traffic，一旦打开这个选项，就可以看到https的明文数据，但是需要安装fiddler的证书。</p>
+<p>那么：</p>
+<ul>
+<li>怎么解密的？</li>
+<li>为什么要安装证书？</li>
+<li>什么都可以解密吗？</li>
+</ul>
+<p>本文将记录下这三个问题，当要从头实现一个类似fiddler这样的代理服务器，并且有https解密功能时，这篇文章可以从原理上，阐述一个实现思路。</p>
+<h3 id="1-SSL-handshake"><a href="#1-SSL-handshake" class="headerlink" title="1. SSL handshake"></a>1. SSL handshake</h3><p>首先，就是SSL握手，这是必须要啃下来的一部分，否则即使做到了，也不知道为什么。这就是这件事的“why”。</p>
+<p>SSL握手的过程，网上有大量的文章，这里不再详细的解释，我只记录一下经过我浓缩后的一些细节。</p>
+<p>SSL握手类似于TCP三次握手，也是服务器与客户端之间的来回通讯，不同的是，加入了加密逻辑。</p>
+<p>加密通讯本质都是秘钥 + 明文 = 密文。</p>
+<p>如何产生秘钥？ — &gt;  加密方式</p>
+<p>如何保护秘钥？ — &gt; 秘钥存放，秘钥位数，随机数干扰 ….</p>
+<p>SSL握手最终也是为了生成一个秘钥，只是生成的过程很灵性。具体可以看下面这张表格。</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>服务端（拥有数据）</th>
+<th>Connection</th>
+<th>客户端（拥有数据）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>证书私钥</td>
+<td>&lt;—-  随机数A，可支持的加密方法集</td>
+<td>A</td>
+</tr>
+<tr>
+<td>2</td>
+<td>证书私钥，A，B</td>
+<td>随机数B，采用的加密方法集 –&gt;</td>
+<td>A, B</td>
+</tr>
+<tr>
+<td>3</td>
+<td>证书私钥，A，B</td>
+<td>发送证书 —–&gt;</td>
+<td>A，B，证书公钥</td>
+</tr>
+<tr>
+<td>4</td>
+<td>A，B（证书私钥，Key） — &gt; C</td>
+<td>&lt;—–  发送Key</td>
+<td>A，B，（证书公钥，C）–&gt; Key</td>
+</tr>
+<tr>
+<td>5</td>
+<td>我有A，B，C啦！</td>
+<td></td>
+<td>我有A，B，C啦！</td>
+</tr>
+<tr>
+<td>6</td>
+<td></td>
+<td>&lt;——-  老铁，以后用密文</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>A，B，C，密文</td>
+<td>&lt;——-  试着加密发一条看看</td>
+<td>A，B，C，明文8</td>
+</tr>
+<tr>
+<td>8</td>
+<td></td>
+<td>好的老铁，以后用密文———&gt;</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>A，B，C，密文</td>
+<td>试着加密发一条看看 —–&gt;</td>
+<td>A，B，C，明文</td>
+</tr>
+<tr>
+<td>10</td>
+<td></td>
+<td>开始加密通讯</td>
+</tr>
+</tbody>
+</table>
+<p>整个流程可以描述为，通过一系列骚操作：</p>
+<ul>
+<li>让两边都掌握A，B，C这三个随机数</li>
+<li>使用这个随机数计算出来秘钥</li>
+<li>通过这个秘钥进行加密传输</li>
+</ul>
+<p>这个安全性体现在哪里呢？</p>
+<ul>
+<li>A，B，C都是随机数，暴力破解的可能性低</li>
+<li>C并没有明文传输，C是通过证书做了一个转换来让双方都得到的。</li>
+<li>在3,4步之间，服务端是可以要求客户端上传证书的（防止通过证书进行中间人攻击），这一步是可选的。</li>
+<li>证书本身使用的秘钥算法</li>
+</ul>
+<h3 id="2-SSL-handshake-基于证书的中间人攻击"><a href="#2-SSL-handshake-基于证书的中间人攻击" class="headerlink" title="2. SSL handshake 基于证书的中间人攻击"></a>2. SSL handshake 基于证书的中间人攻击</h3><p>从刚才的第一节，就可以看出来，如果作为攻击方，如果掌握了A，B，C，那么也可以算出秘钥，这时候就可以解开加密通讯。让其变为明文通讯。</p>
+<p>那么如何掌握A，B，C呢？</p>
+<p>其中A，B，是明文传输的，做一个代理就可以抓到。只有C比较难搞。因为C没有明文传输过，而是通过Key间接传输的。<strong>作为代理，可以拿到证书，可以拿到Key，但没有私钥，就无法解出来C。</strong></p>
+<p>基于证书的中间人攻击，正是基于这一点。<strong>从第三步起</strong></p>
+<ul>
+<li><strong>攻击方伪造证书，客户端信任此证书，使用攻击方（而不是服务端）的证书和随机数C计算出Key。</strong></li>
+<li><strong>攻击方使用自己证书和Key还原出随机数C</strong></li>
+<li><strong>攻击方使用随机数C和服务端证书公钥生成Key并发送给服务端</strong> （重要！）</li>
+</ul>
+<p>通过这么三个步骤，就可以让<strong>代理服务器也获知A，B，C从而可以计算秘钥，进而监听https的加密信息了</strong>。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>fiddler是怎样解密https的？<ul>
+<li>用基于证书的中间人攻击，当安装证书后，fiddler变可以通过中间人攻击监听https传输</li>
+</ul>
+</li>
+<li>为什么要安装证书？<ul>
+<li>如果不安装证书，fiddler就无法获知随机数C。</li>
+</ul>
+</li>
+<li>什么都可以解密吗？<ul>
+<li>如果服务端要求客户端上传证书，这种攻击就废了</li>
+<li>如果（证书公钥，C） —  Key，（证书私钥，Key） —&gt; C，这两个步骤的算法，攻击方（代理）无法模拟，也无法实行中间人攻击。</li>
+</ul>
+</li>
+</ul>
             
 
         </div>
@@ -279,7 +398,7 @@
             <div class="post-footer-tags">
                 <span class="text-color-light text-small">标签</span><br/>
                 
-    <a class="tag tag--primary tag--small t-link" href="/tags/guide/">guide</a>
+    <a class="tag tag--primary tag--small t-link" href="/tags/SSL/">SSL</a>
 
             </div>
         
@@ -289,7 +408,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/9999/12/31/Welcome/" data-tooltip="Welcome" aria-label="上一篇: Welcome">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -298,7 +418,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/29/SSL-MITM-ATTACK/" data-tooltip="SSL-MITM-ATTACK" aria-label="下一篇: SSL-MITM-ATTACK">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/22/大数据架构浅析/" data-tooltip="大数据架构浅析" aria-label="下一篇: 大数据架构浅析">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -316,7 +436,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Facebook">
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
@@ -324,7 +444,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Twitter">
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -332,7 +452,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Google+">
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -340,7 +460,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Weibo">
                     <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -348,7 +468,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/9999/12/31/Welcome/&amp;title=Welcome" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/&amp;title=SSL-MITM-ATTACK" title="分享到 QQ">
                     <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -356,7 +476,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -406,7 +526,8 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a class="post-action-btn btn btn--disabled">
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/9999/12/31/Welcome/" data-tooltip="Welcome" aria-label="上一篇: Welcome">
                 
                     <i class="fa fa-angle-left" aria-hidden="true"></i>
                     <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
@@ -415,7 +536,7 @@
             <li class="post-action">
                 
                     
-                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/29/SSL-MITM-ATTACK/" data-tooltip="SSL-MITM-ATTACK" aria-label="下一篇: SSL-MITM-ATTACK">
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2019/04/22/大数据架构浅析/" data-tooltip="大数据架构浅析" aria-label="下一篇: 大数据架构浅析">
                 
                     <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
                     <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -433,7 +554,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Facebook">
                     <i class="fab fa-facebook" aria-hidden="true"></i>
                 </a>
             </li>
@@ -441,7 +562,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Twitter">
                     <i class="fab fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -449,7 +570,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Google+">
                     <i class="fab fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -457,7 +578,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Weibo">
+                <a class="post-action-btn btn btn--default" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Weibo">
                     <i class="fab fa-weibo" aria-hidden="true"></i>
                 </a>
             </li>
@@ -465,7 +586,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/9999/12/31/Welcome/&amp;title=Welcome" title="分享到 QQ">
+                <a class="post-action-btn btn btn--default" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/&amp;title=SSL-MITM-ATTACK" title="分享到 QQ">
                     <i class="fab fa-qq" aria-hidden="true"></i>
                 </a>
             </li>
@@ -473,7 +594,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/9999/12/31/Welcome/" title="分享到 Qzone">
+                <a class="post-action-btn btn btn--default" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/" title="分享到 Qzone">
                     <i class="fa fa-star" aria-hidden="true"></i>
                 </a>
             </li>
@@ -507,7 +628,7 @@
                 
                 
                 <li class="share-option">
-                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/9999/12/31/Welcome/">
+                    <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/">
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>分享到 Facebook</span>
                     </a>
                 </li>
@@ -515,7 +636,7 @@
                 
                 
                 <li class="share-option">
-                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/9999/12/31/Welcome/">
+                    <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/">
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                     </a>
                 </li>
@@ -523,7 +644,7 @@
                 
                 
                 <li class="share-option">
-                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/9999/12/31/Welcome/">
+                    <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/">
                         <i class="fab fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                     </a>
                 </li>
@@ -531,7 +652,7 @@
                 
                 
                 <li class="share-option">
-                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/9999/12/31/Welcome/">
+                    <a class="share-option-btn" target="new" href="http://service.weibo.com/share/share.php?&amp;title=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/">
                         <i class="fab fa-weibo" aria-hidden="true"></i><span>分享到 Weibo</span>
                     </a>
                 </li>
@@ -539,7 +660,7 @@
                 
                 
                 <li class="share-option">
-                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/9999/12/31/Welcome/&amp;title=Welcome">
+                    <a class="share-option-btn" target="new" href="http://connect.qq.com/widget/shareqq/index.html?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/&amp;title=SSL-MITM-ATTACK">
                         <i class="fab fa-qq" aria-hidden="true"></i><span>分享到 QQ</span>
                     </a>
                 </li>
@@ -547,7 +668,7 @@
                 
                 
                 <li class="share-option">
-                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/9999/12/31/Welcome/">
+                    <a class="share-option-btn" target="new" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/">
                         <i class="fa fa-star" aria-hidden="true"></i><span>分享到 Qzone</span>
                     </a>
                 </li>
@@ -608,7 +729,7 @@
             (function() {
                 function render() {
                     new Gitment({
-                        id: 'sherry0429.github.io/9999/12/31/Welcome/',
+                        id: 'sherry0429.github.io/2019/04/29/SSL-MITM-ATTACK/',
                         owner: 'sherry0429',
                         repo: 'gitment-comments',
                         oauth: {
